@@ -1,7 +1,7 @@
-Original App Design Project - README Template
+Rent App Design Project - README Template
 ===
 
-# Elderly App
+# Rent App
 
 ## Table of Contents
 1. [Overview](#Overview)
@@ -11,18 +11,15 @@ Original App Design Project - README Template
 
 ## Overview
 ### Description
--  An application for elderly who feel lonely.
-   -  The app will allow the elderly to communicate with other  users of the same application.
-   -  The app will show the user daily things that they can carry out, such as reading a book, putting together a puzzle, going for a walk, cooking a specific meal, among others.
-   -  If you feel lonely and depressed, you can contact an expert who can help you.
-   -  Maybe this approach can be applied in general to people who have psychological problems
+-  A social network in which users can rent things and also put things for rent.
+   
 
 ### App Evaluation
-- **Category:** Social 
-- **Mobile:** Elderly will be able to have greater freedom and comfort when accessing these functionalities through a mobile application, which will have a design very focused on that population. Also the app uses camera, and location. 
-- **Story:** It allows older people who feel alone to create new habits and activities that help them feel better, as well as communication with each other.
-- **Market:** Any elderly who is feeling lonely or depressed and looking to have more entertainment in their daily life.
-- **Habit:** Users can access the application several times a day, either to communicate with other users or to carry out some activity.
+- **Category:** Shopping/Social 
+- **Mobile:** The mobile is the most comfortable tool in which users can carry out purchase and rental operations. The camera is used to share images of the rented things, and the map is used to know the location where each thing is.
+- **Story:** This application will be a service of great value for people since most people have things they do not need, from which they can obtain an extra income by renting them through the application without having to sell them. And vice versa, people who need to rent something can do it through the app.
+- **Market:** Anyone who needs to acquire anything for a certain time or anyone who wants to rent their things.
+- **Habit:** Users can access the application several times a day, either to rent a thing, or to put something for rent.
 - **Scope:** 
 
 ## Product Spec
@@ -33,24 +30,46 @@ Original App Design Project - README Template
 
 * The user will be able to create an account within the application.
 * The user will be able to log into the application.
-* The user will be able to see a list of the users that are registered in the application.
-* The user will be able to contact another user. 
-* There will be a section in which the user will be shown daily things that they can do, such as reading a book, putting together a puzzle, going for a walk, cooking a specific meal, among others.
-* The user will be able to register the following information (this information will be public for the other users) 
+* The user will be able to register the following information in their profile (this information will be public for the other users) 
+    * Profile Picture.
     * A brief description about them.
-    * Their age.
-    * What they like to do.
-    * What are they looking for. 
+    * The items that they have for rent. 
+    * Reviews  
     * Where they are located. 
-* The user will be able to register the current state in which they feel.
-* There will be a section in which the user can see tips to deal with sadness and depression. In this same section, the user may request help from an expert. 
+* The user will be able to see a list of the categories of the items.
+* The user will be able to see a list of items (the list will show the name, picture, cost and brief description of every item). 
+    * In the home timeline
+    * Inside a category
+* The user will be able to search items:
+    * In the home timeline
+    * Inside a category
+* The user will be able to see the information of an item in the Details View. 
+    * Item Name
+    * Item Picture 
+    * Item Description
+    * Item Conditions 
+    * Cost of the rent per day
+    * Item Location 
+* The user will be able to request to rent an item. 
 
+**Required Must-have Stories**
+* The user will be able to see the list of items he has for rent.
+* The user will be able to put an object for rent, registering the following information (this information will be public for the other users). 
+    * Item Name
+    * Item Picture 
+    * Item Description
+    * Item Conditions 
+    * Cost of the rent per day
+    * Item Location 
+* The user will be able to capture a photo or select a photo gallery for the object in rent.
+* The user will be able to see a list of the requests that he has in the items that he has for rent
 
 **Optional Nice-to-have Stories**
 
-* The user will be able to see the location of all the users on a map.
+* The user will be able to see the location of all the items on a map.
 * The user can create an account through a Google or Facebook account.
 * The user will be able to send images and videos through chat.
+* Top up money within the app.
 * The user can change the theme of the app (Ex. Light Mode/Dark Mode).
 * The user can change the text size.
 
@@ -61,29 +80,33 @@ Original App Design Project - README Template
 * Registration Screen
    * User can create a new account.
 * Profile
-   * User can see their profile.
-   * User can see profile of other user.
+   * User can view their profile.
+   * User can view the profile of other user.
 * Stream
-   * User can see the list of the users.
-   * User can see the list of suggested activities.
-   * User can their conversations with other users.
+   * User can view the list of the categories.
+   * User can view different lists of items.
+   * User can view the details of an item.
 * Details 
-   * User can see the list of suggested activities.
+   * User can view the list of categories.
+   * User can view the list of items for rent. 
+   * User can view the details of an item. 
 * Search
-   * User can search for other users
+   * User can search for items in rent.
 * Creation
    * User can modify their profile.
-   * User can send messages to other user.
+   * User can publish a new item for rent. 
+   * User can capture a photo or select from photo gallery.
+   * Option to capture current location when publishing an item.
+   * Sending network request to create new valid content item
    
-
-  
 ### 3. Navigation
 
 **Tab Navigation** (Tab to Screen)
 
 * Home Screen
-* Messages
+* Search
 * Profile
+* Publish an item
 
 **Flow Navigation** (Screen to Screen)
 
@@ -92,13 +115,21 @@ Original App Design Project - README Template
 * Registration Screen
    * Home
 * Home Screen
-   * User List
-   * Activities
+   * Timeline of items in rent. 
+   * Publish an item
    * Help
+* Search Screen
+   * Item Details 
 * User List
    * User Profile
-* Profile
-   * Edit profile
+* Own Profile
+   * Edit profile.
+   * Own rented items.
+   * Foreign rented items.
+   * Recharge money. 
+* Own Rented Item
+   * Recharge money. 
+
 
 
 ## Wireframes
