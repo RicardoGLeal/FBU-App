@@ -141,10 +141,115 @@ Rent App Design Project - README Template
 ### [BONUS] Interactive Prototype
 
 ## Schema 
-[This section will be completed in Unit 9]
 ### Models
-[Add table of models]
+#### User
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id for the user |
+   | username      | String   | user's name |
+   | description   | String   | user's description |
+   | profilePicture| File     | user's profile picture |
+   | location.     | Pointer to Location  | user's location |
+   | likesCount    | Number   | number of likes that the user has |
+   | createdAt     | DateTime | date when user is created (default field) |
+   | updatedAt     | DateTime | date when user is last updated (default field) |
+   
+#### Item
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id for the item (default field) |
+   | owner         | Pointer to User| item's owner   |
+   | images        | Array<File>    | item's images  |
+   | isRented      | Boolean        | is the item currently rented? |
+   | tenant        | Pointer to User| item's currently tenant |
+   | price         | int | item rental price per day
+   | likesCount    | Number   | number of likes for the item |
+   | createdAt     | DateTime | date when post is created (default field) |
+   | updatedAt     | DateTime | date when post is last updated (default field) |
+
+#### Location
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id for the location|
+   | country       | String   | country |
+   | city          | String   | city |
+   | ZIP      | int      | ZIP code |
+   | createdAt     | DateTime | date when location is created (default field) |
+   | updatedAt     | DateTime | date when location is last updated (default field) |
+   
+#### Rents
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | rentId        | String   | unique id for the rent |
+   | owner         | Pointer to user   | item's owner|
+   | tenant        | Pointer to user   | item's tenant |
+   | startDate     | Date     | startDate of the rent |
+   | endDate       | Date     | endDate of the rent |
+   | daysCount     | Number   | number of days of the rent |
+   | totalPrice.   | Number   | total rental price 
+   | createdAt     | DateTime | date when location is created (default field) |
+   | updatedAt     | DateTime | date when location is last updated (default field) |  ### Networking
+   
 ### Networking
-- [Add list of network requests by screen ]
+
+#### List of network requests by screen
+   - Home Feed Screen
+      - (Read/GET) Query all posts of items regarding location
+   - Create Post Screen
+      - (Create/POST) Create a new post object
+   - Profile Screen
+      - (Read/GET) Query logged in user object
+      - (Update/PUT) Update user profile information
+
+### Networking
+#### List of network requests by screen
+   - Home Feed Screen
+      - (Read/GET) Query all item rental posts where user is author
+         ```swift
+         let query = PFQuery(className:"Item")
+         query.whereKey("author", equalTo: currentUser)
+         query.order(byDescending: "createdAt")
+         query.findObjectsInBackground { (posts: [PFObject]?, error: Error?) in
+            if let error = error { 
+               print(error.localizedDescription)
+            } else if let posts = posts {
+               print("Successfully retrieved \(posts.count) posts.")
+           // TODO: Do something with posts...
+            }
+         }
+         ```
+      - (Create/POST) Create a new like on a post
+      - (Delete) Delete existing like
+      - (Create/POST) Create a new comment on a post
+      - (Delete) Delete existing comment
+   - Create Post Screen
+      - (Create/POST) Create a new post object
+   - Profile Screen
+      - (Read/GET) Query logged in user object
+      - (Update/PUT) Update user profile image
+#### [OPTIONAL:] Existing API Endpoints
+##### An API Of Ice And Fire
+- Base URL - [http://www.anapioficeandfire.com/api](http://www.anapioficeandfire.com/api)
+
+   HTTP Verb | Endpoint | Description
+   ----------|----------|------------
+    `GET`    | /characters | get all characters
+    `GET`    | /characters/?name=name | return specific character by name
+    `GET`    | /houses   | get all houses
+    `GET`    | /houses/?name=name | return specific house by name
+
+##### Game of Thrones API
+- Base URL - [https://api.got.show/api](https://api.got.show/api)
+
+   HTTP Verb | Endpoint | Description
+   ----------|----------|------------
+    `GET`    | /cities | gets all cities
+    `GET`    | /cities/byId/:id | gets specific city by :id
+    `GET`    | /continents | gets all continents
+    `GET`    | /continents/byId/:id | gets specific continent by :id
+    `GET`    | /regions | gets all regions
+    `GET`    | /regions/byId/:id | gets specific region by :id
+    `GET`    | /characters/paths/:name | gets a character's path with a given name
 - [Create basic snippets for each Parse network request]
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
