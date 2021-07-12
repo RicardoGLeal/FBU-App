@@ -72,6 +72,9 @@ Rent App Design Project - README Template
 * Top up money within the app.
 * The user can change the theme of the app (Ex. Light Mode/Dark Mode).
 * The user can change the text size.
+* Notifications about new rents.
+* Filters option.
+* Save items.
 
 ### 2. Screen Archetypes
 
