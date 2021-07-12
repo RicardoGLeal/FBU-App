@@ -244,7 +244,11 @@
             builder.show();
         }
 
-        // Returns the File for a photo stored on disk given the fileName
+        /**
+         * Returns the File for a photo stored on disk given the fileName
+         * @param fileName name of the file
+         * @return a File object.
+         */
         public File getPhotoFileUri(String fileName) {
             // Get safe storage directory for photos
             // Use `getExternalFilesDir` on Context to access package-specific directories.
@@ -258,6 +262,13 @@
             return new File(mediaStorageDir.getPath() + File.separator + fileName);
         }
 
+
+        /**
+         * Called when the user selects a Photo from their Gallery or after taking a new one with the camera.
+         * @param requestCode
+         * @param resultCode
+         * @param data
+         */
         @Override
         protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
