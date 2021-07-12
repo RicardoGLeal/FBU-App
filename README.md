@@ -28,18 +28,18 @@ Rent App Design Project - README Template
 
 **Required Must-have Stories**
 
-* The user will be able to create an account within the application.
-* The user will be able to log into the application.
-* The user will be able to register the following information in their profile (this information will be public for the other users) 
+- [ ] The user will be able to create an account within the application.
+- [ ] The user will be able to log into the application.
+- [ ] The user will be able to register the following information in their profile (this information will be public for the other users) 
     * Profile Picture.
     * A brief description about them.
     * The items that they have for rent. 
     * Their location 
-[] The user will be able to see a list of the categories of the items.
-[] The user will be able to see a list of items (the list will show the name, picture, cost and brief description of every item). 
+- [ ] The user will be able to see a list of the categories of the items.
+- [ ] The user will be able to see a list of items (the list will show the name, picture, cost and brief description of every item). 
     * In the home timeline
     * Inside a category
-[] The user will be able to search items:
+- [ ] The user will be able to search items:
     * In the home timeline
     * Inside a category
 [] The user will be able to see the information of an item in the Details View. 
