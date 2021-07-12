@@ -85,6 +85,7 @@
                 android:hint="NAME"
                 android:inputType="textPersonName"
                 android:textColorHint="#a9b0c3"
+                android:text="b"
                 android:textSize="13dp" />
 
             <LinearLayout
@@ -102,6 +103,7 @@
                 android:background="#00000000"
                 android:hint="USERNAME"
                 android:inputType="text"
+                android:text="a"
                 android:textColorHint="#a9b0c3"
                 android:textSize="13dp" />
 
@@ -120,6 +122,7 @@
                 android:hint="DESCRIPTION"
                 android:inputType="text"
                 android:textColorHint="#a9b0c3"
+                android:text="a"
                 android:textSize="13dp">
             </EditText>
 
@@ -138,6 +141,7 @@
                 android:hint="EMAIL ADDRESS"
                 android:inputType="text|textEmailAddress"
                 android:textColorHint="#a9b0c3"
+                android:text="ricglr664@gmail.com"
                 android:textSize="13dp">
             </EditText>
 
@@ -156,6 +160,7 @@
                 android:hint="COUNTRY"
                 android:inputType="text"
                 android:textColorHint="#a9b0c3"
+                android:text="a"
                 android:textSize="13dp"></EditText>
 
             <LinearLayout
@@ -179,6 +184,7 @@
                 android:hint="CITY"
                 android:inputType="text"
                 android:textColorHint="#a9b0c3"
+                android:text="a"
                 android:textSize="13dp"></EditText>
 
             <LinearLayout
@@ -196,6 +202,7 @@
                 android:hint="ZIP"
                 android:inputType="number"
                 android:textColorHint="#a9b0c3"
+                android:text="11"
                 android:textSize="13dp"></EditText>
 
             <LinearLayout
@@ -209,6 +216,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
+                android:text="a"
                 android:background="#00000000"
                 android:hint="PASSWORD"
                 android:inputType="textPassword"

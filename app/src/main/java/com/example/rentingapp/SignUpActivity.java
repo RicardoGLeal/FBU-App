@@ -44,6 +44,7 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.PointerEncoder;
 import com.parse.SaveCallback;
+import com.parse.SignUpCallback;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,8 +71,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText etUsername, etDescription, etEmail, etPassword, etCountry, etCity, etZIP;
     ImageView ivProfileImage;
     Button btnSignUp;
-    private String[] galleryPermissions;
-
+    String placeId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +95,7 @@ public class SignUpActivity extends AppCompatActivity {
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                galleryPermissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                //galleryPermissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
                 selectImage(SignUpActivity.this);
             }
         });
@@ -108,7 +108,9 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         //Initialize the SDK
-        Places.initialize(getApplicationContext(), String.valueOf(R.string.google_maps_api_key));
+        String apiKey = "AIzaSyBFLxnsiBxqmS0xNYg7mCC4mbcVZI-bFbw";
+        Places.initialize(getApplicationContext(), apiKey);
+
         //Create a new PLaces client instance
         PlacesClient placesClient = Places.createClient(this);
 
@@ -118,15 +120,9 @@ public class SignUpActivity extends AppCompatActivity {
 
         autocompleteFragment.setTypeFilter(TypeFilter.ADDRESS);
 
-        autocompleteFragment.setLocationBias(RectangularBounds.newInstance(
-                new LatLng(-33.880490, 151.184363),
-                new LatLng(-33.858754, 151.229596)));
         autocompleteFragment.setCountries("IN");
 
         //Specify the types of place data to return
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-
-        // Specify the types of place data to return.
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
 
         // Set up a PlaceSelectionListener to handle the response.
@@ -135,6 +131,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onPlaceSelected(@NonNull Place place) {
                 // TODO: Get info about the selected place.
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                placeId = place.getId();
             }
             @Override
             public void onError(@NonNull Status status) {
@@ -149,12 +146,12 @@ public class SignUpActivity extends AppCompatActivity {
         String password = etPassword.getText().toString();
         String description = etDescription.getText().toString();
         String email = etEmail.getText().toString();
-        String country = etCountry.getText().toString();
-        String city = etCity.getText().toString();
-        int ZIP = Integer.parseInt(etZIP.getText().toString());
+        //String country = etCountry.getText().toString();
+        //String city = etCity.getText().toString();
+        //int ZIP = Integer.parseInt(etZIP.getText().toString());
 
 
-        Location location = new Location();
+       /* Location location = new Location();
         location.setCountry(country);
         location.setCity(city);
         location.setZIP(ZIP);
@@ -165,15 +162,37 @@ public class SignUpActivity extends AppCompatActivity {
                     Log.e(TAG, "Error while saving, e");
                     Toast.makeText(SignUpActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
                 }
-                Log.i(TAG, "Post save was successful!");
-                ParseUser user = new ParseUser();
-                user.setUsername(username);
-                user.setPassword(password);
-                user.setEmail(email);
-                user.put(User.KEY_PROFILE_PICTURE, new ParseFile(photoFile));
-                user.put(User.KEY_DESCRIPTION, description);
-            }
-        });
+                Log.i(TAG, "Post save was successful!");*/
+
+                ParseFile photo = new ParseFile(photoFile);
+                photo.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e != null) {
+                            Toast.makeText(SignUpActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                        }
+                        ParseUser user = new ParseUser();
+                        user.setUsername(username);
+                        user.setPassword(password);
+                        user.setEmail(email);
+                        user.put(User.KEY_PROFILE_PICTURE, photo);
+                        user.put(User.KEY_DESCRIPTION, description);
+                        user.signUpInBackground(new SignUpCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if(e!=null) {
+                                    Log.e(TAG, "Error while saving, e");
+                                    Toast.makeText(SignUpActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                else {
+                                    Toast.makeText(SignUpActivity.this, "User created Successfully", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            }
+                        });
+                    }
+                });
 
         // Create the ParseUser
         //ParseUser user = new ParseUser();
@@ -284,6 +303,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 }
 
                                 ivProfileImage.setImageURI(selectedImage);
+                                photoFile = new File(String.valueOf(selectedImage));
                                 cursor.close();
                             }
                         }
@@ -292,13 +312,5 @@ public class SignUpActivity extends AppCompatActivity {
                     break;
             }
         }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        // Forward results to EasyPermissions
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 }
