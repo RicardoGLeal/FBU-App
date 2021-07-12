@@ -3,6 +3,7 @@ package com.example.rentingapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Picture;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -38,7 +40,9 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.PointerEncoder;
 import com.parse.SaveCallback;
 
 import java.io.File;
@@ -50,13 +54,20 @@ import java.util.Arrays;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static com.example.rentingapp.Controllers.rotateBitmapOrientation;
+
 //import pub.devrel.easypermissions.EasyPermissions;
 
 public class SignUpActivity extends AppCompatActivity {
+    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
+    public static final int SELECT_IMAGE_ACTIVITY_REQUEST_CODE = 1;
+
     public static final String TAG = "SignUpActivity";
     public static final int PICK_IMAGE = 1;
+    private File photoFile;
+    public String photoFileName = "photo.jpg";
 
-    EditText etUsername, etPassword, etCountry, etCity, etZIP;
+    EditText etUsername, etDescription, etEmail, etPassword, etCountry, etCity, etZIP;
     ImageView ivProfileImage;
     Button btnSignUp;
     private String[] galleryPermissions;
@@ -66,6 +77,8 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         etUsername = findViewById(R.id.etUsername);
+        etDescription = findViewById(R.id.etDescription);
+        etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         etCountry = findViewById(R.id.etCountry);
         etCity = findViewById(R.id.etCity);
@@ -134,6 +147,8 @@ public class SignUpActivity extends AppCompatActivity {
     private void signUpUser() {
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
+        String description = etDescription.getText().toString();
+        String email = etEmail.getText().toString();
         String country = etCountry.getText().toString();
         String city = etCity.getText().toString();
         int ZIP = Integer.parseInt(etZIP.getText().toString());
@@ -151,6 +166,12 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
                 }
                 Log.i(TAG, "Post save was successful!");
+                ParseUser user = new ParseUser();
+                user.setUsername(username);
+                user.setPassword(password);
+                user.setEmail(email);
+                user.put(User.KEY_PROFILE_PICTURE, new ParseFile(photoFile));
+                user.put(User.KEY_DESCRIPTION, description);
             }
         });
 
@@ -173,9 +194,17 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int item) {
 
                 if (options[item].equals("Take Photo")) {
-                    Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    Log.i("CAMERAERROR",":c");
-                    startActivityForResult(takePicture, 0);
+                    Intent takePictureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    // Create a File reference for future access
+                    photoFile = getPhotoFileUri(photoFileName);
+                    Uri fileProvider = FileProvider.getUriForFile(SignUpActivity.this, "com.codepath.fileprovider", photoFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+                    // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+                    // So as long as the result is not null, it's safe to use the intent.
+                    if (takePictureIntent.resolveActivity(SignUpActivity.this.getPackageManager()) != null) {
+                        // Start the image capture intent to take photo
+                        startActivityForResult(takePictureIntent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+                    }
                 } else if (options[item].equals("Choose from Gallery")) {
                     Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(pickPhoto , 1);
@@ -188,23 +217,46 @@ public class SignUpActivity extends AppCompatActivity {
         builder.show();
     }
 
+    // Returns the File for a photo stored on disk given the fileName
+    public File getPhotoFileUri(String fileName) {
+        // Get safe storage directory for photos
+        // Use `getExternalFilesDir` on Context to access package-specific directories.
+        // This way, we don't need to request external read/write runtime permissions.
+        File mediaStorageDir = new File(SignUpActivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+            Log.d(TAG, "failed to create directory");
+        }
+
+        // Return the file target for the photo based on filename
+        return new File(mediaStorageDir.getPath() + File.separator + fileName);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_CANCELED) {
             switch (requestCode) {
-                case 0:
-                    if (resultCode == RESULT_OK && data != null) {
-                        Bitmap selectedImage = (Bitmap) data.getExtras().get("data");
-                        RequestOptions circleProp = new RequestOptions();
-                        circleProp = circleProp.transform(new CircleCrop());
-                        Glide.with(getBaseContext())
-                                .load(selectedImage)
-                                .apply(circleProp)
-                                .into(ivProfileImage);
-                    }
+                case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:
+                        if (resultCode == RESULT_OK) { //If the image took the picture..
+                            // by this point we have the camera photo on disk
+                            Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                            // with this we are sure of the correct orientation.
+                            takenImage = rotateBitmapOrientation(photoFile.getAbsolutePath());
+                            // Load the taken image into a preview
+                            RequestOptions circleProp = new RequestOptions();
+                            circleProp = circleProp.transform(new CircleCrop());
+                            Glide.with(getBaseContext())
+                                    .load(takenImage)
+                                    .apply(circleProp)
+                                    .into(ivProfileImage);
+                        } else { // Result was a failure
+                            Toast.makeText(SignUpActivity.this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+                        }
+
                     break;
-                case 1:
+                case SELECT_IMAGE_ACTIVITY_REQUEST_CODE:
                     if (resultCode == RESULT_OK && data != null) {
                         Uri selectedImage = data.getData();
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
