@@ -42,65 +42,65 @@ Rent App Design Project - README Template
 - [ ] The user will be able to search items:
     * In the home timeline
     * Inside a category
-[] The user will be able to see the information of an item in the Details View. 
+- [ ] The user will be able to see the information of an item in the Details View. 
     * Item Name
     * Item Picture 
     * Item Description
     * Item Conditions 
     * Cost of the rent per day
     * Item Location 
-[] The user will be able to request to rent an item. 
+- [ ] The user will be able to request to rent an item. 
 
 **Owner's perspective**
-[] The user will be able to see the list of items he has for rent.
-[] The user will be able to put an object for rent, registering the following information (this information will be public for the other users). 
+- [ ] The user will be able to see the list of items he has for rent.
+- [ ] The user will be able to put an object for rent, registering the following information (this information will be public for the other users). 
     * Item Name
     * Item Picture 
     * Item Description
     * Item Conditions 
     * Cost of the rent per day
     * Item Location 
-* The user will be able to capture a photo or select a photo gallery for the object in rent.
-* The user will be able to see a list of the requests that he has in the items that he has for rent
+- [ ] The user will be able to capture a photo or select a photo gallery for the object in rent.
+- [ ] The user will be able to see a list of the requests that he has in the items that he has for rent
 
 **Optional Nice-to-have Stories**
 
-[] The user will be able to see the location of all the items on a map.
-[] The user can create an account through a Google or Facebook account.
-[] The user will be able to chat.
-[] Top up money within the app.
-[] The user can change the theme of the app (Ex. Light Mode/Dark Mode).
-[] The user can change the text size.
-[] The user can change the lenguage of the app.
-[] Notifications about new rents.
-[] Filters option.
-[] Save items.
-[] The users will have reviews from others. 
+- [ ] The user will be able to see the location of all the items on a map.
+- [ ] The user can create an account through a Google or Facebook account.
+- [ ] The user will be able to chat.
+- [ ] Top up money within the app.
+- [ ] The user can change the theme of the app (Ex. Light Mode/Dark Mode).
+- [ ] The user can change the text size.
+- [ ] The user can change the lenguage of the app.
+- [ ] Notifications about new rents.
+- [ ] Filters option.
+- [ ] Save items.
+- [ ] The users will have reviews from others. 
 ### 2. Screen Archetypes
 
 * Login Screen
-   * User can login.
+   - [ ] User can login.
 * Registration Screen
-   * User can create a new account.
+   - [ ] User can create a new account.
 * Profile
-   * User can view their profile.
-   * User can view the profile of other user.
+   - [ ] User can view their profile.
+   - [ ] User can view the profile of other user.
 * Stream
-   * User can view the list of the categories.
-   * User can view different lists of items.
-   * User can view the details of an item.
+   - [ ] User can view the list of the categories.
+   - [ ] User can view different lists of items.
+   - [ ] User can view the details of an item.
 * Details 
-   * User can view the list of categories.
-   * User can view the list of items for rent. 
-   * User can view the details of an item. 
+   - [ ] User can view the list of categories.
+   - [ ] User can view the list of items for rent. 
+   - [ ] User can view the details of an item. 
 * Search
-   * User can search for items in rent.
+   - [ ] User can search for items in rent.
 * Creation
-   * User can modify their profile.
-   * User can publish a new item for rent. 
-   * User can capture a photo or select from photo gallery.
-   * Option to capture current location when publishing an item.
-   * Sending network request to create new valid content item
+   - [ ] User can modify their profile.
+   - [ ] User can publish a new item for rent. 
+   - [ ] User can capture a photo or select from photo gallery.
+   - [ ] Option to capture current location when publishing an item.
+   - [ ] Sending network request to create new valid content item
    
 ### 3. Navigation
 
@@ -140,6 +140,8 @@ Rent App Design Project - README Template
 <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
+
+https://www.figma.com/file/WDIL4t8GAm2JvDdrOWdo4e/RENT-APP?node-id=3%3A709
 
 ### [BONUS] Interactive Prototype
 
