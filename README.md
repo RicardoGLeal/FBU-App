@@ -68,10 +68,11 @@ Rent App Design Project - README Template
 
 * The user will be able to see the location of all the items on a map.
 * The user can create an account through a Google or Facebook account.
-* The user will be able to send images and videos through chat.
+* The user will be able to chat.
 * Top up money within the app.
 * The user can change the theme of the app (Ex. Light Mode/Dark Mode).
 * The user can change the text size.
+* The user can change the lenguage of the app.
 * Notifications about new rents.
 * Filters option.
 * Save items.
