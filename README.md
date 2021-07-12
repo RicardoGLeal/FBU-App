@@ -20,7 +20,7 @@ Rent App Design Project - README Template
 - **Story:** This application will be a service of great value for people since most people have things they do not need, from which they can obtain an extra income by renting them through the application without having to sell them. And vice versa, people who need to rent something can do it through the app.
 - **Market:** Anyone who needs to acquire anything for a certain time or anyone who wants to rent their things.
 - **Habit:** Users can access the application several times a day, either to rent a thing, or to put something for rent.
-- **Scope:** THe first version will allow the the users to rent things and put things for rents, the second version would allow the user to see their items rented.
+- **Scope:** THe first version will allow the the users to rent things and put things for rents, the second version would allow the user to see their items rented and filter the items by location.
 
 ## Product Spec
 
