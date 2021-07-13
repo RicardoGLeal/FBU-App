@@ -1,4 +1,4 @@
-package com.example.rentingapp;
+package com.example.rentingapp.Controllers;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
