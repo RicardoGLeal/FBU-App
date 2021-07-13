@@ -6,5 +6,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="google_maps_api_key">AIzaSyBFLxnsiBxqmS0xNYg7mCC4mbcVZI-bFbw</string>
+    
+    <string-array name="categories">
+        <item>Electronics</item>
+        <item>Clothing</item>
+        <item>Books</item>
+        <item>Toys</item>
+    </string-array>
 
 </resources>
