@@ -1,13 +1,39 @@
 package com.example.rentingapp.Controllers;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.os.Environment;
+import android.util.Log;
 
+import com.example.rentingapp.SignUpActivity;
+
+import java.io.File;
 import java.io.IOException;
 
-public class Controllers {
+public class ImagesController {
+
+    /**
+     * Returns the File for a photo stored on disk given the fileName
+     * @param fileName name of the file
+     * @return a File object.
+     */
+    public static File getPhotoFileUri(String fileName, String TAG, Context context) {
+        // Get safe storage directory for photos
+        // Use `getExternalFilesDir` on Context to access package-specific directories.
+        // This way, we don't need to request external read/write runtime permissions.
+        File mediaStorageDir = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+            Log.d(TAG, "failed to create directory");
+        }
+        // Return the file target for the photo based on filename
+        return new File(mediaStorageDir.getPath() + File.separator + fileName);
+    }
+
+
     public static Bitmap rotateBitmapOrientation(String photoFilePath) {
         // Create and configure BitmapFactory
         BitmapFactory.Options bounds = new BitmapFactory.Options();
