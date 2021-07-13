@@ -101,8 +101,8 @@ public class SignUpActivity extends AppCompatActivity {
      */
     private void configurePlacesAPI() {
         //Initialize the SDK
-        String apiKey = "AIzaSyBFLxnsiBxqmS0xNYg7mCC4mbcVZI-bFbw";
-        Places.initialize(getApplicationContext(), apiKey);
+        //String apiKey = "AIzaSyBFLxnsiBxqmS0xNYg7mCC4mbcVZI-bFbw";
+        Places.initialize(getApplicationContext(), BuildConfig.GOOGLE_MAPS_API_KEY);
 
         //Create a new PLaces client instance
         PlacesClient placesClient = Places.createClient(this);
@@ -195,7 +195,6 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int item) {
-
                 if (options[item].equals("Take Photo")) {
                     Intent takePictureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     // Create a File reference for future access
