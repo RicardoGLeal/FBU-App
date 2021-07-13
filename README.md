@@ -169,7 +169,6 @@ https://www.figma.com/file/WDIL4t8GAm2JvDdrOWdo4e/RENT-APP?node-id=3%3A709
    | owner         | Pointer to User| item's owner   |
    | images        | Array<File>    | item's images  |
    | isRented      | Boolean        | is the item currently rented? |
-   | tenant        | Pointer to User| item's currently tenant |
    | price         | int | item rental price per day
    | likesCount    | Number   | number of likes for the item |
    | createdAt     | DateTime | date when post is created (default field) |
