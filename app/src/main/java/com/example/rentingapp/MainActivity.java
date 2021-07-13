@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.rentingapp.Fragments.FeedFragment;
@@ -13,6 +15,8 @@ import com.example.rentingapp.Fragments.ItemsFragment;
 import com.example.rentingapp.Fragments.ProfileFragment;
 import com.example.rentingapp.Fragments.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
@@ -58,6 +62,33 @@ public class MainActivity extends AppCompatActivity {
         });
         //set default selection
         bottomNavigationView.setSelectedItemId(R.id.action_home);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    /**
+     * This function is call when the user clicks on a item that is inside of the Menu.
+     * @param item The item pressed in the menu.
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId()== R.id.logout_btn){
+            ParseUser.logOutInBackground(new LogOutCallback() {
+                @Override
+                public void done(ParseException e) {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
