@@ -5,14 +5,12 @@
     import androidx.appcompat.app.AppCompatActivity;
     import androidx.core.content.FileProvider;
 
-    import android.Manifest;
     import android.content.Context;
     import android.content.DialogInterface;
     import android.content.Intent;
     import android.database.Cursor;
     import android.graphics.Bitmap;
     import android.graphics.BitmapFactory;
-    import android.graphics.Picture;
     import android.net.Uri;
     import android.os.Bundle;
     import android.os.Environment;
@@ -22,19 +20,15 @@
     import android.widget.Button;
     import android.widget.EditText;
     import android.widget.ImageView;
-    import android.widget.ProgressBar;
     import android.widget.Toast;
 
     import com.bumptech.glide.Glide;
     import com.bumptech.glide.load.resource.bitmap.CircleCrop;
     import com.bumptech.glide.request.RequestOptions;
-    import com.example.rentingapp.Models.Location;
     import com.example.rentingapp.Models.User;
     import com.google.android.gms.common.api.Status;
-    import com.google.android.gms.maps.model.LatLng;
     import com.google.android.libraries.places.api.Places;
     import com.google.android.libraries.places.api.model.Place;
-    import com.google.android.libraries.places.api.model.RectangularBounds;
     import com.google.android.libraries.places.api.model.TypeFilter;
     import com.google.android.libraries.places.api.net.PlacesClient;
     import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
@@ -42,7 +36,6 @@
     import com.parse.ParseException;
     import com.parse.ParseFile;
     import com.parse.ParseUser;
-    import com.parse.PointerEncoder;
     import com.parse.SaveCallback;
     import com.parse.SignUpCallback;
 
@@ -53,9 +46,7 @@
     import java.net.URL;
     import java.util.Arrays;
 
-    import pub.devrel.easypermissions.EasyPermissions;
-
-    import static com.example.rentingapp.Controllers.rotateBitmapOrientation;
+    import static com.example.rentingapp.Controllers.Controllers.rotateBitmapOrientation;
 
     //import pub.devrel.easypermissions.EasyPermissions;
 
