@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/centre_background"
+    tools:context=".CreateItemActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/personalDetailsCard"
+        style="@style/centreLocatorCardDesign"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="10dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CREATING ITEM"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                >
+            </TextView>
+            <EditText
+                android:id="@+id/etItemName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="50dp"
+                android:textColor="#2C3646"
+                android:hint="ITEM NAME">
+            </EditText>
+
+            <EditText
+                android:id="@+id/etDescription"
+                android:layout_below="@id/etItemName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:textColor="#2C3646"
+                android:hint="DESCRIPTION">
+            </EditText>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_below="@id/etDescription">
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="CANCEL"
+                    android:background="@drawable/centre_button"
+                    >
+                </Button>
+                <Button
+                    android:id="@+id/btnCreate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="CREATE"
+                    android:background="@drawable/centre_button">
+                </Button>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
