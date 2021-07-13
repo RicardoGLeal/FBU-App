@@ -85,7 +85,6 @@
                 android:hint="NAME"
                 android:inputType="textPersonName"
                 android:textColorHint="#a9b0c3"
-                android:text="b"
                 android:textSize="13dp" />
 
             <LinearLayout
@@ -103,7 +102,6 @@
                 android:background="#00000000"
                 android:hint="USERNAME"
                 android:inputType="text"
-                android:text="a"
                 android:textColorHint="#a9b0c3"
                 android:textSize="13dp" />
 
@@ -111,7 +109,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginTop="10dp"
-                android:background="#a9b0c3"></LinearLayout>
+                android:background="#a9b0c3">
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/etDescription"
@@ -122,7 +121,6 @@
                 android:hint="DESCRIPTION"
                 android:inputType="text"
                 android:textColorHint="#a9b0c3"
-                android:text="a"
                 android:textSize="13dp">
             </EditText>
 
@@ -141,7 +139,6 @@
                 android:hint="EMAIL ADDRESS"
                 android:inputType="text|textEmailAddress"
                 android:textColorHint="#a9b0c3"
-                android:text="ricglr664@gmail.com"
                 android:textSize="13dp">
             </EditText>
 
@@ -205,23 +202,26 @@
                 -->
 
             <TextView
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Location:"
+                android:text="LOCATION"
+                android:textColor="#a9b0c3"
                 android:layout_marginBottom="10dp">
             </TextView>
-            <fragment android:id="@+id/autocomplete_fragment"
+
+            <fragment
+                android:id="@+id/autocomplete_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-                />
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment">
+            </fragment>
 
             <EditText
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="a"
                 android:background="#00000000"
                 android:hint="PASSWORD"
                 android:inputType="textPassword"

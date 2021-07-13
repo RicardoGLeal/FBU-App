@@ -3,11 +3,15 @@
     import androidx.annotation.NonNull;
     import androidx.appcompat.app.AlertDialog;
     import androidx.appcompat.app.AppCompatActivity;
+    import androidx.core.app.ActivityCompat;
+    import androidx.core.content.ContextCompat;
     import androidx.core.content.FileProvider;
 
+    import android.Manifest;
     import android.content.Context;
     import android.content.DialogInterface;
     import android.content.Intent;
+    import android.content.pm.PackageManager;
     import android.database.Cursor;
     import android.graphics.Bitmap;
     import android.graphics.BitmapFactory;
@@ -98,39 +102,45 @@
                 }
             });
 
-            //Initialize the SDK
-            String apiKey = "AIzaSyBFLxnsiBxqmS0xNYg7mCC4mbcVZI-bFbw";
-            Places.initialize(getApplicationContext(), apiKey);
-
-            //Create a new PLaces client instance
-            PlacesClient placesClient = Places.createClient(this);
-
-            // Initialize the AutocompleteSupportFragment.
-            AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                    getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-
-            autocompleteFragment.setTypeFilter(TypeFilter.ADDRESS);
-
-            autocompleteFragment.setCountries("US");
-
-            //Specify the types of place data to return
-            autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-
-            // Set up a PlaceSelectionListener to handle the response.
-            autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-                @Override
-                public void onPlaceSelected(@NonNull Place place) {
-                    // TODO: Get info about the selected place.
-                    Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-                    placeId = place.getId();
-                }
-                @Override
-                public void onError(@NonNull Status status) {
-                    // TODO: Handle the error.
-                    Log.i(TAG, "An error occurred: " + status);
-                }
-            });
+            configurePlacesAPI();
         }
+
+
+
+        private void configurePlacesAPI() {
+                //Initialize the SDK
+                String apiKey = "AIzaSyBFLxnsiBxqmS0xNYg7mCC4mbcVZI-bFbw";
+                Places.initialize(getApplicationContext(), apiKey);
+
+                //Create a new PLaces client instance
+                PlacesClient placesClient = Places.createClient(this);
+
+                // Initialize the AutocompleteSupportFragment.
+                AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                        getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+                autocompleteFragment.setTypeFilter(TypeFilter.ADDRESS);
+
+                autocompleteFragment.setCountries("US");
+
+                //Specify the types of place data to return
+                autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+
+                // Set up a PlaceSelectionListener to handle the response.
+                autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                    @Override
+                    public void onPlaceSelected(@NonNull Place place) {
+                        // TODO: Get info about the selected place.
+                        Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                        placeId = place.getId();
+                    }
+                    @Override
+                    public void onError(@NonNull Status status) {
+                        // TODO: Handle the error.
+                        Log.i(TAG, "An error occurred: " + status);
+                    }
+                });
+            }
 
         private void signUpUser() {
             //String country = etCountry.getText().toString();
@@ -205,7 +215,6 @@
 
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("Choose your profile picture");
-
             builder.setItems(options, new DialogInterface.OnClickListener() {
 
                 @Override
@@ -272,12 +281,7 @@
                                 // with this we are sure of the correct orientation.
                                 takenImage = rotateBitmapOrientation(photoFile.getAbsolutePath());
                                 // Load the taken image into a preview
-                                RequestOptions circleProp = new RequestOptions();
-                                circleProp = circleProp.transform(new CircleCrop());
-                                Glide.with(getBaseContext())
-                                        .load(takenImage)
-                                        .apply(circleProp)
-                                        .into(ivProfileImage);
+                                LoadProfileImage();
                             } else { // Result was a failure
                                 Toast.makeText(SignUpActivity.this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
                             }
@@ -295,28 +299,31 @@
 
                                     int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                                     String picturePath = cursor.getString(columnIndex);
-                                    RequestOptions circleProp = new RequestOptions();
-                                    circleProp = circleProp.transform(new CircleCrop());
-                                    /*Glide.with(getBaseContext())
-                                            .load(BitmapFactory.decodeFile(picturePath))
-                                            .apply(circleProp)
-                                            .into(ivProfileImage);*/
-                                    //ivProfileImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-                                    try ( InputStream is = new URL(picturePath).openStream() ) {
-                                        Bitmap bitmap = BitmapFactory.decodeStream( is );
-                                    } catch (MalformedURLException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+
+                                    //ivProfileImage.setImageURI(selectedImage);
+                                    int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                                    if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                                     }
-                                    ivProfileImage.setImageURI(selectedImage);
-                                    photoFile = new File(String.valueOf(selectedImage));
-                                    cursor.close();
+                                    photoFile = new File(picturePath);
+                                    LoadProfileImage();
                                 }
                             }
                         }
                         break;
                 }
             }
+        }
+
+        /**
+         * Loads the Profile Image into the slot, using Glide.
+         */
+        void LoadProfileImage() {
+            RequestOptions circleProp = new RequestOptions();
+            circleProp = circleProp.transform(new CircleCrop());
+            Glide.with(getBaseContext())
+                    .load(this.photoFile)
+                    .apply(circleProp)
+                    .into(this.ivProfileImage);
         }
     }
