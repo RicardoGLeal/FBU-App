@@ -14,22 +14,30 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.rentingapp.Controllers.ActionsController;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.parse.ParseFile;
 
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.Arrays;
 import java.util.List;
+
+import static com.example.rentingapp.GooglePlacesClient.Initialize;
+import static com.example.rentingapp.GooglePlacesClient.placesClient;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
     private Context context;
     private List<Item> items;
+    public static final String TAG = "ItemsAdapter";
 
     public ItemsAdapter(Context context, List<Item> items) {
         this.context = context;
@@ -62,7 +70,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ivProfilePicture, ivItemImage;
         TextView tvItemName, tvOwnersName, tvCategory, tvDescription, tvPrice, tvLocation, tvDistance, tvPostDate;
-
+        String placeId;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivProfilePicture = itemView.findViewById(R.id.ivProfileImage);
@@ -98,10 +106,36 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             tvCategory.setText(item.getCategory());
             tvDescription.setText(item.getDescription());
             tvPrice.setText(String.valueOf(item.getPrice()));
+            tvPostDate.setText(ActionsController.getRelativeTimeAgo(item.getCreatedAt().toString()));
+            placeId = item.getOwner().getString(User.KEY_PLACE_ID);
+
+            getPlace();
         }
 
         public void getPlace() {
-            
+            if(placesClient == null)
+                Initialize(context);
+            // Specify the fields to return.
+            List<Place.Field> placeFields = Arrays.asList(Place.Field.NAME);
+
+            // Construct a request object, passing the place ID and fields array.
+            FetchPlaceRequest request = FetchPlaceRequest.builder(placeId, placeFields).build();
+
+            // Add a listener to handle the response.
+            placesClient.fetchPlace(request).addOnSuccessListener((response) -> {
+                Place place = response.getPlace();
+                Log.i(TAG, "Place found: " + place.getName());
+                String name = place.getName();
+                tvLocation.setText(name);
+
+            }).addOnFailureListener((exception) -> {
+                if (exception instanceof ApiException) {
+                    ApiException apiException = (ApiException) exception;
+                    int statusCode = apiException.getStatusCode();
+                    // Handle error with given status code.
+                    Log.e(TAG, "Place not found: " + exception.getMessage());
+                }
+            });
         }
     }
 }
