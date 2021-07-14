@@ -29,7 +29,8 @@
                     android:gravity="center"
                     android:text="CREATING ITEM"
                     android:textSize="20dp"
-                    android:textStyle="bold"></TextView>
+                    android:textStyle="bold">
+                </TextView>
 
                 <EditText
                     android:id="@+id/etItemName"
@@ -38,8 +39,10 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="50dp"
                     android:layout_marginEnd="20dp"
-                    android:hint="ITEM NAME"
-                    android:textColor="#2C3646"></EditText>
+                    android:hint="ITEM TITLE"
+                    android:textSize="13dp"
+                    android:textColor="#2C3646">
+                </EditText>
 
                 <EditText
                     android:id="@+id/etDescription"
@@ -48,13 +51,24 @@
                     android:layout_below="@id/etItemName"
                     android:layout_margin="20dp"
                     android:hint="DESCRIPTION"
-                    android:textColor="#2C3646"></EditText>
+                    android:textSize="13dp"
+                    android:textColor="#2C3646">
+                </EditText>
+
+                <TextView
+                    android:id="@+id/tvCategory"
+                    android:layout_below="@id/etDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="Category">
+                </TextView>
 
                 <Spinner
                     android:id="@+id/spinnerCategories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/etDescription"
+                    android:layout_below="@id/tvCategory"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp">
                 </Spinner>
@@ -135,7 +149,8 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="25dp"
                     android:ems="10"
-                    android:hint="$ Cost per day"
+                    android:textSize="13dp"
+                    android:hint="$ COST PER DAY"
                     android:inputType="numberDecimal" />
 
                 <LinearLayout

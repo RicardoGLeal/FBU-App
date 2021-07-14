@@ -5,6 +5,8 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 @ParseClassName("Item")
@@ -46,4 +48,32 @@ public class Item extends ParseObject {
     public void setCategory(String category) {
         put(KEY_CATEGORY, category);
     }
+
+    public String getTitle() {
+        return getString(KEY_TITLE);
+    }
+
+    public String getCategory() {
+        return getString(KEY_CATEGORY);
+    }
+
+    public String getDescription() {
+        return getString(KEY_DESCRIPTION);
+    }
+
+    public List<ParseFile> getImages() {
+        return getList(KEY_IMAGES);
+    }
+
+    public ParseUser getOwner() {
+        return getParseUser(KEY_OWNER);
+    }
+
+    public double getPrice()
+    {
+        return getDouble(KEY_PRICE);
+    }
+
+
+
 }

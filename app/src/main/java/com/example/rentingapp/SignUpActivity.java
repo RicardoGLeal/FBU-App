@@ -56,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
     private File photoFile;
     public String photoFileName = "photo.jpg";
 
-    EditText etUsername, etDescription, etEmail, etPassword, etCountry, etCity, etZIP;
+    EditText etName, etUsername, etDescription, etEmail, etPassword, etCountry, etCity, etZIP;
     ImageView ivProfileImage;
     Button btnSignUp;
     String placeId;
@@ -64,6 +64,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        etName = findViewById(R.id.etName);
         etUsername = findViewById(R.id.etUsername);
         etDescription = findViewById(R.id.etDescription);
         etEmail = findViewById(R.id.etEmail);
@@ -158,12 +159,14 @@ public class SignUpActivity extends AppCompatActivity {
      * @param photo profile picture
      */
     private void CreateAccount(ParseFile photo) {
+        String name = etName.getText().toString();
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
         String description = etDescription.getText().toString();
         String email = etEmail.getText().toString();
 
         ParseUser user = new ParseUser();
+        user.put(User.KEY_NAME, name);
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);
