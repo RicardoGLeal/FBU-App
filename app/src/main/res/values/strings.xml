@@ -9,6 +9,7 @@
     <string-array name="categories">
         <item>Electronics</item>
         <item>Clothing</item>
+        <item>Vehicles</item>
         <item>Books</item>
         <item>Toys</item>
     </string-array>

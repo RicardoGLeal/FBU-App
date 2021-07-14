@@ -23,7 +23,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
+import com.google.maps.android.SphericalUtil;
+import com.parse.Parse;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -109,7 +112,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             tvPostDate.setText(ActionsController.getRelativeTimeAgo(item.getCreatedAt().toString()));
             placeId = item.getOwner().getString(User.KEY_PLACE_ID);
 
-            getPlace();
+            //getPlace();
+            tvLocation.setText(item.getOwner().getString(User.KEY_PLACE_NAME));
+            getDistance(item);
         }
 
         public void getPlace() {
@@ -128,6 +133,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
                 String name = place.getName();
                 tvLocation.setText(name);
 
+
             }).addOnFailureListener((exception) -> {
                 if (exception instanceof ApiException) {
                     ApiException apiException = (ApiException) exception;
@@ -136,6 +142,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
                     Log.e(TAG, "Place not found: " + exception.getMessage());
                 }
             });
+        }
+
+        private void getDistance(Item item) {
+            LatLng from = User.getLatLng(ParseUser.getCurrentUser());
+            LatLng to = User.getLatLng(item.getOwner());
+            int distance = (int) SphericalUtil.computeDistanceBetween(from, to);
+            tvDistance.setText(String.valueOf(distance/1000));
         }
     }
 }

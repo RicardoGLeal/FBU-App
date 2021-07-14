@@ -214,7 +214,10 @@ public class CreateItemActivity extends AppCompatActivity {
                     Toast.makeText(CreateItemActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(CreateItemActivity.this, ":D", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateItemActivity.this, "Item Created Successfully", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(CreateItemActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });

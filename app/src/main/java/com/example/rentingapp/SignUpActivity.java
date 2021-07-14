@@ -32,6 +32,7 @@ import com.example.rentingapp.Controllers.ImagesController;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.TypeFilter;
@@ -45,6 +46,8 @@ import com.parse.SignUpCallback;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
+
 import com.parse.SaveCallback;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -59,7 +62,10 @@ public class SignUpActivity extends AppCompatActivity {
     EditText etName, etUsername, etDescription, etEmail, etPassword, etCountry, etCity, etZIP;
     ImageView ivProfileImage;
     Button btnSignUp;
-    String placeId;
+    String placeId, placeName, placeAddress;
+    Double placeLat, placeLng;
+    List<Place.Type> types;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,10 +119,10 @@ public class SignUpActivity extends AppCompatActivity {
 
         autocompleteFragment.setTypeFilter(TypeFilter.ADDRESS);
 
-        autocompleteFragment.setCountries("US");
+        autocompleteFragment.setCountries("US", "MX");
 
         //Specify the types of place data to return
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.TYPES));
 
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
@@ -125,6 +131,11 @@ public class SignUpActivity extends AppCompatActivity {
                 // TODO: Get info about the selected place.
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
                 placeId = place.getId();
+                placeLat = place.getLatLng().latitude;
+                placeLng = place.getLatLng().longitude;
+                placeName = place.getName();
+                placeAddress = place.getAddress();
+                Toast.makeText(SignUpActivity.this, "", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onError(@NonNull Status status) {
@@ -174,6 +185,10 @@ public class SignUpActivity extends AppCompatActivity {
             user.put(User.KEY_PROFILE_PICTURE, photo);
         user.put(User.KEY_DESCRIPTION, description);
         user.put(User.KEY_PLACE_ID, placeId);
+        user.put(User.KEY_PLACE_NAME, placeName);
+        user.put(User.KEY_PLACE_ADDRESS, placeAddress);
+        user.put(User.KEY_LAT, placeLat);
+        user.put(User.KEY_LNG, placeLng);
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {

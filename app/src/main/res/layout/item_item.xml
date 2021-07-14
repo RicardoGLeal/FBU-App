@@ -41,7 +41,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text="Category:"></TextView>
+                    android:text="Category:" >
+                </TextView>
 
                 <TextView
                     android:id="@+id/tvCategory"
@@ -105,32 +106,37 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="USD / DAY">
+            android:text="USD/DAY">
         </TextView>
 
         <TextView
             android:id="@+id/tvLocation"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
+            android:layout_marginLeft="50dp"
             android:text="0"
-            tools:text="Menlo Park, CA">
-        </TextView>
+            tools:text="Menlo Park, CA 444444"></TextView>
 
-        <TextView
-            android:id="@+id/tvDistance"
+
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            tools:text="50">
-        </TextView>
+            android:layout_marginLeft="40dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvDistance"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                tools:text="50">
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Km away">
+            </TextView>
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="miles away">
-        </TextView>
     </LinearLayout>
 
     <TextView
