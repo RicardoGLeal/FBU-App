@@ -1,5 +1,6 @@
 package com.example.rentingapp.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -21,6 +24,7 @@ import com.example.rentingapp.R;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AddressComponent;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.maps.android.SphericalUtil;
@@ -70,10 +74,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView ivProfilePicture, ivItemImage;
         TextView tvItemName, tvOwnersName, tvCategory, tvDescription, tvPrice, tvLocation, tvDistance, tvPostDate;
         String placeId;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivProfilePicture = itemView.findViewById(R.id.ivProfileImage);
@@ -86,6 +91,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             tvLocation = itemView.findViewById(R.id.tvLocation);
             tvDistance = itemView.findViewById(R.id.tvDistance);
             tvPostDate = itemView.findViewById(R.id.tvPostDate);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Item item) {
@@ -93,7 +99,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             RequestOptions circleProp = new RequestOptions();
             circleProp = circleProp.transform(new CircleCrop());
             Glide.with(context)
-                    .load(profilePicture!=null?profilePicture.getUrl(): R.drawable.profile_image_empty)
+                    .load(profilePicture != null ? profilePicture.getUrl() : R.drawable.profile_image_empty)
                     .placeholder(R.drawable.profile_image_empty)
                     .apply(circleProp)
                     .into(ivProfilePicture);
@@ -111,17 +117,19 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             tvPrice.setText(String.valueOf(item.getPrice()));
             tvPostDate.setText(ActionsController.getRelativeTimeAgo(item.getCreatedAt().toString()));
             placeId = item.getOwner().getString(User.KEY_PLACE_ID);
+            tvLocation.setText("");
 
-            //getPlace();
-            tvLocation.setText(item.getOwner().getString(User.KEY_PLACE_NAME));
+            getPlace();
+           // tvLocation.setText(item.getOwner().getString(User.KEY_PLACE_NAME));
             getDistance(item);
         }
 
+        @SuppressLint("SetTextI18n")
         public void getPlace() {
-            if(placesClient == null)
+            if (placesClient == null)
                 Initialize(context);
             // Specify the fields to return.
-            List<Place.Field> placeFields = Arrays.asList(Place.Field.NAME);
+            List<Place.Field> placeFields = Arrays.asList(Place.Field.NAME, Place.Field.ADDRESS_COMPONENTS);
 
             // Construct a request object, passing the place ID and fields array.
             FetchPlaceRequest request = FetchPlaceRequest.builder(placeId, placeFields).build();
@@ -131,8 +139,24 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
                 Place place = response.getPlace();
                 Log.i(TAG, "Place found: " + place.getName());
                 String name = place.getName();
-                tvLocation.setText(name);
 
+                //tvLocation.setText(name);
+                List<AddressComponent> addressComponents = place.getAddressComponents().asList();
+
+                for (int i=0; i<addressComponents.size(); i++) {
+                    if(addressComponents.get(i).getTypes().contains("locality") ||
+                            addressComponents.get(i).getTypes().contains("administrative_area_level_2") ||
+                            addressComponents.get(i).getTypes().contains("administrative_area_level_1"))
+                        if (tvLocation.getText() == "")
+                            tvLocation.setText(addressComponents.get(i).getShortName());
+                        else
+                            tvLocation.setText(tvLocation.getText() +", "+ addressComponents.get(i).getShortName());
+                    if (addressComponents.get(i).getTypes().contains("country"))
+                    {
+                        tvLocation.setText(tvLocation.getText() +", "+ addressComponents.get(i).getName());
+                        break;
+                    }
+                }
 
             }).addOnFailureListener((exception) -> {
                 if (exception instanceof ApiException) {
@@ -148,7 +172,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             LatLng from = User.getLatLng(ParseUser.getCurrentUser());
             LatLng to = User.getLatLng(item.getOwner());
             int distance = (int) SphericalUtil.computeDistanceBetween(from, to);
-            tvDistance.setText(String.valueOf(distance/1000));
+            tvDistance.setText(String.valueOf(distance / 1000));
+        }
+
+        @Override
+        public void onClick(View v) {
+
         }
     }
 }

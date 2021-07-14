@@ -34,6 +34,8 @@ import com.example.rentingapp.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AddressComponent;
+import com.google.android.libraries.places.api.model.AddressComponents;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -122,7 +124,7 @@ public class SignUpActivity extends AppCompatActivity {
         autocompleteFragment.setCountries("US", "MX");
 
         //Specify the types of place data to return
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.TYPES));
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.TYPES, Place.Field.ADDRESS_COMPONENTS));
 
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
@@ -135,7 +137,6 @@ public class SignUpActivity extends AppCompatActivity {
                 placeLng = place.getLatLng().longitude;
                 placeName = place.getName();
                 placeAddress = place.getAddress();
-                Toast.makeText(SignUpActivity.this, "", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onError(@NonNull Status status) {
