@@ -72,11 +72,10 @@ username, password, username, email, description, profile picture and location.
 - [ ] The user will be able to chat.
 - [ ] Top up money within the app.
 - [ ] The user can change the theme of the app (Ex. Light Mode/Dark Mode).
-- [ ] The user can change the text size.
 - [ ] The user can change the lenguage of the app.
 - [ ] Notifications about new rents.
 - [ ] Filters option.
-- [ ] Save items.
+- [ ] The user can save items.
 - [ ] The users will have reviews from others. 
 ### 2. Screen Archetypes
 
