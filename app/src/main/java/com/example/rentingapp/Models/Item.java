@@ -16,6 +16,8 @@ public class Item extends ParseObject {
     public static final String KEY_IS_RENTED = "isRented";
     public static final String KEY_CREATED_KEY = "createdAt";
     public static final String KEY_PRICE = "price";
+    public static final String KEY_CATEGORY = "category";
+
 
     public void setOwner(ParseUser owner) {
         put(KEY_OWNER, owner);
@@ -39,5 +41,9 @@ public class Item extends ParseObject {
 
     public void setPrice(float price){
         put(KEY_PRICE, price);
+    }
+
+    public void setCategory(String category) {
+        put(KEY_CATEGORY, category);
     }
 }

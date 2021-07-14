@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rentingapp.CreateItemActivity;
+import com.example.rentingapp.MultipleImagesActivity;
 import com.example.rentingapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

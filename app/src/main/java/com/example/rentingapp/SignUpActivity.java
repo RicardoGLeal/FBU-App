@@ -101,7 +101,6 @@ public class SignUpActivity extends AppCompatActivity {
      */
     private void configurePlacesAPI() {
         //Initialize the SDK
-        //String apiKey = "AIzaSyBFLxnsiBxqmS0xNYg7mCC4mbcVZI-bFbw";
         Places.initialize(getApplicationContext(), BuildConfig.GOOGLE_MAPS_API_KEY);
 
         //Create a new PLaces client instance

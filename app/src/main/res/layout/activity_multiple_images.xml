@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MultipleImagesActivity">
+
+    <ImageSwitcher
+        android:id="@+id/imagesIs"
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+    </ImageSwitcher>
+
+    <Button
+        android:id="@+id/previousBtn"
+        android:text="Previous"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_below="@+id/imagesIs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </Button>
+
+    <Button
+        android:id="@+id/nextBtn"
+        android:text="Next"
+        android:layout_alignParentEnd="true"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imagesIs">
+    </Button>
+    <Button
+        android:id="@+id/pickImagesBtn"
+        android:text="Pick Images"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+    </Button>
+</RelativeLayout>

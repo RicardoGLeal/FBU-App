@@ -8,117 +8,166 @@
     android:background="@drawable/centre_background"
     tools:context=".CreateItemActivity">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/personalDetailsCard"
-        style="@style/centreLocatorCardDesign"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="10dp">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-            <TextView
+        <androidx.cardview.widget.CardView
+            android:id="@+id/personalDetailsCard"
+            style="@style/centreLocatorCardDesign"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="10dp">
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CREATING ITEM"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textSize="20dp">
-            </TextView>
-            <EditText
-                android:id="@+id/etItemName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="50dp"
-                android:textColor="#2C3646"
-                android:hint="ITEM NAME">
-            </EditText>
+                android:layout_marginTop="30dp">
 
-            <EditText
-                android:id="@+id/etDescription"
-                android:layout_below="@id/etItemName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:textColor="#2C3646"
-                android:hint="DESCRIPTION">
-            </EditText>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="CREATING ITEM"
+                    android:textSize="20dp"
+                    android:textStyle="bold"></TextView>
 
-            <Spinner
-                android:id="@+id/spinnerCategories"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/etDescription"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp">
-            </Spinner>
+                <EditText
+                    android:id="@+id/etItemName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginEnd="20dp"
+                    android:hint="ITEM NAME"
+                    android:textColor="#2C3646"></EditText>
+
+                <EditText
+                    android:id="@+id/etDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etItemName"
+                    android:layout_margin="20dp"
+                    android:hint="DESCRIPTION"
+                    android:textColor="#2C3646"></EditText>
+
+                <Spinner
+                    android:id="@+id/spinnerCategories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etDescription"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp">
+                </Spinner>
+
+                <!--<ImageView
+                    android:id="@+id/ivItemImage"
+                    android:layout_width="145dp"
+                    android:layout_height="120dp"
+                    android:layout_below="@+id/spinnerCategories"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginEnd="130dp"
+                    android:src="@drawable/item_image">
+                </ImageView>-->
+                <LinearLayout
+                    android:id="@+id/imagesLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/spinnerCategories"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/pickImagesBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PICK IMAGES"></Button>
+
+                    <LinearLayout
+                        android:id="@+id/layoutControlImages"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/previousBtn"
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:drawableLeft="@drawable/ic_baseline_arrow_back_24">
+                        </Button>
+
+                        <ImageSwitcher
+                            android:id="@+id/imagesIs"
+                            android:layout_width="200dp"
+                            android:layout_height="200dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginLeft="10dp">
+                        </ImageSwitcher>
+
+                        <Button
+                            android:id="@+id/nextBtn"
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:drawableLeft="@drawable/ic_baseline_arrow_back_24"
+                            android:rotation="180"></Button>
+                    </LinearLayout>
+
+                    <!--<Button
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_baseline_add_24"
+                        android:rotation="180">
+                    </Button>-->
+                </LinearLayout>
 
 
-            <!--<com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/etCategory"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/etDescription"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_centerVertical="true">
-            </com.google.android.material.textfield.TextInputLayout>-->
-
-            <ImageView
-                android:id="@+id/ivItemImage"
-                android:layout_width="145dp"
-                android:layout_height="120dp"
-                android:layout_below="@+id/spinnerCategories"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="22dp"
-                android:layout_marginEnd="130dp"
-                android:src="@drawable/item_image">
-            </ImageView>
-
-
-            <EditText
-                android:id="@+id/etPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ivItemImage"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="25dp"
-                android:ems="10"
-                android:hint="$ Cost per day"
-                android:inputType="numberDecimal" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_below="@id/etPrice">
-
-                <Button
-                    android:id="@+id/btnCancel"
+                <EditText
+                    android:id="@+id/etPrice"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="CANCEL"
-                    android:background="@drawable/centre_button">
-                </Button>
-                <Button
-                    android:id="@+id/btnCreate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="CREATE"
-                    android:background="@drawable/centre_button">
-                </Button>
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/imagesLayout"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="25dp"
+                    android:ems="10"
+                    android:hint="$ Cost per day"
+                    android:inputType="numberDecimal" />
 
-            </LinearLayout>
-        </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etPrice"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
+                    <Button
+                        android:id="@+id/btnCancel"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/centre_button"
+                        android:text="CANCEL">
+                    </Button>
 
-    </androidx.cardview.widget.CardView>
+                    <Button
+                        android:id="@+id/btnCreate"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="100dp"
+                        android:background="@drawable/centre_button"
+                        android:text="CREATE">
+                    </Button>
+
+                </LinearLayout>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </ScrollView>
+
 
 </RelativeLayout>
