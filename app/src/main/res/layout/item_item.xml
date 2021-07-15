@@ -100,41 +100,37 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:text="0"
-            tools:text="0">
+            android:drawableLeft="@drawable/ic_baseline_attach_money_24"
+            android:drawableTint="@color/colorPrimary">
         </TextView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="USD/DAY">
-        </TextView>
+            android:text="USD/DAY"></TextView>
+
 
         <TextView
             android:id="@+id/tvLocation"
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            tools:text="Menlo Park, CA 444444"></TextView>
+            android:layout_marginLeft="20dp"
+            android:drawableLeft="@drawable/ic_baseline_location_on_24"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/colorPrimary"
+            tools:text="Menlo Park, CA 444444">
+        </TextView>
 
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:orientation="vertical">
-            <TextView
+        <TextView
                 android:id="@+id/tvDistance"
-                android:layout_width="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_baseline_6_ft_apart_24"
+                android:drawableTint="@color/colorPrimary"
+                android:drawablePadding="5dp"
                 tools:text="50">
             </TextView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Km away">
-            </TextView>
-        </LinearLayout>
 
     </LinearLayout>
 

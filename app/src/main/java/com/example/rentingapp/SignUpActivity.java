@@ -29,6 +29,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.rentingapp.Controllers.ImagesController;
+import com.example.rentingapp.Models.Item;
+import com.example.rentingapp.Models.Location;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
 import com.google.android.gms.common.api.Status;
@@ -43,6 +45,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -64,10 +67,10 @@ public class SignUpActivity extends AppCompatActivity {
     EditText etName, etUsername, etDescription, etEmail, etPassword, etCountry, etCity, etZIP;
     ImageView ivProfileImage;
     Button btnSignUp;
-    String placeId, placeName, placeAddress;
+    String placeId, placeName, placeAddress, generalLocation;
     Double placeLat, placeLng;
-    List<Place.Type> types;
-    
+    Location location = new Location();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,11 +80,10 @@ public class SignUpActivity extends AppCompatActivity {
         etDescription = findViewById(R.id.etDescription);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
-        //etCountry = findViewById(R.id.etCountry);
-        //etCity = findViewById(R.id.etCity);
-        //etZIP = findViewById(R.id.etZIP);
         ivProfileImage = findViewById(R.id.ivProfileImage);
         btnSignUp = findViewById(R.id.btnSignUp);
+
+        generalLocation = "";
 
         RequestOptions circleProp = new RequestOptions();
         circleProp = circleProp.transform(new CircleCrop());
@@ -137,6 +139,30 @@ public class SignUpActivity extends AppCompatActivity {
                 placeLng = place.getLatLng().longitude;
                 placeName = place.getName();
                 placeAddress = place.getAddress();
+                /*location.setPlaceId(placeId);
+                location.setLat(placeLat);
+                location.setLng(placeLng);
+                location.setPlaceName(placeName);
+                location.setPlaceAddress(placeAddress);
+                location.setGeneralLocation(placeName);*/
+
+                List<AddressComponent> addressComponents = place.getAddressComponents().asList();
+
+                for (int i=0; i<addressComponents.size(); i++) {
+                    if(addressComponents.get(i).getTypes().contains("locality") ||
+                            addressComponents.get(i).getTypes().contains("administrative_area_level_2") ||
+                            addressComponents.get(i).getTypes().contains("administrative_area_level_1"))
+                        if (generalLocation == "")
+                            generalLocation = addressComponents.get(i).getShortName();
+                        else
+                            generalLocation = generalLocation + ", "+ addressComponents.get(i).getShortName();
+                    if (addressComponents.get(i).getTypes().contains("country"))
+                    {
+                        generalLocation = generalLocation +", "+ addressComponents.get(i).getName();
+                        break;
+                    }
+                }
+
             }
             @Override
             public void onError(@NonNull Status status) {
@@ -177,6 +203,20 @@ public class SignUpActivity extends AppCompatActivity {
         String description = etDescription.getText().toString();
         String email = etEmail.getText().toString();
 
+       /* location.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Error while saving, e");
+                    Toast.makeText(SignUpActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    Toast.makeText(SignUpActivity.this, "User created Successfully", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        });*/
+
         ParseUser user = new ParseUser();
         user.put(User.KEY_NAME, name);
         user.setUsername(username);
@@ -190,6 +230,8 @@ public class SignUpActivity extends AppCompatActivity {
         user.put(User.KEY_PLACE_ADDRESS, placeAddress);
         user.put(User.KEY_LAT, placeLat);
         user.put(User.KEY_LNG, placeLng);
+        user.put(User.KEY_GENERAL_LOCATION, generalLocation);
+
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {

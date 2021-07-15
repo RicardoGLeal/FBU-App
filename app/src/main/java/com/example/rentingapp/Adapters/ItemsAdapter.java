@@ -119,11 +119,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             tvPrice.setText(String.valueOf(item.getPrice()));
             tvPostDate.setText(ActionsController.getRelativeTimeAgo(item.getCreatedAt().toString()));
             placeId = item.getOwner().getString(User.KEY_PLACE_ID);
-            tvLocation.setText("");
+            tvLocation.setText(item.getOwner().getString(User.KEY_GENERAL_LOCATION));
 
-            getPlace();
-           // tvLocation.setText(item.getOwner().getString(User.KEY_PLACE_NAME));
-            tvDistance.setText(String.valueOf(getDistanceInKm(item, ParseUser.getCurrentUser())));
+            //getPlace();
+            tvDistance.setText(String.valueOf(getDistanceInKm(item, ParseUser.getCurrentUser()))+" Km away");
         }
 
         @SuppressLint("SetTextI18n")
