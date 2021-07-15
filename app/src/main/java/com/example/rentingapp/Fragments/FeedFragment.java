@@ -37,10 +37,10 @@ public class FeedFragment extends Fragment {
     private Toolbar toolbar;
     private Context context;
 
+    // Required empty public constructor
     public FeedFragment() {
-        // Required empty public constructor
     }
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

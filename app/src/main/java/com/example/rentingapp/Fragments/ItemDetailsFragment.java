@@ -4,7 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,8 +54,7 @@ public class ItemDetailsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_item_details, container, false);
     }
@@ -75,6 +76,7 @@ public class ItemDetailsFragment extends Fragment {
         tvPostDate = view.findViewById(R.id.tvPostDate);
         btnRentItem = view.findViewById(R.id.btnRentItem);
 
+        // Hide rent button if the item is yours.
         if(ParseUser.getCurrentUser().getObjectId().equals(item.getOwner().getObjectId()))
             btnRentItem.setVisibility(Button.GONE);
 
@@ -95,6 +97,24 @@ public class ItemDetailsFragment extends Fragment {
         adapter = new ItemImagesAdapter(getContext(), allImages);
         rvItemImages.setAdapter(adapter);
         rvItemImages.setLayoutManager(new GridLayoutManager(getContext(),3));
+
+        btnRentItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowRentItemDialogFragment();
+            }
+        });
+
+    }
+
+    /**
+     * Opens and creates the DialogFragment when Renting an Item.
+     */
+    private void ShowRentItemDialogFragment() {
+        AppCompatActivity activity = (AppCompatActivity) getContext();
+        FragmentManager fm = activity.getSupportFragmentManager();
+        RentItemDialogFragment rentItemDialogFragment = RentItemDialogFragment.newInstance(item);
+        rentItemDialogFragment.show(fm,"fragment_rent_item");
 
     }
 
