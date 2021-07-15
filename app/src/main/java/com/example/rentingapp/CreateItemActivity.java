@@ -34,7 +34,6 @@ import java.util.List;
 public class CreateItemActivity extends AppCompatActivity {
     EditText etItemName, etItemDescription, etPrice;
     Button btnCancel, btnCreate;
-    ImageView ivItemImage;
     Spinner spinnerCategories;
 
     //UI Views
@@ -58,7 +57,6 @@ public class CreateItemActivity extends AppCompatActivity {
         etItemName = findViewById(R.id.etItemName);
         etItemDescription = findViewById(R.id.etDescription);
         etPrice = findViewById(R.id.etPrice);
-        //ivItemImage = findViewById(R.id.ivItemImage);
         btnCancel = findViewById(R.id.btnCancel);
         btnCreate = findViewById(R.id.btnCreate);
 
@@ -100,6 +98,29 @@ public class CreateItemActivity extends AppCompatActivity {
             public View makeView() {
                 ImageView imageView = new ImageView(getApplicationContext());
                 return imageView;
+            }
+        });
+
+        imagesIs.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                imageUris.remove(position);
+                if(position > 0) {
+                    position--;
+                }
+                if (!imageUris.isEmpty())
+                    imagesIs.setImageURI(imageUris.get(position));
+                else {
+                    imagesIs.removeAllViews();
+                    imagesIs.setFactory(new ViewSwitcher.ViewFactory() {
+                        @Override
+                        public View makeView() {
+                            ImageView imageView = new ImageView(getApplicationContext());
+                            return imageView;
+                        }
+                    });
+                }
+                return true;
             }
         });
 
@@ -154,7 +175,7 @@ public class CreateItemActivity extends AppCompatActivity {
                 if(data.getClipData() != null) {
                     //picked multiple images
                     int count = data.getClipData().getItemCount();
-                    for (int i = 0; i< count; i++) {
+                    for (int i = count-1; i>=0; i--) {
                         //get image uri at specific index
                         Uri imageUri = data.getClipData().getItemAt(i).getUri();
                         imageUris.add(imageUri);
@@ -192,7 +213,6 @@ public class CreateItemActivity extends AppCompatActivity {
                 }
             }
         }
-
 
         String itemName = etItemName.getText().toString();
         String itemDescription = etItemDescription.getText().toString();
