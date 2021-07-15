@@ -2,6 +2,12 @@ package com.example.rentingapp.Controllers;
 
 import android.text.format.DateUtils;
 
+import com.example.rentingapp.Models.Item;
+import com.example.rentingapp.Models.User;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.SphericalUtil;
+import com.parse.ParseUser;
+
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -21,5 +27,12 @@ public class ActionsController {
         }
 
         return relativeDate;
+    }
+
+    public static int getDistanceInKm(Item item, ParseUser user) {
+        LatLng from = User.getLatLng(user);
+        LatLng to = User.getLatLng(item.getOwner());
+        int distance = (int) SphericalUtil.computeDistanceBetween(from, to);
+        return distance/1000;
     }
 }

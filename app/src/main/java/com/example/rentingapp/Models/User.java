@@ -14,6 +14,8 @@ public class User {
     public static final String KEY_LNG = "lng";
     public static final String KEY_PLACE_NAME = "placeName";
     public static final String KEY_PLACE_ADDRESS = "placeAddress";
+    public static final String KEY_GENERAL_LOCATION = "generalLocation";
+
 
     public static LatLng getLatLng(ParseUser user) {
         double latitude, longitude;

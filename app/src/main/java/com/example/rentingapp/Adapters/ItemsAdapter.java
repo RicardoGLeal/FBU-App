@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.rentingapp.Controllers.ActionsController;
+import com.example.rentingapp.Fragments.ItemDetailsFragment;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
@@ -38,6 +39,7 @@ import org.w3c.dom.Text;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.example.rentingapp.Controllers.ActionsController.getDistanceInKm;
 import static com.example.rentingapp.GooglePlacesClient.Initialize;
 import static com.example.rentingapp.GooglePlacesClient.placesClient;
 
@@ -121,7 +123,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
             getPlace();
            // tvLocation.setText(item.getOwner().getString(User.KEY_PLACE_NAME));
-            getDistance(item);
+            tvDistance.setText(String.valueOf(getDistanceInKm(item, ParseUser.getCurrentUser())));
         }
 
         @SuppressLint("SetTextI18n")
@@ -168,16 +170,15 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             });
         }
 
-        private void getDistance(Item item) {
-            LatLng from = User.getLatLng(ParseUser.getCurrentUser());
-            LatLng to = User.getLatLng(item.getOwner());
-            int distance = (int) SphericalUtil.computeDistanceBetween(from, to);
-            tvDistance.setText(String.valueOf(distance / 1000));
-        }
-
         @Override
         public void onClick(View v) {
-
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                AppCompatActivity activity = (AppCompatActivity) context;
+                Fragment fragment = new ItemDetailsFragment(items.get(position));
+                ((AppCompatActivity) context).getSupportFragmentManager();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, fragment).commit();
+            }
         }
     }
 }
