@@ -205,28 +205,39 @@
                 </TextView>
             </LinearLayout>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvAgreement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layoutTotalPrice"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:gravity="center"
+                android:text="I Confirm that my data will be shared with the owner of this item."></TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="20dp"
+                android:layout_below="@id/tvAgreement"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnCancel"
-                    android:layout_width="100dp"
+                    android:layout_width="105dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/centre_button"
                     android:text="CANCEL"></Button>
 
                 <Button
-                    android:id="@+id/btnCreate"
-                    android:layout_width="100dp"
+                    android:id="@+id/btnConfirm"
+                    android:layout_width="105dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:background="@drawable/centre_button"
-                    android:text="CREATE"></Button>
+                    android:text="CONFIRM"></Button>
 
             </LinearLayout>
         </RelativeLayout>

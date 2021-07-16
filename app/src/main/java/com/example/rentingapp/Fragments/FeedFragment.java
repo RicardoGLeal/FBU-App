@@ -67,9 +67,7 @@ public class FeedFragment extends Fragment {
 
         swipeRefreshLayout = view.findViewById(R.id.swipeContainer);
 
-        /**
-         * OnClickListener implemented when the user pulls to refresh.
-         */
+        //OnClickListener implemented when the user pulls to refresh.
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

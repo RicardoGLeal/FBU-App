@@ -69,7 +69,6 @@ public class SignUpActivity extends AppCompatActivity {
     Button btnSignUp;
     String placeId, placeName, placeAddress, generalLocation;
     Double placeLat, placeLng;
-    Location location = new Location();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,12 +138,6 @@ public class SignUpActivity extends AppCompatActivity {
                 placeLng = place.getLatLng().longitude;
                 placeName = place.getName();
                 placeAddress = place.getAddress();
-                /*location.setPlaceId(placeId);
-                location.setLat(placeLat);
-                location.setLng(placeLng);
-                location.setPlaceName(placeName);
-                location.setPlaceAddress(placeAddress);
-                location.setGeneralLocation(placeName);*/
 
                 List<AddressComponent> addressComponents = place.getAddressComponents().asList();
 
@@ -203,20 +196,6 @@ public class SignUpActivity extends AppCompatActivity {
         String description = etDescription.getText().toString();
         String email = etEmail.getText().toString();
 
-       /* location.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Error while saving, e");
-                    Toast.makeText(SignUpActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-                    Toast.makeText(SignUpActivity.this, "User created Successfully", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            }
-        });*/
-
         ParseUser user = new ParseUser();
         user.put(User.KEY_NAME, name);
         user.setUsername(username);
@@ -247,6 +226,10 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This function opens an AlertDialogFragment with the options that the user has to set their profile picture.
+     * @param context
+     */
     private void selectImage(Context context) {
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

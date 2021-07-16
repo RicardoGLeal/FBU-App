@@ -2,12 +2,15 @@ package com.example.rentingapp.Fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,11 +18,17 @@ import androidx.core.util.Pair;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.rentingapp.Models.Item;
+import com.example.rentingapp.Models.Rent;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
+import com.example.rentingapp.SignUpActivity;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputLayout;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,8 +38,11 @@ import java.util.concurrent.TimeUnit;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class RentItemDialogFragment extends DialogFragment {
-
+    public static final String TAG = "RentItemDialogFragment";
     private TextView tvItemTitle, tvOwnersName, tvPricePerDay, tvTotalDays, tvTotalPrice, tvStartDate, tvEndDate;
+    private Button btnConfirm, btnCancel;
+    private Item item;
+    private Date startDate, endDate;
 
     public RentItemDialogFragment() {
     }
@@ -65,13 +77,16 @@ public class RentItemDialogFragment extends DialogFragment {
         tvStartDate = view.findViewById(R.id.tvStartDate);
         tvEndDate = view.findViewById(R.id.tvEndDate);
         tvTotalPrice = view.findViewById(R.id.tvTotalPrice);
+        btnConfirm = view.findViewById(R.id.btnConfirm);
+        btnCancel = view.findViewById(R.id.btnCancel);
+
         // Fetch item from bundle
-        Item item = getArguments().getParcelable("item");
+        item = getArguments().getParcelable("item");
+
         // Set fields values obtained from the item.
         tvItemTitle.setText(item.getTitle());
         tvOwnersName.setText(item.getOwner().getString(User.KEY_NAME));
         tvPricePerDay.setText(String.valueOf(item.getPrice()));
-
         tvStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,8 +100,8 @@ public class RentItemDialogFragment extends DialogFragment {
                     //onPositiveButton method confirms the dates in the date range picker. It returns the Pair of dates selected
                     @Override
                     public void onPositiveButtonClick(Pair<Long, Long> selection) {
-                        Date startDate = new Date(selection.first);
-                        Date endDate = new Date(selection.second);
+                        startDate = new Date(selection.first);
+                        endDate = new Date(selection.second);
                         String strStartDate = new SimpleDateFormat("dd-MM-yyyy").format(startDate);
                         String strEndDate = new SimpleDateFormat("dd-MM-yyyy").format(endDate);
                         long diff = endDate.getTime() - startDate.getTime();
@@ -101,11 +116,40 @@ public class RentItemDialogFragment extends DialogFragment {
             }
         });
 
-        //mEditText = (EditText) view.findViewById(R.id.txt_your_name);
-        //getDialog().setTitle(title);
-        // Show soft keyboard automatically and request focus to field
-        //mEditText.requestFocus();
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RentItem();
+            }
+        });
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+    }
+
+    /**
+     * Creates the rent object and saves it in the database.
+     */
+    private void RentItem() {
+        Rent rent = new Rent();
+        rent.setItem(item);
+        rent.setOwner(item.getOwner());
+        rent.setTenant(ParseUser.getCurrentUser());
+        rent.setStartDate(startDate);
+        rent.setEndDate(endDate);
+        rent.setDaysCount(Integer.valueOf(tvTotalDays.getText().toString()));
+        rent.setTotalPrice(Float.valueOf(tvTotalPrice.getText().toString()));
+        rent.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Error while saving, e");
+                    Toast.makeText(getContext(), "Error while saving!", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    Toast.makeText(getContext(), "Rented Item Successfully", Toast.LENGTH_SHORT).show();
+                    dismiss();
+                }
+            }
+        });
     }
 }

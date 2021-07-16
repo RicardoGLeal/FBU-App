@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.Location;
+import com.example.rentingapp.Models.Rent;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -14,6 +15,7 @@ public class ParseApplication extends Application {
         // Register your parse models
         ParseObject.registerSubclass(Item.class);
         ParseObject.registerSubclass(Location.class);
+        ParseObject.registerSubclass(Rent.class);
 
         super.onCreate();
         Parse.initialize(new Parse.Configuration.Builder(this)
