@@ -105,6 +105,7 @@ public class CreateItemActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 imageUris.remove(position);
+                Toast.makeText(CreateItemActivity.this, "Image Deleted!", Toast.LENGTH_SHORT).show();
                 if(position > 0) {
                     position--;
                 }
