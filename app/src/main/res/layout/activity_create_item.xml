@@ -153,15 +153,7 @@
                         android:background="@drawable/round"
                         android:text="">
                     </Button>
-                    <Button
-                        android:id="@+id/btnDeleteImage"
-                        android:layout_width="50dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="10dp"
-                        android:drawableLeft="@drawable/ic_baseline_remove_24"
-                        android:background="@drawable/round"
-                        android:text="">
-                    </Button>
+
                     <!--<Button
                         android:layout_width="60dp"
                         android:layout_height="wrap_content"
