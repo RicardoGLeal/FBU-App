@@ -43,4 +43,31 @@ public class Rent extends ParseObject {
     public void setTotalPrice(float totalPrice) {
         put(KEY_TOTAL_PRICE, totalPrice);
     }
+
+   public Item getItem() {
+        return (Item) getParseObject(KEY_ITEM);
+    }
+
+   // public ParseObject getItem() {
+     //   return getParseObject(KEY_ITEM);
+    //}
+
+    public ParseUser getOwner() {
+        return getParseUser(KEY_OWNER);
+    }
+    public Date getStartDate() {
+        return getDate(KEY_START_DATE);
+    }
+
+    public Date getEndDate() {
+        return getDate(KEY_END_DATE);
+    }
+
+    public ParseUser getTenant() {
+        return getParseUser(KEY_TENANT);
+    }
+
+    public double getTotalPrice() {
+        return getDouble(KEY_TOTAL_PRICE);
+    }
 }

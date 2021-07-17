@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.ForeignRentedItemsFragment">
+    tools:context=".Fragments.OwnRentedItemsFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/subFragmentTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Foreign Rented Items"
+        android:text="Own Rented Items"
         android:textAlignment="center"
         android:textSize="20sp"/>
 

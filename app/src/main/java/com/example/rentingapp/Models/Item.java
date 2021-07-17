@@ -74,6 +74,4 @@ public class Item extends ParseObject {
         return getDouble(KEY_PRICE);
     }
 
-
-
 }

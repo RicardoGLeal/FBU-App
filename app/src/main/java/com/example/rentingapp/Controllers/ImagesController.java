@@ -7,8 +7,14 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.rentingapp.R;
 import com.example.rentingapp.SignUpActivity;
+import com.parse.ParseFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,5 +66,16 @@ public class ImagesController {
         Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
         // Return result
         return rotatedBitmap;
+    }
+
+
+    public static void loadCircleImage(Context context, ParseFile image, ImageView slot){
+        RequestOptions circleProp = new RequestOptions();
+        circleProp = circleProp.transform(new CircleCrop());
+        Glide.with(context)
+                .load(image != null ? image.getUrl() : R.drawable.profile_image_empty)
+                .placeholder(R.drawable.profile_image_empty)
+                .apply(circleProp)
+                .into(slot);
     }
 }

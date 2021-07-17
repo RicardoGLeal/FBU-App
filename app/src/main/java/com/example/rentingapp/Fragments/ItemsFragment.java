@@ -34,7 +34,6 @@ public class ItemsFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +46,7 @@ public class ItemsFragment extends Fragment {
         myFragment = inflater.inflate(R.layout.fragment_items, container, false);
         viewPager = myFragment.findViewById(R.id.view_pager);
         tabs = myFragment.findViewById(R.id.tabs);
-
-
-
         return myFragment;
-
     }
 
     @Override
@@ -62,26 +57,26 @@ public class ItemsFragment extends Fragment {
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
     }
 
+    /**
+     * Creates an adapter and adds the fragments to control.
+     * @param viewPager
+     */
     private void setUpViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getChildFragmentManager());
-
-        adapter.addFragment(new OwnedRentedItemsFragment(),"Own Rented Items");
-        adapter.addFragment(new ForeignRentedItemsFragment(),"Foreign Rented Items");
+        adapter.addFragment(new OwnRentedItemsFragment(),"Own");
+        adapter.addFragment(new ForeignRentedItemsFragment(),"Foreign");
         viewPager.setAdapter(adapter);
     }
 

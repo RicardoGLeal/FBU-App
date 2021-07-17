@@ -13,9 +13,9 @@ public class ParseApplication extends Application {
     @Override
     public void onCreate() {
         // Register your parse models
+        ParseObject.registerSubclass(Rent.class);
         ParseObject.registerSubclass(Item.class);
         ParseObject.registerSubclass(Location.class);
-        ParseObject.registerSubclass(Rent.class);
 
         super.onCreate();
         Parse.initialize(new Parse.Configuration.Builder(this)

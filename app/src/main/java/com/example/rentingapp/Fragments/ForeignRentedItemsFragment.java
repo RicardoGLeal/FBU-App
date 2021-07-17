@@ -2,29 +2,19 @@ package com.example.rentingapp.Fragments;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rentingapp.Adapters.RentsAdapter;
 import com.example.rentingapp.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ForeignRentedItemsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ForeignRentedItemsFragment extends Fragment {
+import static com.example.rentingapp.Controllers.ActionsController.queryRents;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class ForeignRentedItemsFragment extends OwnRentedItemsFragment {
+
+    private static final String TAG = "ForeignRentedItemsFragment";
 
     public ForeignRentedItemsFragment() {
         // Required empty public constructor
@@ -33,28 +23,17 @@ public class ForeignRentedItemsFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment ForeignRentedItemsFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static ForeignRentedItemsFragment newInstance(String param1, String param2) {
         ForeignRentedItemsFragment fragment = new ForeignRentedItemsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -62,5 +41,23 @@ public class ForeignRentedItemsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_foreign_rented_items, container, false);
+    }
+
+    /**
+     * Creates a new RentsAdapter with a false value in ownRentedItems.
+     * @return rents adapter
+     */
+    @Override
+    protected RentsAdapter createAdapter() {
+        return new RentsAdapter(getContext(), allRents, false);
+    }
+
+    /**
+     * Calls the queryRents function that is in the ActionsController class, passing a False value in
+     * ownRentedItems, this means it will load the user's rents from items of other people.
+     */
+    @Override
+    protected void prequeryRents() {
+        queryRents(TAG, allRents, adapter, false);
     }
 }

@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#FF6200EE</color>
     <color name="colorPrimaryDark">#171717</color>
-    <color name="textColor">#000000</color>
+    <color name="textColor">#a3a3a3</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -10,6 +10,6 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-
+    <color name="colorAccent">#03dac4</color>
     <color name="marginTextView">#b3b3b3</color>
 </resources>
