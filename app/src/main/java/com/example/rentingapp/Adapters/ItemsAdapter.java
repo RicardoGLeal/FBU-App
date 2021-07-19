@@ -163,7 +163,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             tvLocation.setText(item.getOwner().getString(User.KEY_GENERAL_LOCATION));
 
             //getPlace();
-            tvDistance.setText(String.valueOf(getDistanceInKm(item, ParseUser.getCurrentUser()))+" Km away");
+            tvDistance.setText(item.getDistance() +" Km away");
         }
 
         @Override

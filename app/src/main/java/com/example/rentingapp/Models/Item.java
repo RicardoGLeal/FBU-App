@@ -7,6 +7,7 @@ import com.parse.ParseUser;
 
 import org.json.JSONObject;
 
+import java.util.Comparator;
 import java.util.List;
 
 @ParseClassName("Item")
@@ -20,6 +21,15 @@ public class Item extends ParseObject {
     public static final String KEY_PRICE = "price";
     public static final String KEY_CATEGORY = "category";
 
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    public int distance;
 
     public void setOwner(ParseUser owner) {
         put(KEY_OWNER, owner);
@@ -73,5 +83,4 @@ public class Item extends ParseObject {
     {
         return getDouble(KEY_PRICE);
     }
-
 }

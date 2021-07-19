@@ -21,11 +21,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.rentingapp.Adapters.ItemsAdapter;
 import com.example.rentingapp.LoginActivity;
 import com.example.rentingapp.MainActivity;
 import com.example.rentingapp.Models.Item;
+import com.example.rentingapp.QuickSort;
 import com.example.rentingapp.R;
 import com.parse.FindCallback;
 import com.parse.LogOutCallback;
@@ -35,6 +37,8 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.rentingapp.Controllers.ActionsController.getDistanceInKm;
 
 
 public class FeedFragment extends Fragment {
@@ -119,6 +123,8 @@ public class FeedFragment extends Fragment {
                 }
                 for (Item item: items) {
                     Log.i(TAG, "Items: " + item.getDescription());
+                    int distance = getDistanceInKm(item, ParseUser.getCurrentUser());
+                    item.setDistance(distance);
                 }
                 allItems.addAll(items);
                 adapter.notifyDataSetChanged();
@@ -160,17 +166,26 @@ public class FeedFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId()== R.id.logout_btn){
-            ParseUser.logOutInBackground(new LogOutCallback() {
-                @Override
-                public void done(ParseException e) {
-                    Intent intent = new Intent(getContext(), LoginActivity.class);
-                    startActivity(intent);
-                    AppCompatActivity activity = (AppCompatActivity) context;
-                    activity.finish();
-                }
-            });
+        switch(item.getItemId()) {
+            case R.id.action_sortByLocation:
+                QuickSort ob = new QuickSort();
+                ob.sort(allItems, 0, allItems.size()-1);
+                adapter.notifyDataSetChanged();
+                break;
+
+            case R.id.logout_btn:
+                ParseUser.logOutInBackground(new LogOutCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        startActivity(intent);
+                        AppCompatActivity activity = (AppCompatActivity) context;
+                        activity.finish();
+                    }
+                });
+                break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
