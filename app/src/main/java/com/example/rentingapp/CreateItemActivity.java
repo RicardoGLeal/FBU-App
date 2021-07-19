@@ -2,9 +2,13 @@ package com.example.rentingapp;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.opengl.Visibility;
@@ -38,7 +42,7 @@ public class CreateItemActivity extends AppCompatActivity {
 
     //UI Views
     private ImageSwitcher imagesIs;
-    private Button previousBtn, nextBtn, pickImagesBtn;
+    private Button previousBtn, nextBtn, btnAddImage;
     private LinearLayout layoutControlImages;
 
     //store image uris in this array list
@@ -54,34 +58,28 @@ public class CreateItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_item);
+
+        //Get References
         etItemName = findViewById(R.id.etItemName);
         etItemDescription = findViewById(R.id.etDescription);
         etPrice = findViewById(R.id.etPrice);
         btnCancel = findViewById(R.id.btnCancel);
         btnCreate = findViewById(R.id.btnCreate);
-
         spinnerCategories = findViewById(R.id.spinnerCategories);
-
         layoutControlImages = findViewById(R.id.layoutControlImages);
         imagesIs = findViewById(R.id.imagesIs);
         previousBtn = findViewById(R.id.previousBtn);
         nextBtn = findViewById(R.id.nextBtn);
-        pickImagesBtn = findViewById(R.id.pickImagesBtn);
+        btnAddImage = findViewById(R.id.btnAddImage);
 
+        //Assign values
         layoutControlImages.setVisibility(LinearLayout.GONE);
-
+        //Creates a new adapter for the categories spinner.
         ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<String>(CreateItemActivity.this,
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.categories));
         categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategories.setAdapter(categoriesAdapter);
-
-        /*ivItemImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });*/
-
+        
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +99,7 @@ public class CreateItemActivity extends AppCompatActivity {
             }
         });
 
+        //OnLongClickListener that is in charge of deleting images. 
         imagesIs.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -125,7 +124,8 @@ public class CreateItemActivity extends AppCompatActivity {
             }
         });
 
-        pickImagesBtn.setOnClickListener(new View.OnClickListener() {
+        //OnClickListener for the Add Image Button.
+        btnAddImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 layoutControlImages.setVisibility(LinearLayout.VISIBLE);
@@ -133,6 +133,7 @@ public class CreateItemActivity extends AppCompatActivity {
             }
         });
 
+        //OnClickListener for the previous button. Loads the previous image
         previousBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,6 +147,7 @@ public class CreateItemActivity extends AppCompatActivity {
             }
         });
 
+        //OnClickListener for the next button. Loads the next image
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,11 +162,18 @@ public class CreateItemActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This function is responsible for creating an intent to the phone gallery to select images. It also requests permits, if they have not been granted before
+     */
     private void pickImagesIntent() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+
         Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         pickPhoto.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(pickPhoto , PICK_IMAGES_CODE);
-
     }
 
     @Override
@@ -197,7 +206,9 @@ public class CreateItemActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * This function is in charge of creating a new item and publishing it to the database
+     */
     private void CreateItem() {
         List<ParseFile> photoFiles = new ArrayList<>();
         for (int i=0; i<imageUris.size(); i++) {
@@ -210,16 +221,33 @@ public class CreateItemActivity extends AppCompatActivity {
 
                     int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                     String picturePath = cursor.getString(columnIndex);
+                    ParseFile parseFile = new ParseFile(new File(picturePath));
                     photoFiles.add(new ParseFile(new File(picturePath)));
                 }
             }
         }
 
+        //Saves all the image into Parse
+        for (int i = 0; i<photoFiles.size(); i++) {
+            photoFiles.get(i).saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e != null) {
+                        Toast.makeText(CreateItemActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+            });
+        }
+
+        //Some values are obtained
         String itemName = etItemName.getText().toString();
         String itemDescription = etItemDescription.getText().toString();
         String itemCategory = spinnerCategories.getSelectedItem().toString();
         Float itemPrice =  Float.valueOf(etPrice.getText().toString());
 
+
+        //An item is created and its parameters are assigned
         Item item = new Item();
         item.setTitle(itemName);
         item.setDescription(itemDescription);
