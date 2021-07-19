@@ -6,8 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,34 +26,31 @@ import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AddressComponent;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
-import com.google.maps.android.SphericalUtil;
-import com.parse.Parse;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static com.example.rentingapp.Controllers.ActionsController.getDistanceInKm;
 import static com.example.rentingapp.GooglePlacesClient.Initialize;
 import static com.example.rentingapp.GooglePlacesClient.placesClient;
 
-public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
+public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> implements Filterable {
     private Context context;
-    private List<Item> items;
+    private List<Item> items, allItems, itemsFiltered;
     public static final String TAG = "ItemsAdapter";
 
     public ItemsAdapter(Context context, List<Item> items) {
         this.context = context;
         this.items = items;
+        this.itemsFiltered = new ArrayList<>(items);
+        this.allItems = new ArrayList<>(items);
     }
 
     @NonNull
@@ -71,10 +71,51 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         return items.size();
     }
 
+
+
     public void clear() {
         items.clear();
         notifyDataSetChanged();
     }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+
+        //run on background thread
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Item> filteredList = new ArrayList<>();
+
+            if(constraint.toString().isEmpty())
+            {
+                if(allItems.isEmpty())
+                    allItems = new ArrayList<>(items);
+                filteredList.addAll(allItems);
+            }
+            else {
+                for (Item item : allItems) {
+                    if (item.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+            return filterResults;
+        }
+
+        //runs on a ui thread
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults filterResults) {
+            items.clear();
+            items.addAll((Collection<? extends Item>) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView ivProfilePicture, ivItemImage;
@@ -123,50 +164,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
             //getPlace();
             tvDistance.setText(String.valueOf(getDistanceInKm(item, ParseUser.getCurrentUser()))+" Km away");
-        }
-
-        @SuppressLint("SetTextI18n")
-        public void getPlace() {
-            if (placesClient == null)
-                Initialize(context);
-            // Specify the fields to return.
-            List<Place.Field> placeFields = Arrays.asList(Place.Field.NAME, Place.Field.ADDRESS_COMPONENTS);
-
-            // Construct a request object, passing the place ID and fields array.
-            FetchPlaceRequest request = FetchPlaceRequest.builder(placeId, placeFields).build();
-
-            // Add a listener to handle the response.
-            placesClient.fetchPlace(request).addOnSuccessListener((response) -> {
-                Place place = response.getPlace();
-                Log.i(TAG, "Place found: " + place.getName());
-                String name = place.getName();
-
-                //tvLocation.setText(name);
-                List<AddressComponent> addressComponents = place.getAddressComponents().asList();
-
-                for (int i=0; i<addressComponents.size(); i++) {
-                    if(addressComponents.get(i).getTypes().contains("locality") ||
-                            addressComponents.get(i).getTypes().contains("administrative_area_level_2") ||
-                            addressComponents.get(i).getTypes().contains("administrative_area_level_1"))
-                        if (tvLocation.getText() == "")
-                            tvLocation.setText(addressComponents.get(i).getShortName());
-                        else
-                            tvLocation.setText(tvLocation.getText() +", "+ addressComponents.get(i).getShortName());
-                    if (addressComponents.get(i).getTypes().contains("country"))
-                    {
-                        tvLocation.setText(tvLocation.getText() +", "+ addressComponents.get(i).getName());
-                        break;
-                    }
-                }
-
-            }).addOnFailureListener((exception) -> {
-                if (exception instanceof ApiException) {
-                    ApiException apiException = (ApiException) exception;
-                    int statusCode = apiException.getStatusCode();
-                    // Handle error with given status code.
-                    Log.e(TAG, "Place not found: " + exception.getMessage());
-                }
-            });
         }
 
         @Override
