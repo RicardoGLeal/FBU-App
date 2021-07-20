@@ -25,6 +25,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.rentingapp.Adapters.ItemsAdapter;
@@ -43,6 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.rentingapp.Controllers.ActionsController.getDistanceInKm;
+import static com.example.rentingapp.Controllers.ActionsController.setColorSchemeResources;
 
 public class FeedFragment extends Fragment {
     public static final String TAG = "FeedFragment";
@@ -51,6 +55,7 @@ public class FeedFragment extends Fragment {
     protected List<Item> allItems;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
+    private Spinner spinnerCategories;
     private Context context;
     private Boolean filteredByDistance = false;
 
@@ -78,10 +83,26 @@ public class FeedFragment extends Fragment {
         rvItems = view.findViewById(R.id.rvItems);
         allItems = new ArrayList<>();
         toolbar = view.findViewById(R.id.toolbar);
+        spinnerCategories = view.findViewById(R.id.spinnerCategories);
         context = getContext();
         AppCompatActivity activity = (AppCompatActivity) context;
         toolbar.setTitle("");
         activity.setSupportActionBar(toolbar);
+        ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<String>(context,
+                android.R.layout.simple_list_item_1,
+                getResources().getStringArray(R.array.categoriesFeed));
+        spinnerCategories.setAdapter(categoriesAdapter);
+        spinnerCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(context, spinnerCategories.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         swipeRefreshLayout = view.findViewById(R.id.swipeContainer);
 
@@ -95,13 +116,8 @@ public class FeedFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-
         // Configure the refreshing colors
-        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-
+        setColorSchemeResources(swipeRefreshLayout);
         adapter = new ItemsAdapter(getContext(), allItems);
         rvItems.setAdapter(adapter);
         rvItems.setLayoutManager(new LinearLayoutManager(context));

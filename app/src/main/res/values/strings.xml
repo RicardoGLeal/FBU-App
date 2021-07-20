@@ -15,6 +15,16 @@
         <item>Books</item>
         <item>Toys</item>
     </string-array>
+    <string-array name="categoriesFeed">
+        <item>All</item>
+        <item>Electronics</item>
+        <item>Furniture</item>
+        <item>Clothing</item>
+        <item>Vehicles</item>
+        <item>Sports</item>
+        <item>Books</item>
+        <item>Toys</item>
+    </string-array>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
 
