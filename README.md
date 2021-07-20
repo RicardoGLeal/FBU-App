@@ -48,7 +48,7 @@ username, password, username, email, description, profile picture and location.
 - [X] The user can see their item rentals from other users
 - [ ] The user can click on an image and it will expand, taking all the space of the cell phone.
 - [ ] The user will be able to see animations when creating or renting items
-
+- [X] The user can logout from their account. 
 
 **Optional Nice-to-have Stories**
 - [X] The user will be able to see the location of the renter or the owner on a map.
