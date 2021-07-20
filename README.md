@@ -16,11 +16,11 @@ Rent App Design Project - README Template
 
 ### App Evaluation
 - **Category:** Shopping/Social 
-- **Mobile:** The mobile is the most comfortable tool in which users can carry out purchase and rental operations. The camera is used to share images of the rented things, and the map is used to know the location where each thing is.
+- **Mobile:** The mobile is the most comfortable tool in which users can carry out purchase and rental operations. The camera is used to take images of the rented items, and the map is used to know the location where each thing is.
 - **Story:** This application will be a service of great value for people since most people have things they do not need, from which they can obtain an extra income by renting them through the application without having to sell them. And vice versa, people who need to rent something can do it through the app.
 - **Market:** Anyone who needs to acquire anything for a certain time or anyone who wants to rent their things.
 - **Habit:** Users can access the application several times a day, either to rent a thing, or to put something for rent.
-- **Scope:** The first version will allow the the users to rent things and put things for rents, the second version would allow the user to see their items rented and filter the items by distance.
+- **Scope:** The first version will allow the the users to see items, rent things and put things for rent, and see their profile. The second version would allow the user to see their items rented (own and foreign), filter the items by distance, see other's profiles, and search items. 
 
 ## Product Spec
 
@@ -32,31 +32,29 @@ Rent App Design Project - README Template
 username, password, username, email, description, profile picture and location.
 - [X] The user will be able to log into the application with their username and password.
 - [X] The user will be able to see in the FeedFragment a list of items (the list will show the name, picture, cost, brief description, owner's name, owner's picture of every item, and distance between them and the item). 
+- [X] The user will be able to enter their location implementing the Google Places API.
 - [X] The user will be able to filter items by distance. 
-- [X] The user will be able to publish an object for rent, registering the following information: Item Name, Item Category, Item Pictures, Item Description, Cost of the rent per day
-- [X] The user will be able to see the information of an item in the Details View: Item Name, Item Picture(s), Item Description, Cost of the rent per day, Item Location, Owner's Name, Owner's Profile Picture 
-- [ ] The user will be able to see a list of the item's categories in the SearchFragment.
 - [ ] The user will be able to search items.
+- [X] The user will be able to see the information of an item in the Details View: Item Name, Item Picture(s), Item Description, Cost of the rent per day, Item Location, Owner's Name, Owner's Profile Picture 
+- [X] The user will be able to publish an object for rent, registering the following information: Item Name, Item Category, Item Pictures, Item Description, Cost of the rent per day.
+- [X] The user will be able to edit/delete their item posts. 
+- [X] The user will be able to add multiples photos for the object in rent.
+- [ ] The user will be able to see a list of the item's categories in the SearchFragment.
 - [X] The user will be able to rent an item within a date range. 
 - [X] The user will be able to see their distance towards each item. 
 - [ ] The user will be able to see their profile an other's users profiles (The profile will show the user's general information, and their items in rent).
 - [ ] The user will be able to edit their profile
-- [ ] The user can see their own items rents
-- [ ] The user can see their item rentals from other users
-
-
-**Owner's perspective**
-- [X] The user will be able to see the items he has for rent. 
-
-- [X] The user will be able to select multiples photos for the object in rent.
-- [ ] The user will be able to see a list of the requests that he has in the items that he has for rent
-- [ ] The user will be able to see a list of the requests that he has in the items that he has for rent
+- [X] The user can see their own items rents
+- [X] The user can see their item rentals from other users
+- [ ] The user can click on an image and it will expand, taking all the space of the cell phone.
+- [ ] The user will be able to see animations when creating or renting items
 
 
 **Optional Nice-to-have Stories**
-
 - [X] The user will be able to see the location of the renter or the owner on a map.
 - [ ] The user can create an account through a Google or Facebook account.
+- [X] The user can see the exact address of the owner/tenant of a rent.
+- [ ] The user can enter their location using the GPS. 
 - [ ] The user will be able to chat.
 - [ ] Top up money within the app.
 - [ ] The user can change the theme of the app (Ex. Light Mode/Dark Mode).
@@ -117,17 +115,20 @@ username, password, username, email, description, profile picture and location.
    * Item details
    * Rents
    * Help
+* Item's Feed
+   * Item Details
+   * User Profile  
 * Rents
    * Own rents
    * Foreign rents
-   *   
 * Search Screen
    * Item Details 
-* User List
+* Item List
    * User Profile
-* Own Profile
-   * Edit profile.
-   * Own rented items.
+* User Profile
+   * Edit profile (if own profile)
+   * Items Details
+
 
 ## Wireframes
 [Add picture of your hand sketched wireframes in this section]
@@ -142,14 +143,16 @@ https://www.figma.com/file/WDIL4t8GAm2JvDdrOWdo4e/RENT-APP?node-id=3%3A709
 ## Schema 
 ### Models
 #### User
-
    | Property      | Type     | Description |
    | ------------- | -------- | ------------|
    | objectId      | String   | unique id for the user |
-   | username      | String   | user's name |
+   | username      | String   | username |
+   | password      | String   | user's password |
+   | name          | String   | user's name |
    | description   | String   | user's description |
+   | email         | String   | user's email |
    | profilePicture| File     | user's profile picture |
-   | location.     | Pointer to Location  | user's location |
+   | location      | Pointer to Location  | user's location |
    | likesCount    | Number   | number of likes that the user has |
    | createdAt     | DateTime | date when user is created (default field) |
    | updatedAt     | DateTime | date when user is last updated (default field) |
@@ -170,9 +173,11 @@ https://www.figma.com/file/WDIL4t8GAm2JvDdrOWdo4e/RENT-APP?node-id=3%3A709
    | Property      | Type     | Description |
    | ------------- | -------- | ------------|
    | objectId      | String   | unique id for the location|
-   | country       | String   | country |
-   | city          | String   | city |
-   | ZIP      | int      | ZIP code |
+   | placeId       | String   | Google Place's unique id for the location|
+   | placeAddress  | String   | Exact address|
+   | generalLocation  | String   | Relative address|
+   | lat           | Number   | location's latitude|
+   | lng           | Number   | location's longitude|
    | createdAt     | DateTime | date when location is created (default field) |
    | updatedAt     | DateTime | date when location is last updated (default field) |
    
@@ -180,12 +185,13 @@ https://www.figma.com/file/WDIL4t8GAm2JvDdrOWdo4e/RENT-APP?node-id=3%3A709
    | Property      | Type     | Description |
    | ------------- | -------- | ------------|
    | rentId        | String   | unique id for the rent |
+   | item          | Pointer to item   | item being rented|
    | owner         | Pointer to user   | item's owner|
    | tenant        | Pointer to user   | item's tenant |
    | startDate     | Date     | startDate of the rent |
    | endDate       | Date     | endDate of the rent |
    | daysCount     | Number   | number of days of the rent |
-   | totalPrice.   | Number   | total rental price 
+   | totalPrice   | Number   | total rental price 
    | createdAt     | DateTime | date when location is created (default field) |
    | updatedAt     | DateTime | date when location is last updated (default field) |  ### Networking
    
@@ -203,20 +209,69 @@ https://www.figma.com/file/WDIL4t8GAm2JvDdrOWdo4e/RENT-APP?node-id=3%3A709
 ### Networking
 #### List of network requests by screen
    - Home Feed Screen
-      - (Read/GET) Query all item rental posts where user is author
-         ```swift
-         let query = PFQuery(className:"Item")
-         query.whereKey("author", equalTo: currentUser)
-         query.order(byDescending: "createdAt")
-         query.findObjectsInBackground { (posts: [PFObject]?, error: Error?) in
-            if let error = error { 
-               print(error.localizedDescription)
-            } else if let posts = posts {
-               print("Successfully retrieved \(posts.count) posts.")
-           // TODO: Do something with posts...
+      - (Read/GET) Query the latest item posts.
+        ```java
+         // Specify which class to query
+        ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
+        //include the user of the post
+        query.include(Item.KEY_OWNER);
+        //Limiting the number of posts getting back.
+        query.setLimit(20);
+        //the items created most recently will come first and the oldest ones will come last.
+        query.addDescendingOrder(Item.KEY_CREATED_AT);
+        ```
+   - Create Item Screen
+      - (Create/POST) Create a new item post
+        ```java
+        //Saves all the image into Parse
+        for (int i = 0; i<photoFiles.size(); i++) {
+            photoFiles.get(i).saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e != null) {
+                        Toast.makeText(CreateItemActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+            });
+        }
+        //An item is created and its parameters are assigned
+        Item item = new Item();
+        item.setTitle(itemName);
+        item.setDescription(itemDescription);
+        item.setCategory(itemCategory);
+        item.setOwner(ParseUser.getCurrentUser());
+        item.setIsRented(false);
+        item.setPrice(itemPrice);
+        item.setImages(photoFiles);
+        item.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Toast.makeText(CreateItemActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(CreateItemActivity.this, "Item Created Successfully", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(CreateItemActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
-         }
-         ```
+        });                                      
+        ```
+   - Profile Screen
+      - (Read/GET) Query all item rental posts where user is author
+        ```java
+        //Specify which class to query
+        ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
+        //include the user of the post
+        query.include(Item.KEY_OWNER);
+        //Limiting the number of posts getting back.
+        query.setLimit(20);
+        //the items created most recently will come first and the oldest ones will come last.
+        query.addDescendingOrder(Item.KEY_CREATED_AT);
+        query.whereEqualTo(Item.KEY_OWNER, user);
+        ```
       - (Create/POST) Create a new like on a post
       - (Delete) Delete existing like
       - (Create/POST) Create a new comment on a post
