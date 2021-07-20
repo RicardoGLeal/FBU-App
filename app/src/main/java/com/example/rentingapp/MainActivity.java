@@ -40,20 +40,16 @@ public class MainActivity extends AppCompatActivity{
                 Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.action_home:
-                        //Toast.makeText(MainActivity.this, "Home!", Toast.LENGTH_SHORT).show();
                         fragment = new FeedFragment();
                         break;
                     case R.id.action_search:
-                        //Toast.makeText(MainActivity.this, "Compose!", Toast.LENGTH_SHORT).show();
                         fragment = new SearchFragment();
                         break;
                     case R.id.action_items:
-                        //Toast.makeText(MainActivity.this, "Compose!", Toast.LENGTH_SHORT).show();
                         fragment = new ItemsFragment();
                         break;
                     case R.id.action_profile:
                     default:
-                        //Toast.makeText(MainActivity.this, "Profile!", Toast.LENGTH_SHORT).show();
                         fragment = new ProfileFragment(ParseUser.getCurrentUser());
                         break;
                 }

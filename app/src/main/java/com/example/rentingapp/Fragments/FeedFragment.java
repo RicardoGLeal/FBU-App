@@ -44,7 +44,6 @@ import java.util.List;
 
 import static com.example.rentingapp.Controllers.ActionsController.getDistanceInKm;
 
-
 public class FeedFragment extends Fragment {
     public static final String TAG = "FeedFragment";
     private RecyclerView rvItems;
@@ -109,6 +108,9 @@ public class FeedFragment extends Fragment {
         queryItems();
     }
 
+    /**
+     * Gets the latest 20 items.
+     */
     private void queryItems() {
         // Specify which class to query
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
@@ -159,7 +161,6 @@ public class FeedFragment extends Fragment {
                 return false;
             }
         });
-
         super.onCreateOptionsMenu(menu,inflater);
     }
 
@@ -178,6 +179,7 @@ public class FeedFragment extends Fragment {
                     ob.sort(allItems, 0, allItems.size()-1);
                     adapter.notifyDataSetChanged();
                     filteredByDistance = true;
+                    Toast.makeText(getContext(), "Items sorted by distance!", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     adapter.clear();
@@ -185,7 +187,6 @@ public class FeedFragment extends Fragment {
                     queryItems();
                     filteredByDistance = false;
                 }
-
                 break;
 
             case R.id.logout_btn:
@@ -200,7 +201,6 @@ public class FeedFragment extends Fragment {
                 });
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

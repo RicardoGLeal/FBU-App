@@ -175,7 +175,7 @@ public class SignUpActivity extends AppCompatActivity {
                 @Override
                 public void done(ParseException e) {
                     if (e != null) {
-                        Toast.makeText(SignUpActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpActivity.this, "Error while saving"+e, Toast.LENGTH_SHORT).show();
                         return;
                     }
                     else
@@ -215,7 +215,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Error while saving, e");
+                    Log.e(TAG, "Error while saving"+e);
                     Toast.makeText(SignUpActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
                     return;
                 } else {

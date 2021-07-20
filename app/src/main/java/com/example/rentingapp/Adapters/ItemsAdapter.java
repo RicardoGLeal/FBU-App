@@ -41,6 +41,9 @@ import static com.example.rentingapp.Controllers.ActionsController.getDistanceIn
 import static com.example.rentingapp.GooglePlacesClient.Initialize;
 import static com.example.rentingapp.GooglePlacesClient.placesClient;
 
+/**
+ * This adapter is implemented by the RecyclerView of the Item's Feed.
+ */
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> implements Filterable {
     private Context context;
     private List<Item> items, allItems, itemsFiltered;
@@ -71,8 +74,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         return items.size();
     }
 
-
-
     public void clear() {
         items.clear();
         notifyDataSetChanged();
@@ -90,6 +91,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Item> filteredList = new ArrayList<>();
 
+            //filter for when searching an item by title
             if(constraint.toString().isEmpty())
             {
                 if(allItems.isEmpty())
@@ -124,6 +126,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            //Get references
             ivProfilePicture = itemView.findViewById(R.id.ivProfileImage);
             ivItemImage = itemView.findViewById(R.id.ivItemImage);
             tvItemName = itemView.findViewById(R.id.tvItemName);
@@ -138,6 +141,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         }
 
         public void bind(Item item) {
+            //Assign values
             ParseFile profilePicture = item.getOwner().getParseFile("profilePicture");
             RequestOptions circleProp = new RequestOptions();
             circleProp = circleProp.transform(new CircleCrop());
@@ -161,11 +165,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             tvPostDate.setText(ActionsController.getRelativeTimeAgo(item.getCreatedAt().toString()));
             placeId = item.getOwner().getString(User.KEY_PLACE_ID);
             tvLocation.setText(item.getOwner().getString(User.KEY_GENERAL_LOCATION));
-
-            //getPlace();
             tvDistance.setText(item.getDistance() +" Km away");
         }
 
+        /**
+         * Opens ItemDetailsFragment with the details of the item clicked.
+         * @param v
+         */
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();

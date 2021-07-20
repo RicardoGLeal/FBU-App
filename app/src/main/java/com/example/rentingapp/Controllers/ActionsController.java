@@ -37,7 +37,6 @@ public class ActionsController {
         } catch (java.text.ParseException e) {
             e.printStackTrace();
         }
-
         return relativeDate;
     }
 

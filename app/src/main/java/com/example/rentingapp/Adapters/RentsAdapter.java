@@ -25,6 +25,7 @@ import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.Rent;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -93,6 +94,7 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder> 
         private LinearLayout layoutExpandable;
         CardView cardView;
         Button btnExpand;
+        ParseUser user;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -107,7 +109,6 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder> 
             tvTotalPrice = itemView.findViewById(R.id.tvTotalPrice);
             tvRenterOrOwnerName = itemView.findViewById(R.id.tvRenterOrOwnerName);
             tvRenterOrOwnerLoc = itemView.findViewById(R.id.tvRenterOrOwnerLoc);
-
             layoutExpandable = itemView.findViewById(R.id.layoutExpandable);
             mapView = itemView.findViewById(R.id.lite_listrow_map);
             cardView = itemView.findViewById(R.id.cardView);
@@ -128,18 +129,27 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder> 
                     }
                 }
             });
+        }
 
-            if(mapView != null) {
-                mapView.onCreate(null);
-                mapView.getMapAsync(new OnMapReadyCallback() {
-                    @Override
-                    public void onMapReady(GoogleMap googleMap) {
-                        MapsInitializer.initialize(context);
-                        map = googleMap;
+        /**
+         * Creates a new marker and moves the camera at the location of the owner or tenant.
+         * @param rent
+         */
+        private void setMapLocation(Rent rent) {
+            if (map == null) return;
 
-                    }
-                });
-            }
+            if (rent == null) return;
+            LatLng latLng;
+            if(ownRentedItems)
+                latLng = User.getLatLng(rent.getTenant());
+            else
+                latLng = User.getLatLng(rent.getOwner());
+            // Add a marker for this item and set the camera
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13f));
+            map.addMarker(new MarkerOptions().position(latLng));
+
+            // Set the map type back to normal.
+            map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         }
 
         /**
@@ -156,17 +166,29 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder> 
             tvTotalPrice.setText(String.valueOf(rent.getTotalPrice()));
             loadCircleImage(context, item.getImages().get(0), ivItemImage);
 
-            ParseUser parseUser;
             if (ownRentedItems) {
-                parseUser = rent.getTenant();
+                user = rent.getTenant();
                 tvRenterOrOwnerName.setText("Renter's Name: ");
                 tvRenterOrOwnerLoc.setText("Renter's Location: ");
             }
             else
-                parseUser = rent.getOwner();
+                user = rent.getOwner();
 
-            tvPersonName.setText(parseUser.getString(User.KEY_NAME));
-            tvLocation.setText(parseUser.getString(User.KEY_PLACE_ADDRESS));
+            tvPersonName.setText(user.getString(User.KEY_NAME));
+            tvLocation.setText(user.getString(User.KEY_PLACE_ADDRESS));
+
+            if(mapView != null) {
+                mapView.onCreate(null);
+                mapView.getMapAsync(new OnMapReadyCallback() {
+                    @Override
+                    public void onMapReady(GoogleMap googleMap) {
+                        MapsInitializer.initialize(context);
+                        map = googleMap;
+                        Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+                        setMapLocation(rent);
+                    }
+                });
+            }
         }
     }
 }

@@ -1,29 +1,23 @@
 package com.example.rentingapp.Adapters;
-
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.rentingapp.Fragments.ItemDetailsFragment;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.R;
 import com.parse.ParseFile;
-
 import java.util.List;
 
+/**
+ * This adapter is implemented by the RecyclerView of the user's item in their profile.
+ */
 public class ItemsProfileAdapter extends RecyclerView.Adapter<ItemsProfileAdapter.ViewHolder> {
 
     private Context context;

@@ -16,6 +16,9 @@ import com.parse.ParseFile;
 
 import java.util.List;
 
+/**
+ * This Adapter is implemented by the RecyclerView that shows the secondary images of an item.
+ */
 public class ItemImagesAdapter extends RecyclerView.Adapter<ItemImagesAdapter.ViewHolder> {
 
     private Context context;
@@ -44,13 +47,12 @@ public class ItemImagesAdapter extends RecyclerView.Adapter<ItemImagesAdapter.Vi
         return images.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder{
         private ImageView ivImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivImage = itemView.findViewById(R.id.ivImage);
-            itemView.setOnClickListener(this);
         }
 
         public void bind(ParseFile image) {
@@ -59,11 +61,6 @@ public class ItemImagesAdapter extends RecyclerView.Adapter<ItemImagesAdapter.Vi
             if (image != null) {
                 Glide.with(context).load(image.getUrl()).into(ivImage);
             }
-        }
-
-        @Override
-        public void onClick(View v) {
-
         }
     }
 }
