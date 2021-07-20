@@ -31,7 +31,7 @@ Rent App Design Project - README Template
 - [X] The user will be able to create an account within the application, entering the following information:
 username, password, username, email, description, profile picture and location.
 - [X] The user will be able to log into the application with their username and password.
-- [X] The user will be able to see in the FeedFragment a list of items (the list will show the name, picture, cost, brief description, owner's name, owner's picture of every item, and distance between them and the item). 
+- [X] The user will be able to see in the FeedFragment a list of items (the list will show the name, picture, cost, brief description, owner's name, owner's location, owner's picture of every item, and distance between them and the item's owner). 
 - [X] The user will be able to enter their location implementing the Google Places API.
 - [X] The user will be able to filter items by distance. 
 - [ ] The user will be able to search items.
