@@ -37,7 +37,7 @@ public class ProfileFragment extends Fragment {
     public static final String TAG = "ProfileFragment";
     private ParseUser user;
     private ImageView ivProfileImage;
-    private TextView tvPersonName, tvPersonDescription;;
+    private TextView tvPersonName, tvPersonDescription, tvLocation;
     private RecyclerView rvItems;
     protected List<Item> allItems;
     private ItemsProfileAdapter adapter;
@@ -60,11 +60,13 @@ public class ProfileFragment extends Fragment {
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
         tvPersonName = view.findViewById(R.id.tvPersonName);
         tvPersonDescription = view.findViewById(R.id.tvPersonDescription);
+        tvLocation = view.findViewById(R.id.tvLocation);
         rvItems = view.findViewById(R.id.rvItems);
-        //Asign values
+        //Assign values
         loadCircleImage(getContext(), user.getParseFile(User.KEY_PROFILE_PICTURE), ivProfileImage);
         tvPersonName.setText(user.getString(User.KEY_NAME));
         tvPersonDescription.setText(user.getString(User.KEY_DESCRIPTION));
+        tvLocation.setText(user.getString(User.KEY_GENERAL_LOCATION));
         allItems = new ArrayList<>();
         adapter = new ItemsProfileAdapter(getContext(), allItems);
         rvItems.setAdapter(adapter);

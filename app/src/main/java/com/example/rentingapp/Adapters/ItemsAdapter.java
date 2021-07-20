@@ -22,6 +22,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.rentingapp.Controllers.ActionsController;
 import com.example.rentingapp.Fragments.ItemDetailsFragment;
+import com.example.rentingapp.Fragments.ProfileFragment;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
@@ -166,6 +167,20 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             placeId = item.getOwner().getString(User.KEY_PLACE_ID);
             tvLocation.setText(item.getOwner().getString(User.KEY_GENERAL_LOCATION));
             tvDistance.setText(item.getDistance() +" Km away");
+
+            tvOwnersName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    goToProfile(item);
+                }
+            });
+
+            ivProfilePicture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    goToProfile(item);
+                }
+            });
         }
 
         /**
@@ -181,6 +196,17 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
                 ((AppCompatActivity) context).getSupportFragmentManager();
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, fragment).commit();
             }
+        }
+
+        /**
+         * Function that goes to the profile of the user clicked.
+         * @param item item opened
+         */
+        private void goToProfile(Item item) {
+            AppCompatActivity activity = (AppCompatActivity) context;
+            Fragment fragment = new ProfileFragment(item.getOwner());
+            activity.getSupportFragmentManager();
+            activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, fragment).commit();
         }
     }
 }

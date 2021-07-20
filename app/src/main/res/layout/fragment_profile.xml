@@ -1,52 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.ProfileFragment"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/ivProfileImage"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        tools:srcCompat="@tools:sample/avatars">
-    </ImageView>
-    <TextView
-        android:id="@+id/tvPersonName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        tools:text="Jake Talkington">
-    </TextView>
-    <TextView
-        android:id="@+id/tvPersonDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        tools:text="A Computer Science Student that is looking to rent electronic devices to develop the projects of my school">
-    </TextView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        tools:text="Menlo Park, CA, United States">
-    </TextView>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvItems"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp">
+        android:orientation="vertical">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            tools:srcCompat="@tools:sample/avatars">
+        </ImageView>
+        <TextView
+            android:id="@+id/tvPersonName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            tools:text="Jake Talkington">
+        </TextView>
+        <TextView
+            android:id="@+id/tvPersonDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="15dp"
+            android:justificationMode="inter_word"
+
+            tools:text="A Computer Science Student that is looking to rent electronic devices to develop the projects of my school">
+        </TextView>
+        <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="15dp"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/ic_baseline_location_on_24"
+            android:drawableTint="@color/colorPrimary"
+            tools:text="Menlo Park, CA, United States">
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:textSize="15dp"
+            android:text="Renting Items:"
+            android:textStyle="bold">
+        </TextView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/centreLocatorCardDesign">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp">
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
 
-</LinearLayout>
+    <FrameLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/framelayoudid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="-50dp">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabComposeItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="40dp"
+            android:src="@drawable/ic_baseline_create_24"
+            app:layout_anchor="@id/framelayoudid"
+            app:layout_anchorGravity="right"
+            app:fabSize="normal" />
+    </FrameLayout>
+
+
+</RelativeLayout>

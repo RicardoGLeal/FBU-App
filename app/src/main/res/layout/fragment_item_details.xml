@@ -106,13 +106,14 @@
                 android:id="@+id/tvDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="15dp"
                 tools:text="Trying to look hipster">
             </TextView>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:id="@+id/tvPrice"
@@ -120,44 +121,40 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:text="0"
-                    tools:text="0">
+                    android:drawableLeft="@drawable/ic_baseline_attach_money_24"
+                    android:drawableTint="@color/colorPrimary">
                 </TextView>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="USD/DAY">
-                </TextView>
+                    android:text="USD/DAY"></TextView>
+
 
                 <TextView
                     android:id="@+id/tvLocation"
-                    android:layout_width="100dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:drawableLeft="@drawable/ic_baseline_location_on_24"
+                    android:drawablePadding="5dp"
+                    android:drawableTint="@color/colorPrimary"
                     tools:text="Menlo Park, CA 444444">
                 </TextView>
 
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tvDistance"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/tvDistance"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        tools:text="50">
-                    </TextView>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Km away">
-                    </TextView>
-                </LinearLayout>
+                    android:drawableLeft="@drawable/ic_baseline_6_ft_apart_24"
+                    android:drawableTint="@color/colorPrimary"
+                    android:drawablePadding="5dp"
+                    tools:text="50">
+                </TextView>
 
             </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tvPostDate"
@@ -176,6 +173,26 @@
                 android:text="RENT ITEM">
             </Button>
         </LinearLayout>
-
     </ScrollView>
+
+    <FrameLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/framelayoudid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="-50dp">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabComposeItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:src="@drawable/ic_baseline_create_24"
+            app:layout_anchor="@id/framelayoudid"
+            app:layout_anchorGravity="right"
+            app:fabSize="normal" />
+    </FrameLayout>
+
 </RelativeLayout>
