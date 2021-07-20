@@ -13,3 +13,4 @@
 .cxx
 local.properties
 apikey.properties
+app/src/main/res/navigation/nav_graph.xml

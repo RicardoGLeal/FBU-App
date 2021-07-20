@@ -205,7 +205,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         private void goToProfile(Item item) {
             AppCompatActivity activity = (AppCompatActivity) context;
             Fragment fragment = new ProfileFragment(item.getOwner());
-            activity.getSupportFragmentManager();
             activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, fragment).commit();
         }
     }

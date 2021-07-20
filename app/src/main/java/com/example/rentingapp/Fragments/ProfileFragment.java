@@ -1,9 +1,12 @@
 package com.example.rentingapp.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rentingapp.Adapters.ItemsProfileAdapter;
+import com.example.rentingapp.FullSizeImageActivity;
+import com.example.rentingapp.MainActivity;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
@@ -29,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.rentingapp.Controllers.ImagesController.loadCircleImage;
+import static com.example.rentingapp.Controllers.ImagesController.openImage;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,6 +78,14 @@ public class ProfileFragment extends Fragment {
         rvItems.setAdapter(adapter);
         rvItems.setLayoutManager(new GridLayoutManager(getContext(), 3));
         queryItems();
+
+        ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String photoUrl = user.getParseFile(User.KEY_PROFILE_PICTURE).getUrl();
+                openImage(photoUrl, getContext(), ivProfileImage);
+            }
+        });
     }
 
     /**

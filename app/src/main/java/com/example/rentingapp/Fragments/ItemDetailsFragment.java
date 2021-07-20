@@ -105,6 +105,19 @@ public class ItemDetailsFragment extends Fragment {
             }
         });
 
+        tvOwnersName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToProfile(item);
+            }
+        });
+
+        ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToProfile(item);
+            }
+        });
     }
 
     /**
@@ -115,7 +128,6 @@ public class ItemDetailsFragment extends Fragment {
         FragmentManager fm = activity.getSupportFragmentManager();
         RentItemDialogFragment rentItemDialogFragment = RentItemDialogFragment.newInstance(item);
         rentItemDialogFragment.show(fm,"fragment_rent_item");
-
     }
 
     /**
@@ -140,5 +152,15 @@ public class ItemDetailsFragment extends Fragment {
                 .placeholder(R.drawable.profile_image_empty)
                 .apply(circleProp)
                 .into(ivProfileImage);
+    }
+
+    /**
+     * Function that goes to the profile of the user clicked.
+     * @param item item opened
+     */
+    private void goToProfile(Item item) {
+        AppCompatActivity activity = (AppCompatActivity) getContext();
+        Fragment fragment = new ProfileFragment(item.getOwner());
+        activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, fragment).commit();
     }
 }
