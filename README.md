@@ -141,6 +141,12 @@ https://www.figma.com/file/WDIL4t8GAm2JvDdrOWdo4e/RENT-APP?node-id=3%3A709
 
 ### [BONUS] Interactive Prototype
 
+Here's a walkthrough of the app in the end of week one:
+
+<img src='/Captures/week1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+GIF created with [Kap](https://getkap.co/).
+
 ## Schema 
 ### Models
 #### User
