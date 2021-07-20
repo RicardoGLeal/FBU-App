@@ -167,27 +167,6 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder> 
 
             tvPersonName.setText(parseUser.getString(User.KEY_NAME));
             tvLocation.setText(parseUser.getString(User.KEY_PLACE_ADDRESS));
-
-
-            // Get a handle to the fragment and register the callback.
-           /* if (googleMap == null) {
-                SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager
-                if(mapFragment != null)
-                    mapFragment.getMapAsync(new OnMapReadyCallback() {
-                        @Override
-                        public void onMapReady(GoogleMap map) {
-                            googleMap = map;
-                        }
-                    });
-            }*/
         }
-
-       /* // Get a handle to the GoogleMap object and display marker.
-        @Override
-        public void onMapReady(GoogleMap googleMap) {
-            googleMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(0, 0))
-                    .title("Marker"));
-        }*/
     }
 }

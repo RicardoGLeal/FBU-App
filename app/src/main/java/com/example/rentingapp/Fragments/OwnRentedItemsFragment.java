@@ -30,7 +30,7 @@ import java.util.List;
 
 import static com.example.rentingapp.Controllers.ActionsController.queryRents;
 
-public class OwnRentedItemsFragment extends Fragment implements OnMapReadyCallback {
+public class OwnRentedItemsFragment extends Fragment {
     private static final String TAG = "OwnRentedItemsFragment";
     private RecyclerView rvRents;
     protected RentsAdapter adapter;
@@ -111,13 +111,5 @@ public class OwnRentedItemsFragment extends Fragment implements OnMapReadyCallba
      */
     protected void prequeryRents() {
         queryRents(TAG, allRents, adapter, true);
-    }
-
-    // Get a handle to the GoogleMap object and display marker.
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(0, 0))
-                .title("Marker"));
     }
 }
