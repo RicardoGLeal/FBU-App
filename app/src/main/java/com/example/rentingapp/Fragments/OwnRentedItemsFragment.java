@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,17 +14,23 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.rentingapp.Adapters.RentsAdapter;
 import com.example.rentingapp.Models.Rent;
 import com.example.rentingapp.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.rentingapp.Controllers.ActionsController.queryRents;
 
-public class OwnRentedItemsFragment extends Fragment {
+public class OwnRentedItemsFragment extends Fragment implements OnMapReadyCallback {
     private static final String TAG = "OwnRentedItemsFragment";
     private RecyclerView rvRents;
     protected RentsAdapter adapter;
@@ -104,5 +111,13 @@ public class OwnRentedItemsFragment extends Fragment {
      */
     protected void prequeryRents() {
         queryRents(TAG, allRents, adapter, true);
+    }
+
+    // Get a handle to the GoogleMap object and display marker.
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(0, 0))
+                .title("Marker"));
     }
 }

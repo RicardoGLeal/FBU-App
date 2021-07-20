@@ -2,14 +2,20 @@ package com.example.rentingapp.Adapters;
 
 import android.content.Context;
 import android.text.Layout;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +25,13 @@ import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.Rent;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -75,6 +88,11 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ivItemImage;
         TextView tvItemTitle, tvCategory, tvStartDate, tvEndDate, tvPersonName, tvLocation, tvTotalPrice, tvRenterOrOwnerName, tvRenterOrOwnerLoc;
+        private GoogleMap map;
+        private MapView mapView;
+        private LinearLayout layoutExpandable;
+        CardView cardView;
+        Button btnExpand;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -89,6 +107,39 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder> 
             tvTotalPrice = itemView.findViewById(R.id.tvTotalPrice);
             tvRenterOrOwnerName = itemView.findViewById(R.id.tvRenterOrOwnerName);
             tvRenterOrOwnerLoc = itemView.findViewById(R.id.tvRenterOrOwnerLoc);
+
+            layoutExpandable = itemView.findViewById(R.id.layoutExpandable);
+            mapView = itemView.findViewById(R.id.lite_listrow_map);
+            cardView = itemView.findViewById(R.id.cardView);
+            btnExpand = itemView.findViewById(R.id.btnExpand);
+
+            btnExpand.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (layoutExpandable.getVisibility()==View.GONE) {
+                        TransitionManager.beginDelayedTransition(cardView, new AutoTransition());
+                        layoutExpandable.setVisibility(View.VISIBLE);
+                        btnExpand.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                    }
+                    else {
+                        TransitionManager.beginDelayedTransition(cardView, new AutoTransition());
+                        layoutExpandable.setVisibility(View.GONE);
+                        btnExpand.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                    }
+                }
+            });
+
+            if(mapView != null) {
+                mapView.onCreate(null);
+                mapView.getMapAsync(new OnMapReadyCallback() {
+                    @Override
+                    public void onMapReady(GoogleMap googleMap) {
+                        MapsInitializer.initialize(context);
+                        map = googleMap;
+
+                    }
+                });
+            }
         }
 
         /**
@@ -113,9 +164,30 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder> 
             }
             else
                 parseUser = rent.getOwner();
+
             tvPersonName.setText(parseUser.getString(User.KEY_NAME));
             tvLocation.setText(parseUser.getString(User.KEY_PLACE_ADDRESS));
 
+
+            // Get a handle to the fragment and register the callback.
+           /* if (googleMap == null) {
+                SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager
+                if(mapFragment != null)
+                    mapFragment.getMapAsync(new OnMapReadyCallback() {
+                        @Override
+                        public void onMapReady(GoogleMap map) {
+                            googleMap = map;
+                        }
+                    });
+            }*/
         }
+
+       /* // Get a handle to the GoogleMap object and display marker.
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+            googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(0, 0))
+                    .title("Marker"));
+        }*/
     }
 }

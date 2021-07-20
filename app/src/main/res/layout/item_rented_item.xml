@@ -8,6 +8,7 @@
     android:layout_margin="8dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/centreLocatorCardDesign">
@@ -21,9 +22,8 @@
                 android:id="@+id/ivItemImage"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_gravity="center_vertical"
-                tools:srcCompat="@color/purple_700">
-            </ImageView>
+                android:layout_marginTop="25dp"
+                tools:srcCompat="@color/purple_700"></ImageView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,8 +37,7 @@
                     android:layout_marginLeft="15dp"
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textSize="15dp"
-                    tools:text="Xbox One">
-                </TextView>
+                    tools:text="Xbox One"></TextView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -49,16 +48,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
-                        android:text="Category:" >
-                    </TextView>
+                        android:text="Category:"></TextView>
 
                     <TextView
                         android:id="@+id/tvCategory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        tools:text="Electronics">
-                    </TextView>
+                        tools:text="Electronics"></TextView>
                 </LinearLayout>
 
                 <LinearLayout
@@ -70,16 +67,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
-                        android:text="Rented Since:" >
-                    </TextView>
+                        android:text="Rented Since:"></TextView>
 
                     <TextView
                         android:id="@+id/tvStartDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        tools:text="August 13th">
-                    </TextView>
+                        tools:text="August 13th"></TextView>
                 </LinearLayout>
 
                 <LinearLayout
@@ -91,16 +86,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
-                        android:text="Rented Until:" >
-                    </TextView>
+                        android:text="Rented Until:"></TextView>
 
                     <TextView
                         android:id="@+id/tvEndDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        tools:text="August 13th">
-                    </TextView>
+                        tools:text="August 13th"></TextView>
                 </LinearLayout>
 
                 <LinearLayout
@@ -120,9 +113,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        tools:text="Ricardo Gonzalez">
-                    </TextView>
+                        tools:text="Ricardo Gonzalez"></TextView>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -133,8 +126,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
-                        android:text="Owner's Location:">
-                    </TextView>
+                        android:text="Owner's Location:"></TextView>
+
                     <TextView
                         android:id="@+id/tvLocation"
                         android:layout_width="110dp"
@@ -143,33 +136,74 @@
                         android:drawableLeft="@drawable/ic_baseline_location_on_24"
                         android:drawablePadding="5dp"
                         android:drawableTint="@color/colorPrimary"
-                        tools:text="Menlo Park, CA 444444">
-                    </TextView>
+                        tools:text="Menlo Park, CA 444444"></TextView>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Total Price: ">
-                    </TextView>
+                        android:text="Total Price: "></TextView>
+
                     <TextView
                         android:id="@+id/tvTotalPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:drawableLeft="@drawable/ic_baseline_attach_money_24"
                         android:drawableTint="@color/colorPrimary"
-                        tools:text="500">
+                        tools:text="500"></TextView>
+                </LinearLayout>
+                <Button
+                    android:id="@+id/btnExpand"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="end"
+                    android:background="@drawable/ic_baseline_keyboard_arrow_down_24">
+                </Button>
+
+
+
+                <LinearLayout
+                    android:id="@+id/layoutExpandable"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_baseline_call_24"
+                        tools:text="3310851164">
                     </TextView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_baseline_mail_24"
+                        tools:text="3310851164">
+                    </TextView>
+                    <!--<fragment
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:id="@+id/map"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>-->
+                    <com.google.android.gms.maps.MapView
+                        android:id="@+id/lite_listrow_map"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp" />
                 </LinearLayout>
 
 
             </LinearLayout>
         </LinearLayout>
+
+
     </androidx.cardview.widget.CardView>
+
 
 
 </LinearLayout>

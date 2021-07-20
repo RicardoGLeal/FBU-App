@@ -28,7 +28,6 @@ public class QuickSort {
                 i++;
 
                 // swap arr[i] and arr[j]
-                int temp = arr.get(i).getDistance();
                 Collections.swap(arr, i, j);
             }
         }

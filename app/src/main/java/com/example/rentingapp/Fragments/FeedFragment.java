@@ -2,13 +2,17 @@ package com.example.rentingapp.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +53,7 @@ public class FeedFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
     private Context context;
+    private Boolean filteredByDistance = false;
 
     // Required empty public constructor
     public FeedFragment() {
@@ -168,9 +173,19 @@ public class FeedFragment extends Fragment {
 
         switch(item.getItemId()) {
             case R.id.action_sortByLocation:
-                QuickSort ob = new QuickSort();
-                ob.sort(allItems, 0, allItems.size()-1);
-                adapter.notifyDataSetChanged();
+                if(!filteredByDistance) {
+                    QuickSort ob = new QuickSort();
+                    ob.sort(allItems, 0, allItems.size()-1);
+                    adapter.notifyDataSetChanged();
+                    filteredByDistance = true;
+                }
+                else {
+                    adapter.clear();
+                    allItems.clear();
+                    queryItems();
+                    filteredByDistance = false;
+                }
+
                 break;
 
             case R.id.logout_btn:
