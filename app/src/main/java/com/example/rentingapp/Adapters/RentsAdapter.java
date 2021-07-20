@@ -184,7 +184,6 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder> 
                     public void onMapReady(GoogleMap googleMap) {
                         MapsInitializer.initialize(context);
                         map = googleMap;
-                        Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
                         setMapLocation(rent);
                     }
                 });

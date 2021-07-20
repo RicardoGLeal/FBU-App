@@ -117,28 +117,7 @@
                         tools:text="Ricardo Gonzalez"></TextView>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tvRenterOrOwnerLoc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:text="Owner's Location:"></TextView>
-
-                    <TextView
-                        android:id="@+id/tvLocation"
-                        android:layout_width="110dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:drawableLeft="@drawable/ic_baseline_location_on_24"
-                        android:drawablePadding="5dp"
-                        android:drawableTint="@color/colorPrimary"
-                        tools:text="Menlo Park, CA 444444"></TextView>
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -179,19 +158,39 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/ic_baseline_call_24"
-                        tools:text="3310851164">
+                        android:text="3310851164">
                     </TextView>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/ic_baseline_mail_24"
-                        tools:text="3310851164">
+                        android:text="example@gmail.com">
                     </TextView>
-                    <!--<fragment
-                        android:name="com.google.android.gms.maps.SupportMapFragment"
-                        android:id="@+id/map"
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>-->
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvRenterOrOwnerLoc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:text="Owner's Location:">
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/tvLocation"
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:drawableLeft="@drawable/ic_baseline_location_on_24"
+                            android:drawablePadding="5dp"
+                            android:drawableTint="@color/colorPrimary"
+                            tools:text="Menlo Park, CA 444444">
+                        </TextView>
+                    </LinearLayout>
                     <com.google.android.gms.maps.MapView
                         android:id="@+id/lite_listrow_map"
                         android:layout_width="match_parent"
@@ -202,9 +201,5 @@
             </LinearLayout>
         </LinearLayout>
 
-
     </androidx.cardview.widget.CardView>
-
-
-
 </LinearLayout>
