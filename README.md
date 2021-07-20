@@ -48,12 +48,13 @@ username, password, username, email, description, profile picture and location.
 - [X] The user can see their item rentals from other users
 - [ ] The user can click on an image and it will expand, taking all the space of the cell phone.
 - [ ] The user will be able to see animations when creating or renting items
-
+- [X] The user can logout from their account. 
 
 **Optional Nice-to-have Stories**
 - [X] The user will be able to see the location of the renter or the owner on a map.
 - [ ] The user can create an account through a Google or Facebook account.
 - [X] The user can see the exact address of the owner/tenant of a rent.
+- [ ] The user can change the type of currency or the distance unit.
 - [ ] The user can enter their location using the GPS. 
 - [ ] The user will be able to chat.
 - [ ] Top up money within the app.
@@ -282,27 +283,15 @@ https://www.figma.com/file/WDIL4t8GAm2JvDdrOWdo4e/RENT-APP?node-id=3%3A709
       - (Read/GET) Query logged in user object
       - (Update/PUT) Update user profile image
 #### [OPTIONAL:] Existing API Endpoints
-##### An API Of Ice And Fire
-- Base URL - [http://www.anapioficeandfire.com/api](http://www.anapioficeandfire.com/api)
+##### Google Places API
+- Base URL - [https://maps.googleapis.com/maps/api/place/details/json?place_id="place id"&key="api key"]
 
    HTTP Verb | Endpoint | Description
    ----------|----------|------------
-    `GET`    | /characters | get all characters
-    `GET`    | /characters/?name=name | return specific character by name
-    `GET`    | /houses   | get all houses
-    `GET`    | /houses/?name=name | return specific house by name
+    `GET`    | &fields=address | gets address 
+    `GET`    | &fields=name | gets a term to be matched against all content that Google has indexed for this place. Equivalent to keyword.
+    `GET`    | &fields=location | gets the latitude/longitude around which to retrieve place information.
+    `GET`    | &fields=radius | gets the distance (in meters) within which to bias place results. The maximum allowed radius is 50 000 meters.
 
-##### Game of Thrones API
-- Base URL - [https://api.got.show/api](https://api.got.show/api)
-
-   HTTP Verb | Endpoint | Description
-   ----------|----------|------------
-    `GET`    | /cities | gets all cities
-    `GET`    | /cities/byId/:id | gets specific city by :id
-    `GET`    | /continents | gets all continents
-    `GET`    | /continents/byId/:id | gets specific continent by :id
-    `GET`    | /regions | gets all regions
-    `GET`    | /regions/byId/:id | gets specific region by :id
-    `GET`    | /characters/paths/:name | gets a character's path with a given name
 - [Create basic snippets for each Parse network request]
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
