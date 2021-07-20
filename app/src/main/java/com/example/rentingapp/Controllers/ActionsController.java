@@ -3,6 +3,8 @@ package com.example.rentingapp.Controllers;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.example.rentingapp.Adapters.RentsAdapter;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.Rent;
@@ -91,5 +93,16 @@ public class ActionsController {
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    /**
+     * Configure the refreshing colors of the swipeRefreshLayout
+     * @param swipeRefreshLayout swipeRefreshLayout
+     */
+    public static void setColorSchemeResources(SwipeRefreshLayout swipeRefreshLayout) {
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
 }
