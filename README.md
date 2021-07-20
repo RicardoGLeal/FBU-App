@@ -64,6 +64,8 @@ username, password, username, email, description, profile picture and location.
 - [ ] Filters option.
 - [ ] The user can save items.
 - [ ] The users will have reviews from others. 
+- [ ] Implement SMS functionality
+
 ### 2. Screen Archetypes
 
 * Login Screen
