@@ -1,6 +1,7 @@
 package com.example.rentingapp.Fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SearchView;
@@ -32,12 +34,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rentingapp.Adapters.ItemsAdapter;
 import com.example.rentingapp.LoginActivity;
 import com.example.rentingapp.MainActivity;
 import com.example.rentingapp.Models.Item;
+import com.example.rentingapp.Models.Rent;
 import com.example.rentingapp.QuickSort;
 import com.example.rentingapp.R;
 import com.parse.FindCallback;
@@ -47,6 +51,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.rentingapp.Controllers.ActionsController.getDistanceInKm;
@@ -58,9 +63,16 @@ public class FeedFragment extends Fragment {
     protected ItemsAdapter adapter;
     protected List<Item> allItems;
     private SwipeRefreshLayout swipeRefreshLayout;
+
     private Toolbar toolbar;
     private ImageView ivExpandToolbar;
     private RelativeLayout filtersLayout;
+    private TextView tvSelectCategory;
+    ArrayList<Integer> catList = new ArrayList<>();
+    boolean[] selectedCategory;
+    String[] categoriesArray = {"All", "Electronics", "Furniture", "Clothing", "Vehicles", "Sports", "Books", "Toys"};
+    List<String> listSelectedCategories = new ArrayList<>();
+
     private Spinner spinnerCategories;
     private Context context;
     private Boolean filteredByDistance = false;
@@ -88,6 +100,7 @@ public class FeedFragment extends Fragment {
         toolbar = view.findViewById(R.id.toolbar);
         ivExpandToolbar = view.findViewById(R.id.ivExpandToolbar);
         filtersLayout = view.findViewById(R.id.filtersLayout);
+
         ivExpandToolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,10 +116,17 @@ public class FeedFragment extends Fragment {
                 }
             }
         });
+        tvSelectCategory = view.findViewById(R.id.tvSelectCategory);
+        selectedCategory = new boolean[categoriesArray.length];
+        tvSelectCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                configureCategories();
+            }
+        });
 
         rvItems = view.findViewById(R.id.rvItems);
         allItems = new ArrayList<>();
-        spinnerCategories = view.findViewById(R.id.spinnerCategories);
         context = getContext();
         AppCompatActivity activity = (AppCompatActivity) context;
         toolbar.setTitle("");
@@ -114,18 +134,7 @@ public class FeedFragment extends Fragment {
         ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_list_item_1,
                 getResources().getStringArray(R.array.categoriesFeed));
-        spinnerCategories.setAdapter(categoriesAdapter);
-        spinnerCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(context, spinnerCategories.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         swipeRefreshLayout = view.findViewById(R.id.swipeContainer);
 
@@ -147,6 +156,77 @@ public class FeedFragment extends Fragment {
         queryItems();
     }
 
+    private void configureCategories() {
+        //Initialize alert dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Select Categories");
+        //set dialog non cancelable
+
+        builder.setMultiChoiceItems(categoriesArray, selectedCategory, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                if (isChecked){
+                    //When checkbox selected
+                    //Add position in categories list
+                    catList.add(which);
+                    //Sort category list
+                    Collections.sort(catList);
+                }
+                else {
+                    //When checkbox unselected
+                    //Remove position from categories list
+                    catList.remove(catList.indexOf(which));
+                }
+            }
+        });
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Initialize string builder
+                StringBuilder stringBuilder = new StringBuilder();
+                listSelectedCategories = new ArrayList<>();
+                for (int i=0; i<catList.size(); i++) {
+                    //Concat array value
+                    stringBuilder.append(categoriesArray[catList.get(i)]);
+                    listSelectedCategories.add(categoriesArray[catList.get(i)]);
+                    //Check condition
+                    if(i != catList.size()-1) {
+                        //When j value not equal to day list size -1
+                        //Add comma
+                        stringBuilder.append(", ");
+                    }
+                }
+                //Set text on text view
+                tvSelectCategory.setText(stringBuilder.toString());
+                adapter.clear();
+                allItems.clear();
+                queryItems();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Dismiss dialog
+                dialog.dismiss();
+            }
+        });
+        builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                for (int i = 0; i<selectedCategory.length; i++) {
+                    //Remove all selection
+                    selectedCategory[i] = false;
+                    //Clear category list
+                    catList.clear();
+                    //Clear text view value
+                    tvSelectCategory.setText("");
+                }
+            }
+        });
+        //Show dialog
+        builder.show();
+    }
+
     /**
      * Gets the latest 20 items.
      */
@@ -157,6 +237,10 @@ public class FeedFragment extends Fragment {
         query.include(Item.KEY_OWNER);
         //Limiting the number of posts getting back.
         query.setLimit(20);
+        //Restrict if there are selected categories
+        if(!listSelectedCategories.isEmpty())
+            query.whereContainedIn(Item.KEY_CATEGORY, listSelectedCategories);
+
         //the items created most recently will come first and the oldest ones will come last.
         query.addDescendingOrder(Item.KEY_CREATED_AT);
         // Retrieve all the posts
@@ -218,6 +302,8 @@ public class FeedFragment extends Fragment {
                     ob.sort(allItems, 0, allItems.size()-1);
                     adapter.notifyDataSetChanged();
                     filteredByDistance = true;
+                    int myColor = getResources().getColor(R.color.white);
+                    item.getIcon().setTint(myColor);
                     Toast.makeText(getContext(), "Items sorted by distance!", Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -225,6 +311,8 @@ public class FeedFragment extends Fragment {
                     allItems.clear();
                     queryItems();
                     filteredByDistance = false;
+                    int myColor = getResources().getColor(R.color.colorPrimaryDark);
+                    item.getIcon().setTint(myColor);
                 }
                 break;
 
