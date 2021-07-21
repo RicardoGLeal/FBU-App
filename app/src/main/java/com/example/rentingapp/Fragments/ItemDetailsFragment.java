@@ -25,23 +25,27 @@ import com.example.rentingapp.Controllers.ActionsController;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.rentingapp.Controllers.ActionsController.getDistanceInKm;
 import static com.example.rentingapp.Controllers.ActionsController.getRelativeTimeAgo;
+import static com.example.rentingapp.Controllers.ImagesController.openImage;
 
 public class ItemDetailsFragment extends Fragment {
     public static final String TAG = "ItemDetailsFragment";
     private Item item;
-    private List<ParseFile> allImages;
+    private List<ParseFile> allImages, secondaryImages;
     private ImageView ivMainItemImage, ivProfileImage;
     private RecyclerView rvItemImages;
     private TextView tvItemName, tvOwnersName, tvDescription, tvCategory, tvPrice, tvLocation, tvDistance, tvPostDate;
     private Button btnRentItem;
     private ItemImagesAdapter adapter;
+    private FloatingActionButton fabEditItem;
 
     //Constructor that receives a item.
     public ItemDetailsFragment(Item item) {
@@ -75,10 +79,22 @@ public class ItemDetailsFragment extends Fragment {
         tvDistance = view.findViewById(R.id.tvDistance);
         tvPostDate = view.findViewById(R.id.tvPostDate);
         btnRentItem = view.findViewById(R.id.btnRentItem);
+        fabEditItem = view.findViewById(R.id.fabEditItem);
 
-        // Hide rent button if the item is yours.
+
         if(ParseUser.getCurrentUser().getObjectId().equals(item.getOwner().getObjectId()))
+        {
+            // Hide rent button if the item is yours.
             btnRentItem.setVisibility(Button.GONE);
+            // Show Edit Item fab if the item is yours.
+            fabEditItem.setVisibility(View.VISIBLE);
+        } else
+        {
+            // Show rent button if the item isn't yours.
+            btnRentItem.setVisibility(Button.VISIBLE);
+            // Hide Edit Item fab if the item isn't yours.
+            fabEditItem.setVisibility(View.GONE);
+        }
 
         //set values
         loadMainItemImage();
@@ -92,9 +108,10 @@ public class ItemDetailsFragment extends Fragment {
         tvDistance.setText(String.valueOf(getDistanceInKm(item, ParseUser.getCurrentUser())));
         tvPostDate.setText(getRelativeTimeAgo(item.getCreatedAt().toString()));
         allImages = item.getImages();
-        allImages.remove(0);
+        secondaryImages = new ArrayList<>(allImages);
+        secondaryImages.remove(0);
 
-        adapter = new ItemImagesAdapter(getContext(), allImages);
+        adapter = new ItemImagesAdapter(getContext(), secondaryImages);
         rvItemImages.setAdapter(adapter);
         rvItemImages.setLayoutManager(new GridLayoutManager(getContext(),3));
 
@@ -116,6 +133,13 @@ public class ItemDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 goToProfile(item);
+            }
+        });
+
+        ivMainItemImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openImage(item.getImages().get(0).getUrl(), getContext(), ivMainItemImage);
             }
         });
     }

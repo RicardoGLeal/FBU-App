@@ -99,6 +99,7 @@ public class ImagesController {
      */
     public static void openImage(String photoUrl, Context context, ImageView ivProfileImage) {
         Intent intent = new Intent(context, FullSizeImageActivity.class);
+        // Pass data object in the bundle and populate details activity.
         intent.putExtra("photoUrl", photoUrl);
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation((AppCompatActivity) context, (View)ivProfileImage, "image");

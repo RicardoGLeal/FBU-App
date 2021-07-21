@@ -16,6 +16,8 @@ import com.parse.ParseFile;
 
 import java.util.List;
 
+import static com.example.rentingapp.Controllers.ImagesController.openImage;
+
 /**
  * This Adapter is implemented by the RecyclerView that shows the secondary images of an item.
  */
@@ -60,6 +62,12 @@ public class ItemImagesAdapter extends RecyclerView.Adapter<ItemImagesAdapter.Vi
             //condition to check if there is an image attached
             if (image != null) {
                 Glide.with(context).load(image.getUrl()).into(ivImage);
+                ivImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openImage(image.getUrl(), context, ivImage);
+                    }
+                });
             }
         }
     }

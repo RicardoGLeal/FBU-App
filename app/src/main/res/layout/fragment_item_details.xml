@@ -19,6 +19,7 @@
 
             <ImageView
                 android:id="@+id/ivMainItemImage"
+                android:transitionName="image"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:layout_marginTop="5dp"
@@ -185,7 +186,7 @@
         android:layout_marginTop="-50dp">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabComposeItem"
+            android:id="@+id/fabEditItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"

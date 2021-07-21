@@ -46,7 +46,7 @@ import java.util.List;
 
 import static com.example.rentingapp.Controllers.ImagesController.loadCircleImage;
 
-public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder> {
+public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
     public static final String TAG = "RentsAdapter";
     private Context context;
     private List<Rent> rents;
