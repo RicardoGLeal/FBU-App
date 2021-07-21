@@ -43,6 +43,7 @@ import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.material.textfield.TextInputLayout;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -64,7 +65,8 @@ public class SignUpActivity extends AppCompatActivity {
     private File photoFile;
     public String photoFileName = "photo.jpg";
 
-    EditText etName, etUsername, etDescription, etEmail, etPassword, etCountry, etCity, etZIP;
+    TextInputLayout tilName, tilUsername, tilDescription, tilEmail, tilPassword;
+    EditText etName, etUsername, etDescription, etEmail, etPassword;
     ImageView ivProfileImage;
     Button btnSignUp;
     String placeId, placeName, placeAddress, generalLocation;
@@ -74,6 +76,12 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        tilName = findViewById(R.id.tilName);
+        tilUsername = findViewById(R.id.tilUsername);
+        tilDescription = findViewById(R.id.tilDescription);
+        tilEmail = findViewById(R.id.tilEmail);
+        tilPassword = findViewById(R.id.tilPassword);
+
         etName = findViewById(R.id.etName);
         etUsername = findViewById(R.id.etUsername);
         etDescription = findViewById(R.id.etDescription);
@@ -100,10 +108,41 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signUpUser();
+                //check if all fields are filled
+                int count = 0;
+                if(validateField(tilName, etName))
+                    count++;
+                if(validateField(tilUsername, etUsername))
+                    count++;
+                if(validateField(tilPassword, etPassword))
+                    count++;
+                if(validateField(tilEmail, etEmail))
+                    count++;
+                if(validateField(tilDescription, etDescription))
+                    count++;
+                if (count == 5)
+                    signUpUser();
+                else
+                    Toast.makeText(SignUpActivity.this, "Please verify that are the fields are filled", Toast.LENGTH_SHORT).show();
             }
         });
         configurePlacesAPI();
+    }
+
+    /**
+     * This functions manages so see if the EditText is empty or not.
+     * @param textInputLayout
+     * @param editText
+     * @return
+     */
+    private boolean validateField(TextInputLayout textInputLayout, EditText editText) {
+        if(editText.getText().toString().isEmpty()) {
+            textInputLayout.setError("Field can't be empty");
+            return false;
+        } else {
+            textInputLayout.setError(null);
+            return true;
+        }
     }
 
     /**
@@ -183,6 +222,8 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             });
         }
+        else
+            CreateAccount(null);
     }
 
     /**
