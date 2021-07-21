@@ -210,7 +210,6 @@ public class SignUpActivity extends AppCompatActivity {
         user.put(User.KEY_LAT, placeLat);
         user.put(User.KEY_LNG, placeLng);
         user.put(User.KEY_GENERAL_LOCATION, generalLocation);
-
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {

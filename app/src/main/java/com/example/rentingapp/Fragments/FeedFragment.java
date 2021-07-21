@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,6 +29,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -55,6 +59,8 @@ public class FeedFragment extends Fragment {
     protected List<Item> allItems;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
+    private ImageView ivExpandToolbar;
+    private RelativeLayout filtersLayout;
     private Spinner spinnerCategories;
     private Context context;
     private Boolean filteredByDistance = false;
@@ -79,10 +85,27 @@ public class FeedFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        
+        toolbar = view.findViewById(R.id.toolbar);
+        ivExpandToolbar = view.findViewById(R.id.ivExpandToolbar);
+        filtersLayout = view.findViewById(R.id.filtersLayout);
+        ivExpandToolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (filtersLayout.getVisibility()==View.GONE) {
+                    TransitionManager.beginDelayedTransition(toolbar, new AutoTransition());
+                    filtersLayout.setVisibility(View.VISIBLE);
+                    ivExpandToolbar.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                }
+                else {
+                    TransitionManager.beginDelayedTransition(toolbar, new AutoTransition());
+                    filtersLayout.setVisibility(View.GONE);
+                    ivExpandToolbar.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                }
+            }
+        });
+
         rvItems = view.findViewById(R.id.rvItems);
         allItems = new ArrayList<>();
-        toolbar = view.findViewById(R.id.toolbar);
         spinnerCategories = view.findViewById(R.id.spinnerCategories);
         context = getContext();
         AppCompatActivity activity = (AppCompatActivity) context;

@@ -113,7 +113,6 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
             mapView = itemView.findViewById(R.id.lite_listrow_map);
             cardView = itemView.findViewById(R.id.cardView);
             btnExpand = itemView.findViewById(R.id.btnExpand);
-
             btnExpand.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
