@@ -81,19 +81,18 @@ public class ItemDetailsFragment extends Fragment {
         btnRentItem = view.findViewById(R.id.btnRentItem);
         fabEditItem = view.findViewById(R.id.fabEditItem);
 
-
         if(ParseUser.getCurrentUser().getObjectId().equals(item.getOwner().getObjectId()))
         {
             // Hide rent button if the item is yours.
             btnRentItem.setVisibility(Button.GONE);
             // Show Edit Item fab if the item is yours.
-            fabEditItem.setVisibility(View.VISIBLE);
+            fabEditItem.setVisibility(FloatingActionButton.VISIBLE);
         } else
         {
             // Show rent button if the item isn't yours.
             btnRentItem.setVisibility(Button.VISIBLE);
             // Hide Edit Item fab if the item isn't yours.
-            fabEditItem.setVisibility(View.GONE);
+            fabEditItem.setVisibility(FloatingActionButton.GONE);
         }
 
         //set values
@@ -140,6 +139,13 @@ public class ItemDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 openImage(item.getImages().get(0).getUrl(), getContext(), ivMainItemImage);
+            }
+        });
+
+        fabEditItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }

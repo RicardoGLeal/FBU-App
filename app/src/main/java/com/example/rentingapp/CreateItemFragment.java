@@ -1,20 +1,19 @@
 package com.example.rentingapp;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.example.rentingapp.Fragments.ProfileFragment;
 import com.example.rentingapp.Models.Item;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -35,7 +35,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateItemActivity extends AppCompatActivity {
+import static com.example.rentingapp.Controllers.PermissionsController.checkWriteExternalPermission;
+
+public class CreateItemFragment extends Fragment {
     EditText etItemName, etItemDescription, etPrice;
     Button btnCancel, btnCreate;
     Spinner spinnerCategories;
@@ -54,32 +56,44 @@ public class CreateItemActivity extends AppCompatActivity {
     //position of selected image
     int position = 0;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_item);
+    public CreateItemFragment() {
+    }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_create_item, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         //Get References
-        etItemName = findViewById(R.id.etItemName);
-        etItemDescription = findViewById(R.id.etDescription);
-        etPrice = findViewById(R.id.etPrice);
-        btnCancel = findViewById(R.id.btnCancel);
-        btnCreate = findViewById(R.id.btnCreate);
-        spinnerCategories = findViewById(R.id.spinnerCategories);
-        layoutControlImages = findViewById(R.id.layoutControlImages);
-        imagesIs = findViewById(R.id.imagesIs);
-        previousBtn = findViewById(R.id.previousBtn);
-        nextBtn = findViewById(R.id.nextBtn);
-        btnAddImage = findViewById(R.id.btnAddImage);
+        etItemName = view.findViewById(R.id.etItemName);
+        etItemDescription = view.findViewById(R.id.etDescription);
+        etPrice = view.findViewById(R.id.etPrice);
+        btnCancel = view.findViewById(R.id.btnCancel);
+        btnCreate = view.findViewById(R.id.btnCreate);
+        spinnerCategories = view.findViewById(R.id.spinnerCategories);
+        layoutControlImages = view.findViewById(R.id.layoutControlImages);
+        imagesIs = view.findViewById(R.id.imagesIs);
+        previousBtn = view.findViewById(R.id.previousBtn);
+        nextBtn = view.findViewById(R.id.nextBtn);
+        btnAddImage = view.findViewById(R.id.btnAddImage);
 
         //Assign values
         layoutControlImages.setVisibility(LinearLayout.GONE);
         //Creates a new adapter for the categories spinner.
-        ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<String>(CreateItemActivity.this,
+        ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.categories));
         categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategories.setAdapter(categoriesAdapter);
-        
+
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,17 +108,17 @@ public class CreateItemActivity extends AppCompatActivity {
         imagesIs.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
-                ImageView imageView = new ImageView(getApplicationContext());
+                ImageView imageView = new ImageView(getContext());
                 return imageView;
             }
         });
 
-        //OnLongClickListener that is in charge of deleting images. 
+        //OnLongClickListener that is in charge of deleting images.
         imagesIs.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 imageUris.remove(position);
-                Toast.makeText(CreateItemActivity.this, "Image Deleted!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Image Deleted!", Toast.LENGTH_SHORT).show();
                 if(position > 0) {
                     position--;
                 }
@@ -115,7 +129,7 @@ public class CreateItemActivity extends AppCompatActivity {
                     imagesIs.setFactory(new ViewSwitcher.ViewFactory() {
                         @Override
                         public View makeView() {
-                            ImageView imageView = new ImageView(getApplicationContext());
+                            ImageView imageView = new ImageView(getContext());
                             return imageView;
                         }
                     });
@@ -142,7 +156,7 @@ public class CreateItemActivity extends AppCompatActivity {
                     imagesIs.setImageURI(imageUris.get(position));
                 }
                 else {
-                    Toast.makeText(CreateItemActivity.this, "No Previous Images", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "No Previous Images", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -156,7 +170,7 @@ public class CreateItemActivity extends AppCompatActivity {
                     imagesIs.setImageURI(imageUris.get(position));
                 }
                 else {
-                    Toast.makeText(CreateItemActivity.this, "No More Images", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "No More Images", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -166,18 +180,14 @@ public class CreateItemActivity extends AppCompatActivity {
      * This function is responsible for creating an intent to the phone gallery to select images. It also requests permits, if they have not been granted before
      */
     private void pickImagesIntent() {
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        }
-
+        checkWriteExternalPermission(getContext());
         Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         pickPhoto.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(pickPhoto , PICK_IMAGES_CODE);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGES_CODE) {
@@ -214,7 +224,7 @@ public class CreateItemActivity extends AppCompatActivity {
         for (int i=0; i<imageUris.size(); i++) {
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
             if (imageUris.get(i) != null) {
-                Cursor cursor = getContentResolver().query(imageUris.get(i),
+                Cursor cursor = getContext().getContentResolver().query(imageUris.get(i),
                         filePathColumn, null, null, null);
                 if (cursor != null) {
                     cursor.moveToFirst();
@@ -233,7 +243,7 @@ public class CreateItemActivity extends AppCompatActivity {
                 @Override
                 public void done(ParseException e) {
                     if (e != null) {
-                        Toast.makeText(CreateItemActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Error while saving", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
@@ -260,13 +270,15 @@ public class CreateItemActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e != null) {
-                    Toast.makeText(CreateItemActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Error while saving", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(CreateItemActivity.this, "Item Created Successfully", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CreateItemActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    Toast.makeText(getContext(), "Item Created Successfully", Toast.LENGTH_SHORT).show();
+                    ProfileFragment f2 = new ProfileFragment(ParseUser.getCurrentUser());
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.flContainer, f2);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                 }
             }
         });

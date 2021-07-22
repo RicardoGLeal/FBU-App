@@ -5,19 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import androidx.appcompat.widget.SearchView;
 
 import com.example.rentingapp.Fragments.FeedFragment;
-import com.example.rentingapp.Fragments.ItemsFragment;
+import com.example.rentingapp.Fragments.RentsFragment;
 import com.example.rentingapp.Fragments.ProfileFragment;
 import com.example.rentingapp.Fragments.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.parse.LogOutCallback;
-import com.parse.ParseException;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity{
@@ -46,7 +41,7 @@ public class MainActivity extends AppCompatActivity{
                         fragment = new SearchFragment();
                         break;
                     case R.id.action_items:
-                        fragment = new ItemsFragment();
+                        fragment = new RentsFragment();
                         break;
                     case R.id.action_profile:
                     default:

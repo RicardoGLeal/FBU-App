@@ -1,11 +1,11 @@
 package com.example.rentingapp.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
@@ -13,24 +13,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rentingapp.Adapters.SectionsPagerAdapter;
-import com.example.rentingapp.CreateItemActivity;
+import com.example.rentingapp.CreateItemFragment;
 import com.example.rentingapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ItemsFragment#newInstance} factory method to
+ * Use the {@link RentsFragment#} factory method to
  * create an instance of this fragment.
  */
-public class ItemsFragment extends Fragment {
+public class RentsFragment extends Fragment {
     FloatingActionButton fabComposeItem;
     ViewPager viewPager;
     TabLayout tabs;
     View myFragment;
 
 
-    public ItemsFragment() {
+    public RentsFragment() {
         // Required empty public constructor
     }
 
@@ -43,7 +43,7 @@ public class ItemsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        myFragment = inflater.inflate(R.layout.fragment_items, container, false);
+        myFragment = inflater.inflate(R.layout.fragment_rents, container, false);
         viewPager = myFragment.findViewById(R.id.view_pager);
         tabs = myFragment.findViewById(R.id.tabs);
         return myFragment;
@@ -87,8 +87,13 @@ public class ItemsFragment extends Fragment {
         fabComposeItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), CreateItemActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(getContext(), CreateItemActivity.class);
+                //startActivity(intent);
+                CreateItemFragment createItemFragment = new CreateItemFragment();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.flContainer, createItemFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
