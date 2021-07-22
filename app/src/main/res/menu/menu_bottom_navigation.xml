@@ -12,14 +12,18 @@
         android:icon="@drawable/ic_baseline_search_24"
         android:title="Search"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/action_items"
-        android:icon="@drawable/ic_baseline_list_alt_24"
-        android:title="Items"
-        app:showAsAction="always" />
+
+    <item android:id="@+id/placeholder"
+        android:title="">
+    </item>
     <item
         android:id="@+id/action_profile"
         android:icon="@drawable/ic_baseline_person_24"
         android:title="Profile"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_rents"
+        android:icon="@drawable/ic_baseline_list_alt_24"
+        android:title="Rents"
         app:showAsAction="always" />
 </menu>
