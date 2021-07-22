@@ -178,7 +178,7 @@ public class EditProfileDialogFragment extends DialogFragment {
     }
 
     /**
-     * Creates the user and sends it to the Parse Database
+     * Gets the current user, updates it's values and sends it to the Parse Database to be updated.
      * @param photo profile picture
      */
     private void UpdateAccount(ParseFile photo) {

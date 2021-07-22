@@ -31,6 +31,9 @@ public class EditItemFragment extends CreateItemFragment{
         bindValues();
     }
 
+    /**
+     * Set the item's current information.
+     */
     public void bindValues() {
         etItemName.setText(item.getTitle());
         etItemDescription.setText(item.getDescription());
@@ -53,6 +56,10 @@ public class EditItemFragment extends CreateItemFragment{
         position = 0;
     }
 
+    /**
+     * Returns the current item that is going to be modified
+     * @return current item
+     */
     @Override
     public Item getItem() {
         return item;

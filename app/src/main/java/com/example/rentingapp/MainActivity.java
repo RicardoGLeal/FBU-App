@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setBackground(null);
+        bottomNavigationView.getMenu().getItem(2).setEnabled(false);
 
         //Listener for the button navigation view
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity{
                     case R.id.action_search:
                         fragment = new SearchFragment();
                         break;
-                    case R.id.action_items:
+                    case R.id.action_rents:
                         fragment = new RentsFragment();
                         break;
                     case R.id.action_profile:

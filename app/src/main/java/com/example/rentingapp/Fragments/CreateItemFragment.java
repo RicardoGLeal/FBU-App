@@ -56,7 +56,6 @@ public class CreateItemFragment extends Fragment {
     public static final int PICK_IMAGES_CODE = 0;
     protected List<ParseFile> photoFiles;
 
-
     //position of selected image
     int position = 0;
 
@@ -209,18 +208,15 @@ public class CreateItemFragment extends Fragment {
                         Uri imageUri = data.getClipData().getItemAt(i).getUri();
                         imageUris.add(imageUri);
                     }
-                    //set first image to our image switcher
-                    imagesIs.setImageURI(imageUris.get(0));
-                    position = 0;
                 }
                 else {
                     //picked single image
                     Uri imageUri = data.getData();
                     imageUris.add(imageUri);
-                    //set image to our image switcher
-                    imagesIs.setImageURI(imageUris.get(0));
-                    position = 0;
                 }
+                //set image to our image switcher
+                imagesIs.setImageURI(imageUris.get(0));
+                position = 0;
             }
         }
     }
@@ -293,6 +289,10 @@ public class CreateItemFragment extends Fragment {
         });
     }
 
+    /**
+     * Returns the new item object that is going to be created.
+     * @return new item
+     */
     protected Item getItem() {
         return new Item();
     }
