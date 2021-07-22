@@ -5,22 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".CreateItemFragment">
+    tools:context=".Fragments.CreateItemFragment">
 
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/personalDetailsCard"
             style="@style/centreLocatorCardDesign"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="30dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="10dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -28,35 +30,52 @@
                     android:gravity="center"
                     android:text="CREATING ITEM"
                     android:textSize="20dp"
+
                     android:textStyle="bold">
                 </TextView>
 
-                <EditText
-                    android:id="@+id/etItemName"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:id="@+id/tilItemName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="50dp"
                     android:layout_marginEnd="20dp"
+                    app:endIconMode="clear_text"
                     android:hint="ITEM TITLE"
-                    android:textSize="13dp"
-                    android:textColor="#2C3646">
-                </EditText>
+                    app:startIconDrawable="@drawable/ic_baseline_short_text_24">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etItemName"
+                        android:layout_width="match_parent"
+                        android:textSize="13sp"
+                        android:inputType="text"
+                        android:layout_height="wrap_content">
+                    </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/etDescription"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:id="@+id/tilDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/etItemName"
-                    android:layout_margin="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    app:endIconMode="clear_text"
                     android:hint="DESCRIPTION"
-                    android:textSize="13dp"
-                    android:textColor="#2C3646">
-                </EditText>
-
+                    app:counterEnabled="true"
+                    app:startIconDrawable="@drawable/ic_baseline_short_text_24"
+                    app:counterMaxLength="100">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDescription"
+                        android:layout_width="match_parent"
+                        android:textSize="13sp"
+                        android:inputType="textMultiLine"
+                        android:layout_height="wrap_content">
+                    </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
                 <TextView
                     android:id="@+id/tvCategory"
-                    android:layout_below="@id/etDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -68,24 +87,12 @@
                     android:id="@+id/spinnerCategories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tvCategory"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp">
                 </Spinner>
 
-                <!--<ImageView
-                    android:id="@+id/ivItemImage"
-                    android:layout_width="145dp"
-                    android:layout_height="120dp"
-                    android:layout_below="@+id/spinnerCategories"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="22dp"
-                    android:layout_marginEnd="130dp"
-                    android:src="@drawable/item_image">
-                </ImageView>-->
                 <TextView
                     android:id="@+id/tvImages"
-                    android:layout_below="@id/spinnerCategories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -123,7 +130,6 @@
                             android:id="@+id/imagesIs"
                             android:layout_width="200dp"
                             android:layout_height="200dp"
-                            android:layout_alignParentStart="true"
                             android:layout_marginLeft="10dp">
                         </ImageSwitcher>
 
@@ -138,12 +144,7 @@
                             android:rotation="180">
                         </Button>
                     </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
 
-                    </LinearLayout>
                     <Button
                         android:id="@+id/btnAddImage"
                         android:layout_width="50dp"
@@ -154,33 +155,35 @@
                         android:text="">
                     </Button>
 
-                    <!--<Button
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_baseline_add_24"
-                        android:rotation="180">
-                    </Button>-->
                 </LinearLayout>
 
 
-                <EditText
-                    android:id="@+id/etPrice"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:id="@+id/tilPrice"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/imagesLayout"
-                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="8dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="25dp"
-                    android:ems="10"
-                    android:textSize="13dp"
-                    android:hint="$ COST PER DAY"
-                    android:inputType="numberDecimal" />
+                    android:layout_marginEnd="20dp"
+                    app:endIconMode="clear_text"
+                    android:hint="Cost Per Day"
+                    app:counterEnabled="true"
+                    app:startIconDrawable="@drawable/ic_baseline_attach_money_24"
+                    app:counterMaxLength="100">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPrice"
+                        android:layout_width="match_parent"
+                        android:textSize="13sp"
+                        android:inputType="numberDecimal"
+                        android:layout_height="wrap_content">
+                    </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/etPrice"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="20dp"
                     android:gravity="center"
                     android:orientation="horizontal">
@@ -203,7 +206,7 @@
                     </Button>
 
                 </LinearLayout>
-            </RelativeLayout>
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
     </ScrollView>
 

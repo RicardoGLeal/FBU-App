@@ -8,7 +8,7 @@
     android:background="@drawable/rounderbutton"
     android:backgroundTint="@android:color/transparent"
 
-    tools:context=".CreateItemFragment">
+    tools:context=".Fragments.CreateItemFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/personalDetailsCard"

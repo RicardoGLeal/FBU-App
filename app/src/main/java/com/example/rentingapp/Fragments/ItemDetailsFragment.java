@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -145,7 +146,11 @@ public class ItemDetailsFragment extends Fragment {
         fabEditItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                EditItemFragment editItemFragment = new EditItemFragment(true, item);
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.flContainer, editItemFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
     }

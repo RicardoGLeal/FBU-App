@@ -108,6 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:justificationMode="inter_word"
                 tools:text="Trying to look hipster">
             </TextView>
 
@@ -146,7 +147,7 @@
                 <TextView
                     android:id="@+id/tvDistance"
                     android:layout_marginLeft="20dp"
-                    android:layout_width="120dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_baseline_6_ft_apart_24"
                     android:drawableTint="@color/colorPrimary"
@@ -162,6 +163,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:drawableStart="@drawable/ic_baseline_access_time_24"
+                android:drawableTint="@color/colorPrimary"
+                android:drawablePadding="5dp"
                 android:text="8 hours ago">
             </TextView>
 

@@ -1,4 +1,4 @@
-package com.example.rentingapp;
+package com.example.rentingapp.Fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +26,7 @@ import android.widget.ViewSwitcher;
 
 import com.example.rentingapp.Fragments.ProfileFragment;
 import com.example.rentingapp.Models.Item;
+import com.example.rentingapp.R;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -38,20 +39,23 @@ import java.util.List;
 import static com.example.rentingapp.Controllers.PermissionsController.checkWriteExternalPermission;
 
 public class CreateItemFragment extends Fragment {
-    EditText etItemName, etItemDescription, etPrice;
-    Button btnCancel, btnCreate;
-    Spinner spinnerCategories;
+    protected EditText etItemName, etItemDescription, etPrice;
+    protected Button btnCancel, btnCreate;
+    protected Spinner spinnerCategories;
+    protected ArrayAdapter<String> categoriesAdapter;
 
     //UI Views
-    private ImageSwitcher imagesIs;
-    private Button previousBtn, nextBtn, btnAddImage;
-    private LinearLayout layoutControlImages;
+    protected ImageSwitcher imagesIs;
+    protected Button previousBtn, nextBtn, btnAddImage;
+    protected LinearLayout layoutControlImages;
 
     //store image uris in this array list
-    private ArrayList<Uri> imageUris;
+    protected ArrayList<Uri> imageUris;
 
     //request code to pick images
     public static final int PICK_IMAGES_CODE = 0;
+    protected List<ParseFile> photoFiles;
+
 
     //position of selected image
     int position = 0;
@@ -89,7 +93,7 @@ public class CreateItemFragment extends Fragment {
         //Assign values
         layoutControlImages.setVisibility(LinearLayout.GONE);
         //Creates a new adapter for the categories spinner.
-        ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<String>(getContext(),
+        categoriesAdapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.categories));
         categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategories.setAdapter(categoriesAdapter);
@@ -103,7 +107,7 @@ public class CreateItemFragment extends Fragment {
 
         //init list
         imageUris = new ArrayList<>();
-
+        photoFiles = new ArrayList<>();
         //setup image switcher
         imagesIs.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
@@ -118,6 +122,8 @@ public class CreateItemFragment extends Fragment {
             @Override
             public boolean onLongClick(View v) {
                 imageUris.remove(position);
+                if (!photoFiles.isEmpty())
+                    photoFiles.remove(position);
                 Toast.makeText(getContext(), "Image Deleted!", Toast.LENGTH_SHORT).show();
                 if(position > 0) {
                     position--;
@@ -133,6 +139,7 @@ public class CreateItemFragment extends Fragment {
                             return imageView;
                         }
                     });
+                    layoutControlImages.setVisibility(LinearLayout.GONE);
                 }
                 return true;
             }
@@ -175,6 +182,8 @@ public class CreateItemFragment extends Fragment {
             }
         });
     }
+
+
 
     /**
      * This function is responsible for creating an intent to the phone gallery to select images. It also requests permits, if they have not been granted before
@@ -220,7 +229,8 @@ public class CreateItemFragment extends Fragment {
      * This function is in charge of creating a new item and publishing it to the database
      */
     private void CreateItem() {
-        List<ParseFile> photoFiles = new ArrayList<>();
+        if(photoFiles.isEmpty())
+            photoFiles = new ArrayList<>();
         for (int i=0; i<imageUris.size(); i++) {
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
             if (imageUris.get(i) != null) {
@@ -256,9 +266,8 @@ public class CreateItemFragment extends Fragment {
         String itemCategory = spinnerCategories.getSelectedItem().toString();
         Float itemPrice =  Float.valueOf(etPrice.getText().toString());
 
-
         //An item is created and its parameters are assigned
-        Item item = new Item();
+        Item item = getItem();
         item.setTitle(itemName);
         item.setDescription(itemDescription);
         item.setCategory(itemCategory);
@@ -282,5 +291,9 @@ public class CreateItemFragment extends Fragment {
                 }
             }
         });
+    }
+
+    protected Item getItem() {
+        return new Item();
     }
 }

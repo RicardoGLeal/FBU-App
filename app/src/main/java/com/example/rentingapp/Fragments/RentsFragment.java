@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rentingapp.Adapters.SectionsPagerAdapter;
-import com.example.rentingapp.CreateItemFragment;
 import com.example.rentingapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
