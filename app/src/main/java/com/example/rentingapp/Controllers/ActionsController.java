@@ -2,6 +2,7 @@ package com.example.rentingapp.Controllers;
 
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.widget.EditText;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -10,12 +11,17 @@ import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.Rent;
 import com.example.rentingapp.Models.User;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.model.AddressComponent;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.maps.android.SphericalUtil;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -105,4 +111,82 @@ public class ActionsController {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
     }
+
+    /**
+     * This functions manages so see if the EditText is empty or not.
+     * @param textInputLayout
+     * @param editText
+     * @return
+     */
+    public static boolean validateField(TextInputLayout textInputLayout, EditText editText) {
+        if(editText.getText().toString().isEmpty()) {
+            textInputLayout.setError("Field can't be empty");
+            return false;
+        } else {
+            textInputLayout.setError(null);
+            return true;
+        }
+    }
+
+    /**
+     * Gets the general address of a place
+     * @param place Google place location
+     * @return
+     */
+    public static String getGeneralLocation(Place place) {
+        String generalLocation = "";
+        List<AddressComponent> addressComponents = place.getAddressComponents().asList();
+        for (int i=0; i<addressComponents.size(); i++) {
+            if(addressComponents.get(i).getTypes().contains("locality") ||
+                    addressComponents.get(i).getTypes().contains("administrative_area_level_2") ||
+                    addressComponents.get(i).getTypes().contains("administrative_area_level_1"))
+                if (generalLocation == "")
+                    generalLocation = addressComponents.get(i).getShortName();
+                else
+                    generalLocation = generalLocation + ", "+ addressComponents.get(i).getShortName();
+            if (addressComponents.get(i).getTypes().contains("country"))
+            {
+                generalLocation = generalLocation +", "+ addressComponents.get(i).getName();
+                break;
+            }
+        }
+        return generalLocation;
+    }
+
+    /**
+     * Assigns the required values to a user, either to create a new one or edit an existing one
+     * @param user
+     * @param name user's name
+     * @param username user's username
+     * @param password user's password
+     * @param email user's email
+     * @param photoFile user's profile photoFile
+     * @param photo user's profile photo
+     * @param description user's description
+     * @param placeId user's placeId
+     * @param placeName user's placeName
+     * @param placeAddress user's placeAddress
+     * @param placeLat user's place Latitude
+     * @param placeLng user's place Longitude
+     * @param generalLocation user's general location
+     */
+    public static void setUserValues(ParseUser user, String name, String username, String password,
+                                     String email, File photoFile, ParseFile photo, String description,
+                                     String placeId, String placeName, String placeAddress, Double placeLat,
+                                     Double placeLng, String generalLocation) {
+        user.put(User.KEY_NAME, name);
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+        if (photoFile != null)
+            user.put(User.KEY_PROFILE_PICTURE, photo);
+        user.put(User.KEY_DESCRIPTION, description);
+        user.put(User.KEY_PLACE_ID, placeId);
+        user.put(User.KEY_PLACE_NAME, placeName);
+        user.put(User.KEY_PLACE_ADDRESS, placeAddress);
+        user.put(User.KEY_LAT, placeLat);
+        user.put(User.KEY_LNG, placeLng);
+        user.put(User.KEY_GENERAL_LOCATION, generalLocation);
+    }
+
 }

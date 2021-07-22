@@ -7,6 +7,8 @@ import com.parse.ParseUser;
 
 public class User {
     public static final String KEY_NAME = "name";
+    public static final String KEY_USERNAME = "username";
+
     public static final String KEY_PROFILE_PICTURE = "profilePicture";
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_PLACE_ID = "placeId";

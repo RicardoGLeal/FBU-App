@@ -105,4 +105,29 @@ public class ImagesController {
                 makeSceneTransitionAnimation((AppCompatActivity) context, (View)ivProfileImage, "image");
         context.startActivity(intent, options.toBundle());
     }
+
+    /**
+     * Loads the image from the camera roll into the profile picture slot, using Glide.
+     */
+    public static void loadFileImage(File photoFile, ImageView ivProfileImage, Context context) {
+        RequestOptions circleProp = new RequestOptions();
+        circleProp = circleProp.transform(new CircleCrop());
+        Glide.with(context)
+                .load(photoFile)
+                .apply(circleProp)
+                .into(ivProfileImage);
+    }
+
+    /**
+     * Loads the image taken from the camera into the profile picture slot, using Glide.
+     */
+    public static void loadTakenImage(Bitmap takenImage, ImageView imageView, Context context) {
+        RequestOptions circleProp = new RequestOptions();
+        circleProp = circleProp.transform(new CircleCrop());
+        Glide.with(context)
+                .load(takenImage)
+                .apply(circleProp)
+                .into(imageView);
+    }
+
 }

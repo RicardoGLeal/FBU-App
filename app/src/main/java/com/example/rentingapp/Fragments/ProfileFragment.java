@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +25,7 @@ import com.example.rentingapp.MainActivity;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -47,6 +49,7 @@ public class ProfileFragment extends Fragment {
     private RecyclerView rvItems;
     protected List<Item> allItems;
     private ItemsProfileAdapter adapter;
+    private FloatingActionButton fabEditProfile;
 
     public ProfileFragment(ParseUser user) {
         this.user = user;
@@ -68,6 +71,7 @@ public class ProfileFragment extends Fragment {
         tvPersonDescription = view.findViewById(R.id.tvPersonDescription);
         tvLocation = view.findViewById(R.id.tvLocation);
         rvItems = view.findViewById(R.id.rvItems);
+        fabEditProfile = view.findViewById(R.id.fabEditProfile);
         //Assign values
         loadCircleImage(getContext(), user.getParseFile(User.KEY_PROFILE_PICTURE), ivProfileImage);
         tvPersonName.setText(user.getString(User.KEY_NAME));
@@ -84,6 +88,16 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 String photoUrl = user.getParseFile(User.KEY_PROFILE_PICTURE).getUrl();
                 openImage(photoUrl, getContext(), ivProfileImage);
+            }
+        });
+
+        fabEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppCompatActivity activity = (AppCompatActivity) getContext();
+                FragmentManager fm = activity.getSupportFragmentManager();
+                EditProfileDialogFragment editProfileDialogFragment = EditProfileDialogFragment.newInstance(user);
+                editProfileDialogFragment.show(fm,"fragment_rent_item");
             }
         });
     }

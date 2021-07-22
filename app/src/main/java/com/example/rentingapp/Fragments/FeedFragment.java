@@ -248,11 +248,11 @@ public class FeedFragment extends Fragment {
             @Override
             public void done(List<Item> items, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
+                   // Log.e(TAG, "Issue with getting posts", e);
                     return;
                 }
                 for (Item item: items) {
-                    Log.i(TAG, "Items: " + item.getDescription());
+                   // Log.i(TAG, "Items: " + item.getDescription());
                     int distance = getDistanceInKm(item, ParseUser.getCurrentUser());
                     item.setDistance(distance);
                 }

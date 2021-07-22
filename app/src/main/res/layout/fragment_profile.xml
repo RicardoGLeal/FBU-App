@@ -92,7 +92,7 @@
         android:layout_marginTop="-50dp">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabComposeItem"
+            android:id="@+id/fabEditProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="40dp"
