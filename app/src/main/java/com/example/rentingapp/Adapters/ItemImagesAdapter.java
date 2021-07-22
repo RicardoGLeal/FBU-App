@@ -57,11 +57,15 @@ public class ItemImagesAdapter extends RecyclerView.Adapter<ItemImagesAdapter.Vi
             ivImage = itemView.findViewById(R.id.ivImage);
         }
 
+        /**
+         * Places the item's image in the imageView.
+         * @param image item's image
+         */
         public void bind(ParseFile image) {
             //Bind the post data to the view elements
             //condition to check if there is an image attached
             if (image != null) {
-                Glide.with(context).load(image.getUrl()).into(ivImage);
+                Glide.with(context).load(image.getUrl()).placeholder(R.drawable.profile_image_empty).into(ivImage);
                 ivImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
