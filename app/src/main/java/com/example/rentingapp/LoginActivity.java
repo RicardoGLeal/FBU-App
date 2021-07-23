@@ -20,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText etUsername, etPassword;
     Button btnLogin;
     TextView tvSignUp;
+    LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvSignUp = findViewById(R.id.tvSignUp);
+        loadingDialog = new LoadingDialog(LoginActivity.this);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void loginUser(String username, String password) {
         Log.i(TAG, "Attempting to login user" + username);
+        loadingDialog.startLoadingDialog();
         //Navigate to the main activity if the user has signed in properly
         //try to log in using a different thread from the main one.
         ParseUser.logInInBackground(username, password, new LogInCallback() {
@@ -67,8 +70,10 @@ public class LoginActivity extends AppCompatActivity {
                 if(e != null) {
                     Log.e(TAG, "Issue with login", e);
                     Toast.makeText(LoginActivity.this, "Issue with login", Toast.LENGTH_SHORT).show();
+                    loadingDialog.dismissDialog();
                     return;
                 }
+                loadingDialog.dismissDialog();
                 goMainActivity();
                 Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
             }

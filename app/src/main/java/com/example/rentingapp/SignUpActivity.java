@@ -67,6 +67,7 @@ public class SignUpActivity extends AppCompatActivity {
     public static final String TAG = "SignUpActivity";
     private File photoFile;
     public String photoFileName = "photo.jpg";
+    LoadingDialog loadingDialog;
 
     TextInputLayout tilName, tilUsername, tilDescription, tilEmail, tilPassword;
     EditText etName, etUsername, etDescription, etEmail, etPassword;
@@ -84,7 +85,6 @@ public class SignUpActivity extends AppCompatActivity {
         tilDescription = findViewById(R.id.tilDescription);
         tilEmail = findViewById(R.id.tilEmail);
         tilPassword = findViewById(R.id.tilPassword);
-
         etName = findViewById(R.id.etName);
         etUsername = findViewById(R.id.etUsername);
         etDescription = findViewById(R.id.etDescription);
@@ -92,8 +92,8 @@ public class SignUpActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         ivProfileImage = findViewById(R.id.ivProfileImage);
         btnSignUp = findViewById(R.id.btnSignUp);
-
         generalLocation = "";
+        loadingDialog = new LoadingDialog(SignUpActivity.this);
 
         RequestOptions circleProp = new RequestOptions();
         circleProp = circleProp.transform(new CircleCrop());
@@ -218,12 +218,14 @@ public class SignUpActivity extends AppCompatActivity {
      * Called when the user clicks the SignUp button. Creates a ParseFile for the photo and goes to CreateAccount.
      */
     private void preCreateUser() {
+        loadingDialog.startLoadingDialog();
         if (photoFile != null) {
             ParseFile photo = new ParseFile(photoFile);
             photo.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     if (e != null) {
+                        loadingDialog.dismissDialog();
                         Toast.makeText(getApplicationContext(), "Error while saving"+e, Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -256,6 +258,7 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "User created Successfully", Toast.LENGTH_SHORT).show();
                     finish();
                 }
+                loadingDialog.dismissDialog();
             }
         });
     }
