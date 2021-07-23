@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:layout_margin="8dp">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -170,6 +170,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/tvCellphone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="3dp"
@@ -190,7 +191,6 @@
                 <TextView
                     android:id="@+id/tvRenterOrOwnerLoc"
                     android:padding="3dp"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Owner's Location:">
@@ -212,5 +212,5 @@
                     android:layout_height="150dp" />
             </LinearLayout>
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>
