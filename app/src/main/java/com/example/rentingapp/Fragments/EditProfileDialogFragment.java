@@ -243,6 +243,7 @@ public class EditProfileDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (options[item].equals("Take Photo")) {
+                    checkWriteExternalPermission(getContext());
                     Intent takePictureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     // Create a File reference for future access
                     photoFile = ImagesController.getPhotoFileUri(photoFileName, TAG, getContext());
@@ -255,6 +256,7 @@ public class EditProfileDialogFragment extends DialogFragment {
                         startActivityForResult(takePictureIntent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
                     }
                 } else if (options[item].equals("Choose from Gallery")) {
+                    checkWriteExternalPermission(getContext());
                     Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(pickPhoto , 1);
 
@@ -330,7 +332,6 @@ public class EditProfileDialogFragment extends DialogFragment {
                     break;
                 case SELECT_IMAGE_ACTIVITY_REQUEST_CODE: //CHOOSE PICTURE
                     if (resultCode == RESULT_OK && data != null) {
-                        checkWriteExternalPermission(getContext());
                         Uri selectedImage = data.getData();
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
                         if (selectedImage != null) {

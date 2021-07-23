@@ -46,19 +46,33 @@
                     android:layout_height="60dp"
                     tools:srcCompat="@color/purple_700">
                 </ImageView>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvItemName"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        tools:text="Xbox One">
-                    </TextView>
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/tvItemName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            tools:text="Xbox One">
+                        </TextView>
+                        <ImageButton
+                            android:id="@+id/btnDeleteItem"
+                            android:layout_marginStart="5dp"
+                            android:layout_gravity="right"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/ic_baseline_delete_24">
+                        </ImageButton>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"

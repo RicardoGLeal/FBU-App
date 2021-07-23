@@ -1,9 +1,11 @@
 package com.example.rentingapp.Fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -11,12 +13,15 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -26,7 +31,10 @@ import com.example.rentingapp.Controllers.ActionsController;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
+import com.example.rentingapp.SignUpActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.parse.DeleteCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
@@ -45,6 +53,7 @@ public class ItemDetailsFragment extends Fragment {
     private RecyclerView rvItemImages;
     private TextView tvItemName, tvOwnersName, tvDescription, tvCategory, tvPrice, tvLocation, tvDistance, tvPostDate;
     private Button btnRentItem;
+    private ImageButton btnDeleteItem;
     private ItemImagesAdapter adapter;
     private FloatingActionButton fabEditItem;
 
@@ -81,19 +90,23 @@ public class ItemDetailsFragment extends Fragment {
         tvPostDate = view.findViewById(R.id.tvPostDate);
         btnRentItem = view.findViewById(R.id.btnRentItem);
         fabEditItem = view.findViewById(R.id.fabEditItem);
-
+        btnDeleteItem = view.findViewById(R.id.btnDeleteItem);
         if(ParseUser.getCurrentUser().getObjectId().equals(item.getOwner().getObjectId()))
         {
             // Hide rent button if the item is yours.
             btnRentItem.setVisibility(Button.GONE);
             // Show Edit Item fab if the item is yours.
             fabEditItem.setVisibility(FloatingActionButton.VISIBLE);
+            // Show Delete button fab if the item is yours.
+            btnDeleteItem.setVisibility(ImageButton.VISIBLE);
         } else
         {
             // Show rent button if the item isn't yours.
             btnRentItem.setVisibility(Button.VISIBLE);
             // Hide Edit Item fab if the item isn't yours.
             fabEditItem.setVisibility(FloatingActionButton.GONE);
+            // Hide Delete button fab if the item isn't yours.
+            btnDeleteItem.setVisibility(ImageButton.GONE);
         }
 
         //set values
@@ -153,6 +166,45 @@ public class ItemDetailsFragment extends Fragment {
                 transaction.commit();
             }
         });
+
+        btnDeleteItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createDeleteAlertDialog();
+                item.deleteInBackground();
+            }
+        });
+    }
+
+    /**
+     * Invokes a new AlertDialog asking for the user if they want to delete the item.
+     */
+    private void createDeleteAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Are you sure you want to delete this item?")
+                .setCancelable(false)
+               .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    item.deleteInBackground(new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Toast.makeText(getContext(), "Item deleted Successfully", Toast.LENGTH_SHORT).show();
+                            FeedFragment feedFragment = new FeedFragment();
+                            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                            transaction.replace(R.id.flContainer, feedFragment);
+                            transaction.addToBackStack(null);
+                            transaction.commit();
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     /**
