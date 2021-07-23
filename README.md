@@ -34,19 +34,20 @@ username, password, username, email, description, profile picture and location.
 - [X] The user will be able to see in the FeedFragment a list of items (the list will show the name, picture, cost, brief description, owner's name, owner's location, owner's picture of every item, and distance between them and the item's owner). 
 - [X] The user will be able to enter their location implementing the Google Places API.
 - [X] The user will be able to filter items by distance. 
-- [ ] The user will be able to search items.
+- [ ] The user will be able to search items by.
+- [X] The user will be able to see the list of item's categories.
+- [ ] The user will be able to filter items by categories. 
 - [X] The user will be able to see the information of an item in the Details View: Item Name, Item Picture(s), Item Description, Cost of the rent per day, Item Location, Owner's Name, Owner's Profile Picture 
 - [X] The user will be able to publish an object for rent, registering the following information: Item Name, Item Category, Item Pictures, Item Description, Cost of the rent per day.
 - [X] The user will be able to edit/delete their item posts. 
 - [X] The user will be able to add multiples photos for the object in rent.
-- [ ] The user will be able to see a list of the item's categories in the SearchFragment.
 - [X] The user will be able to rent an item within a date range. 
 - [X] The user will be able to see their distance towards each item. 
-- [ ] The user will be able to see their profile an other's users profiles (The profile will show the user's general information, and their items in rent).
-- [ ] The user will be able to edit their profile
+- [X] The user will be able to see their profile an other's users profiles (The profile will show the user's general information, and their items in rent).
+- [X] The user will be able to edit their profile
 - [X] The user can see their own items rents
 - [X] The user can see their item rentals from other users
-- [ ] The user can click on an image and it will expand, taking all the space of the cell phone.
+- [X] The user can click on an image and it will expand, taking all the space of the cell phone.
 - [ ] The user will be able to see animations when creating or renting items
 - [X] The user can logout from their account. 
 
@@ -76,13 +77,16 @@ username, password, username, email, description, profile picture and location.
    - [ ] User can view their profile.
    - [ ] User can view the profile of other user.
 * Stream
-   - [ ] User can view the list of the categories.
-   - [ ] User can view different lists of items.
-   - [ ] User can view the details of an item.
+   - [ ] User can view the feed of items.
+   - [ ] User can view the item's categories list.
+   - [ ] User can view an user's items. 
+   - [ ] User can view their list of own rents.
+   - [ ] User can view their list of foreign rents.
 * Details 
+   - [ ] User can view the details of an item. 
+   - [ ] User can view the details of a rent. 
    - [ ] User can view the list of categories.
    - [ ] User can view the list of items for rent. 
-   - [ ] User can view the details of an item. 
 * Search
    - [ ] User can search for items in rent.
 * Creation
