@@ -23,11 +23,9 @@ import com.google.android.material.tabs.TabLayout;
  * create an instance of this fragment.
  */
 public class RentsFragment extends Fragment {
-    FloatingActionButton fabComposeItem;
     ViewPager viewPager;
     TabLayout tabs;
     View myFragment;
-
 
     public RentsFragment() {
         // Required empty public constructor
@@ -82,19 +80,5 @@ public class RentsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fabComposeItem = view.findViewById(R.id.fabComposeItem);
-        fabComposeItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Intent intent = new Intent(getContext(), CreateItemActivity.class);
-                //startActivity(intent);
-                CreateItemFragment createItemFragment = new CreateItemFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.flContainer, createItemFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
-        });
-
     }
 }
