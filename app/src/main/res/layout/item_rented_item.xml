@@ -119,17 +119,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:text="Owner's Name:"></TextView>
+                            android:text="Owner's Name:">
+                        </TextView>
 
                         <TextView
                             android:id="@+id/tvPersonName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
-                            tools:text="Ricardo Gonzalez"></TextView>
+                            tools:text="Ricardo Gonzalez">
+                        </TextView>
                     </LinearLayout>
-
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -140,7 +140,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="Total Price: "></TextView>
+                            android:text="Total Price: ">
+                        </TextView>
 
                         <TextView
                             android:id="@+id/tvTotalPrice"
@@ -148,7 +149,8 @@
                             android:layout_height="match_parent"
                             android:drawableLeft="@drawable/ic_baseline_attach_money_24"
                             android:drawableTint="@color/colorPrimary"
-                            tools:text="500"></TextView>
+                            tools:text="500">
+                        </TextView>
                     </LinearLayout>
                     <Button
                         android:id="@+id/btnExpand"
@@ -170,17 +172,25 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="3dp"
                     android:drawableStart="@drawable/ic_baseline_call_24"
+                    android:drawablePadding="5dp"
+                    android:drawableTint="@color/colorPrimary"
                     android:text="3310851164">
                 </TextView>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="3dp"
                     android:drawableStart="@drawable/ic_baseline_mail_24"
+                    android:drawableTint="@color/colorPrimary"
+                    android:drawablePadding="5dp"
                     android:text="example@gmail.com">
                 </TextView>
                 <TextView
                     android:id="@+id/tvRenterOrOwnerLoc"
+                    android:padding="3dp"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Owner's Location:">
@@ -189,6 +199,7 @@
                     android:id="@+id/tvLocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="3dp"
                     android:drawableLeft="@drawable/ic_baseline_location_on_24"
                     android:drawablePadding="5dp"
                     android:drawableTint="@color/colorPrimary"

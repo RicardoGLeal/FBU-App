@@ -118,7 +118,7 @@ public class ItemDetailsFragment extends Fragment {
         tvCategory.setText(item.getCategory());
         tvPrice.setText(String.valueOf(item.getPrice()));
         tvLocation.setText(item.getOwner().getString(User.KEY_GENERAL_LOCATION));
-        tvDistance.setText(String.valueOf(getDistanceInKm(item, ParseUser.getCurrentUser())));
+        tvDistance.setText(getDistanceInKm(item, ParseUser.getCurrentUser())+" Km away");
         tvPostDate.setText(getRelativeTimeAgo(item.getCreatedAt().toString()));
         allImages = item.getImages();
         secondaryImages = new ArrayList<>(allImages);

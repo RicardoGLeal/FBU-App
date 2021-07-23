@@ -45,16 +45,12 @@
                 android:layout_margin="10dp"
                 android:drawablePadding="16dp"
                 android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                android:drawableTint="@color/colorPrimaryDark"
                 android:background="@drawable/border_primary_dark">
 
             </TextView>
         </RelativeLayout>
     </LinearLayout>
-
-
-
-
-
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"
