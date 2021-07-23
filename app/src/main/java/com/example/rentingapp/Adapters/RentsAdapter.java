@@ -1,6 +1,8 @@
 package com.example.rentingapp.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.Layout;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
@@ -8,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,11 +19,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.rentingapp.Fragments.EditItemFragment;
+import com.example.rentingapp.Fragments.EditProfileDialogFragment;
+import com.example.rentingapp.Fragments.SendSmsDialogFragment;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.Rent;
 import com.example.rentingapp.Models.User;
@@ -88,12 +96,13 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ivItemImage;
-        TextView tvItemTitle, tvCategory, tvStartDate, tvEndDate, tvPersonName, tvLocation, tvTotalPrice, tvRenterOrOwnerName, tvRenterOrOwnerLoc;
+        TextView tvItemTitle, tvCategory, tvStartDate, tvEndDate, tvPersonName, tvLocation, tvTotalPrice, tvRenterOrOwnerName, tvRenterOrOwnerLoc, tvCellphone;
         private GoogleMap map;
         private MapView mapView;
         private LinearLayout layoutExpandable;
         CardView cardView;
         Button btnExpand;
+        ImageButton btnCall, btnMessage;
         ParseUser user;
 
         public ViewHolder(@NonNull View itemView) {
@@ -113,6 +122,10 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
             mapView = itemView.findViewById(R.id.lite_listrow_map);
             cardView = itemView.findViewById(R.id.cardView);
             btnExpand = itemView.findViewById(R.id.btnExpand);
+            btnCall = itemView.findViewById(R.id.btnCall);
+            btnMessage = itemView.findViewById(R.id.btnMessage);
+            tvCellphone = itemView.findViewById(R.id.tvCellphone);
+
             btnExpand.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -126,6 +139,27 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
                         layoutExpandable.setVisibility(View.GONE);
                         btnExpand.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                     }
+                }
+            });
+            AppCompatActivity activity = (AppCompatActivity) context;
+
+            //Opens SendSMS Dialog Fragment
+            btnMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fm = activity.getSupportFragmentManager();
+                    SendSmsDialogFragment sendSmsDialogFragment = SendSmsDialogFragment.newInstance(tvCellphone.getText().toString().trim());
+                    sendSmsDialogFragment.show(fm,"sendSmsDialogFragment");
+                }
+            });
+            //Creates an intent to make a call
+            btnCall.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String uri = "tel:" + tvCellphone.getText().toString();
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse(uri));
+                    activity.startActivity(intent);
                 }
             });
         }
