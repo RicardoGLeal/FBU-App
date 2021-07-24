@@ -153,6 +153,13 @@ Here's a walkthrough of the app in the end of week one:
 
 GIF created with [Kap](https://getkap.co/).
 
+Here's a walkthrough of the app in the end of week two:
+
+![Imgur Image](https://imgur.com/a/UgrQg9p)
+
+
+GIF created with [Kap](https://getkap.co/).
+
 ## Schema 
 ### Models
 #### User
