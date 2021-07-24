@@ -2,11 +2,16 @@ package com.example.rentingapp.Fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,19 +32,25 @@ import android.widget.ViewSwitcher;
 import com.example.rentingapp.Fragments.ProfileFragment;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.R;
+import com.example.rentingapp.SignUpActivity;
+import com.google.android.material.textfield.TextInputLayout;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.rentingapp.Controllers.ActionsController.validateField;
 import static com.example.rentingapp.Controllers.PermissionsController.checkWriteExternalPermission;
 
 public class CreateItemFragment extends Fragment {
     protected EditText etItemName, etItemDescription, etPrice;
+    protected TextInputLayout tilItemName, tilDescription, tilPrice;
     protected Button btnCancel, btnCreate;
     protected Spinner spinnerCategories;
     protected ArrayAdapter<String> categoriesAdapter;
@@ -80,6 +91,10 @@ public class CreateItemFragment extends Fragment {
         etItemName = view.findViewById(R.id.etItemName);
         etItemDescription = view.findViewById(R.id.etDescription);
         etPrice = view.findViewById(R.id.etPrice);
+        tilItemName = view.findViewById(R.id.tilItemName);
+        tilDescription = view.findViewById(R.id.tilDescription);
+        tilPrice = view.findViewById(R.id.tilPrice);
+
         btnCancel = view.findViewById(R.id.btnCancel);
         btnCreate = view.findViewById(R.id.btnCreate);
         spinnerCategories = view.findViewById(R.id.spinnerCategories);
@@ -100,7 +115,21 @@ public class CreateItemFragment extends Fragment {
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateItem();
+                //check if all fields are filled
+                int count = 0;
+                if(validateField(tilItemName, etItemName))
+                    count++;
+                if(validateField(tilDescription, etItemDescription))
+                    count++;
+                if(validateField(tilPrice, etPrice))
+                    count++;
+                if (count == 3) {
+                    if(imageUris.isEmpty())
+                        Toast.makeText(getContext(), "Please add at least one image", Toast.LENGTH_SHORT).show();
+                    else
+                        CreateItem();
+                } else
+                    Toast.makeText(getContext(), "Please verify that are the fields are filled", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -148,8 +177,8 @@ public class CreateItemFragment extends Fragment {
         btnAddImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layoutControlImages.setVisibility(LinearLayout.VISIBLE);
-                pickImagesIntent();
+                if(checkPermissions())
+                    SelectPhotos();
             }
         });
 
@@ -182,13 +211,25 @@ public class CreateItemFragment extends Fragment {
         });
     }
 
-
+    /**
+     * This functions is responsible for checking and requesting writing external storage permissions.
+     * @return if they
+     */
+    private boolean checkPermissions() {
+        int permissionCheck = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+            return false;
+        }
+        else
+            return true;
+    }
 
     /**
-     * This function is responsible for creating an intent to the phone gallery to select images. It also requests permits, if they have not been granted before
+     * This function is responsible for creating an intent to the phone gallery to select images.
      */
-    private void pickImagesIntent() {
-        checkWriteExternalPermission(getContext());
+    private void SelectPhotos() {
+        layoutControlImages.setVisibility(LinearLayout.VISIBLE);
         Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         pickPhoto.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(pickPhoto , PICK_IMAGES_CODE);
@@ -288,12 +329,27 @@ public class CreateItemFragment extends Fragment {
             }
         });
     }
-
     /**
      * Returns the new item object that is going to be created.
      * @return new item
      */
     protected Item getItem() {
         return new Item();
+    }
+
+    /**
+     * This function is called when the user accepted or rejected the permission of writing in the
+     * external storage.
+     * @param requestCode permission's request code
+     * @param permissions permissions requested
+     * @param grantResults result
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            SelectPhotos();
+        else
+            Toast.makeText(getContext(), "Permission DENIED!", Toast.LENGTH_SHORT).show();
     }
 }

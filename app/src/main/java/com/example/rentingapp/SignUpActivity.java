@@ -159,8 +159,10 @@ public class SignUpActivity extends AppCompatActivity {
                         }
                         break;
                     case "Choose from Gallery":
-                        Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(pickPhoto, 1);
+                        if (checkWriteExternalPermission(getApplicationContext()))
+                            PickPhoto();
+                        else
+                            ActivityCompat.requestPermissions(SignUpActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
                         break;
                     case "Cancel":
                         dialog.dismiss();
@@ -169,6 +171,14 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    /**
+     * Calls an implicit intent to the camera roll, where the user can pick a photo.
+     */
+    private void PickPhoto() {
+        Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(pickPhoto, 1);
     }
 
     /**
@@ -289,7 +299,6 @@ public class SignUpActivity extends AppCompatActivity {
                     break;
                 case SELECT_IMAGE_ACTIVITY_REQUEST_CODE: //CHOOSE PICTURE
                     if (resultCode == RESULT_OK && data != null) {
-                        checkWriteExternalPermission(getApplicationContext());
                         Uri selectedImage = data.getData();
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
                         if (selectedImage != null) {
@@ -309,5 +318,21 @@ public class SignUpActivity extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    /**
+     * This function is called when the user accepted or rejected the permission of writing in the
+     * external storage.
+     * @param requestCode permission's request code
+     * @param permissions permissions requested
+     * @param grantResults result
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            PickPhoto();
+        else
+            Toast.makeText(SignUpActivity.this, "Permission DENIED!", Toast.LENGTH_SHORT).show();
     }
 }

@@ -79,7 +79,7 @@ public class SendSmsDialogFragment extends DialogFragment {
                 } else {
                     //When permission is not granted
                     //Request permission
-                    ActivityCompat.requestPermissions((AppCompatActivity)getContext(), new String[]{Manifest.permission.SEND_SMS}, 100);
+                    requestPermissions(new String[]{Manifest.permission.SEND_SMS}, 100);
                 }
             }
         });
