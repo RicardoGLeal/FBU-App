@@ -47,13 +47,12 @@ import static com.example.rentingapp.GooglePlacesClient.placesClient;
  */
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> implements Filterable {
     private Context context;
-    private List<Item> items, allItems, itemsFiltered;
+    private List<Item> items, allItems;
     public static final String TAG = "ItemsAdapter";
 
     public ItemsAdapter(Context context, List<Item> items) {
         this.context = context;
         this.items = items;
-        this.itemsFiltered = new ArrayList<>(items);
         this.allItems = new ArrayList<>(items);
     }
 
@@ -77,7 +76,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     public void clear() {
         items.clear();
+        allItems.clear();
         notifyDataSetChanged();
+    }
+
+    public void setAllItems(List<Item> allItems) {
+        this.allItems = allItems;
     }
 
     @Override

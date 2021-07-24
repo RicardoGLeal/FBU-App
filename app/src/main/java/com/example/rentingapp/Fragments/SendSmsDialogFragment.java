@@ -24,8 +24,7 @@ import com.example.rentingapp.R;
 
 public class SendSmsDialogFragment extends DialogFragment {
 
-    public static final String TAG = "ComposeActivity";
-    public static final int MAX_TWEET_LENGTH = 280;
+    public static final String TAG = "SendSmsDialogFragment";
     EditText etMessage;
     Button btnSend;
     String cellphone;

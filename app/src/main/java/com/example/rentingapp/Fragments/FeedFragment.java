@@ -231,6 +231,7 @@ public class FeedFragment extends Fragment {
      * Gets the latest 20 items.
      */
     private void queryItems() {
+        //allItems.clear();
         // Specify which class to query
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
         //include the user of the post
@@ -257,6 +258,7 @@ public class FeedFragment extends Fragment {
                     item.setDistance(distance);
                 }
                 allItems.addAll(items);
+                adapter.setAllItems(items);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -314,6 +316,8 @@ public class FeedFragment extends Fragment {
                     int myColor = getResources().getColor(R.color.colorPrimaryDark);
                     item.getIcon().setTint(myColor);
                 }
+                break;
+            case R.id.action_sortByPrice:
                 break;
 
             case R.id.logout_btn:

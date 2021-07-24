@@ -55,6 +55,8 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
         this.ownRentedItems = ownRentedItems;
     }
 
+
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
