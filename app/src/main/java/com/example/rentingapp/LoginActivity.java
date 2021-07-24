@@ -11,12 +11,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import static com.example.rentingapp.Controllers.ActionsController.validateField;
+
 public class LoginActivity extends AppCompatActivity {
     public static final String TAG = "LoginActivity";
+    TextInputLayout tilUsername, tilPassword;
     EditText etUsername, etPassword;
     Button btnLogin;
     TextView tvSignUp;
@@ -31,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
             goMainActivity();
         }
 
+        tilUsername = findViewById(R.id.tilUsername);
+        tilPassword = findViewById(R.id.tilPassword);
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
@@ -40,9 +46,16 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
-                loginUser(username,password);
+                //check if all fields are filled
+                int count = 0;
+                if(validateField(tilUsername, etUsername) )
+                    count++;
+                if(validateField(tilPassword, etPassword))
+                    count++;
+                if (count == 2) //if all the fields are filled..
+                    loginUser(etUsername.getText().toString(), etPassword.getText().toString());
+                else
+                    Toast.makeText(LoginActivity.this, "Please verify that are the fields are filled", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -80,11 +93,17 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Creates an intent that goes to the Main Activity
+     */
     private void goMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Creates an intent that goes to the Sign Up Activity
+     */
     private void goSignUpActivity() {
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
