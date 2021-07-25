@@ -7,12 +7,17 @@ import android.widget.EditText;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.rentingapp.Adapters.RentsAdapter;
+import com.example.rentingapp.Fragments.RentItemDialogFragment;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.Rent;
 import com.example.rentingapp.Models.User;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.model.AddressComponent;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.CompositeDateValidator;
+import com.google.android.material.datepicker.DateValidatorPointBackward;
+import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.maps.android.SphericalUtil;
 import com.parse.FindCallback;
@@ -23,6 +28,8 @@ import com.parse.ParseUser;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -189,4 +196,34 @@ public class ActionsController {
         user.put(User.KEY_GENERAL_LOCATION, generalLocation);
     }
 
+
+    /*
+      Limit selectable Date range
+    */
+    public static CalendarConstraints.Builder limitRanges(List<RentItemDialogFragment.DateInterval> datesIntervals) {
+        //Create array of validators for the dates
+        ArrayList<CalendarConstraints.DateValidator> validators = new ArrayList<>();
+
+        for (int i = 0; i < datesIntervals.size(); i++) {
+            //Create instances of calendars
+            Calendar calendarStart = Calendar.getInstance();
+            Calendar calendarEnd = Calendar.getInstance();
+            //Set the time of the initial and end dates.
+            calendarStart.setTime(datesIntervals.get(i).getInitialDate());
+            calendarEnd.setTime(datesIntervals.get(i).getEndDate());
+            calendarStart.add(Calendar.DATE, -2);
+
+            //Converts the dates to millis.
+            long minDate = calendarStart.getTimeInMillis();
+            long maxDate = calendarEnd.getTimeInMillis();
+            validators.add(DateValidatorPointBackward.before(minDate));
+            validators.add(DateValidatorPointForward.from(maxDate));
+        }
+        //Creates the constraintsBuilder
+        CalendarConstraints.Builder constraintsBuilderRange = new CalendarConstraints.Builder();
+
+        constraintsBuilderRange.setValidator(CompositeDateValidator.anyOf(validators));
+
+        return constraintsBuilderRange;
+    }
 }

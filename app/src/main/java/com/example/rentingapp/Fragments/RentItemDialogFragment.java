@@ -1,6 +1,7 @@
 package com.example.rentingapp.Fragments;
 
 import android.app.Dialog;
+import android.icu.util.DateInterval;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,24 +18,32 @@ import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.rentingapp.Controllers.RangeValidator;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.Rent;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
 import com.example.rentingapp.SignUpActivity;
+import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputLayout;
+import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.example.rentingapp.Controllers.ActionsController.getDistanceInKm;
+import static com.example.rentingapp.Controllers.ActionsController.limitRanges;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class RentItemDialogFragment extends DialogFragment {
@@ -43,6 +52,7 @@ public class RentItemDialogFragment extends DialogFragment {
     private Button btnConfirm, btnCancel;
     private Item item;
     private Date startDate, endDate;
+    List<DateInterval> datesAlreadyReserved;
 
     public RentItemDialogFragment() {
     }
@@ -90,29 +100,7 @@ public class RentItemDialogFragment extends DialogFragment {
         tvStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Create the Material date range picker.
-                MaterialDatePicker.Builder<Pair<Long, Long>> dateRangePicker = MaterialDatePicker.Builder.dateRangePicker();
-                Calendar instance = Calendar.getInstance();
-                MaterialDatePicker<Pair<Long, Long>> picker = dateRangePicker.build();
-                picker.show(getChildFragmentManager(), picker.toString());
-                picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
-
-                    //onPositiveButton method confirms the dates in the date range picker. It returns the Pair of dates selected
-                    @Override
-                    public void onPositiveButtonClick(Pair<Long, Long> selection) {
-                        startDate = new Date(selection.first);
-                        endDate = new Date(selection.second);
-                        String strStartDate = new SimpleDateFormat("dd-MM-yyyy").format(startDate);
-                        String strEndDate = new SimpleDateFormat("dd-MM-yyyy").format(endDate);
-                        long diff = endDate.getTime() - startDate.getTime();
-                        long daysNumber = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-
-                        tvStartDate.setText(strStartDate);
-                        tvEndDate.setText(strEndDate);
-                        tvTotalDays.setText(String.valueOf(daysNumber));
-                        tvTotalPrice.setText(String.valueOf(daysNumber*item.getPrice()));
-                    }
-                });
+                getItemRents();
             }
         });
 
@@ -124,6 +112,60 @@ public class RentItemDialogFragment extends DialogFragment {
         });
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+    }
+
+    private void getItemRents() {
+        datesAlreadyReserved = new ArrayList<>();
+        // Specify which class to query
+        ParseQuery<Rent> query = ParseQuery.getQuery(Rent.class);
+        //Restrict if there are selected categories
+        query.whereEqualTo(Rent.KEY_ITEM, item);
+        // Retrieve all the posts
+        query.findInBackground(new FindCallback<Rent>() {
+            @Override
+            public void done(List<Rent> rents, ParseException e) {
+                if (e != null) {
+                    // Log.e(TAG, "Issue with getting posts", e);
+                    return;
+                }
+                for (Rent rent: rents) {
+                    datesAlreadyReserved.add(new DateInterval(rent.getStartDate(), rent.getEndDate()));
+                }
+                buildCalendar();
+            }
+        });
+    }
+
+    /**
+     * Create the Material date range picker.
+     */
+    private void buildCalendar() {
+        //Initialize the Material Date Picker
+        MaterialDatePicker.Builder<Pair<Long, Long>> dateRangePicker = MaterialDatePicker.Builder.dateRangePicker();
+        //dateRangePicker.setCalendarConstraints(limitRange().build());
+        if(!datesAlreadyReserved.isEmpty())
+            dateRangePicker.setCalendarConstraints(limitRanges(datesAlreadyReserved).build());
+        
+        MaterialDatePicker<Pair<Long, Long>> picker = dateRangePicker.build();
+        picker.show(getChildFragmentManager(), picker.toString());
+        picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
+
+            //onPositiveButton method confirms the dates in the date range picker. It returns the Pair of dates selected
+            @Override
+            public void onPositiveButtonClick(Pair<Long, Long> selection) {
+                startDate = new Date(selection.first);
+                endDate = new Date(selection.second);
+                String strStartDate = new SimpleDateFormat("dd-MM-yyyy").format(startDate);
+                String strEndDate = new SimpleDateFormat("dd-MM-yyyy").format(endDate);
+                long diff = endDate.getTime() - startDate.getTime();
+                long daysNumber = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+
+                tvStartDate.setText(strStartDate);
+                tvEndDate.setText(strEndDate);
+                tvTotalDays.setText(String.valueOf(daysNumber));
+                tvTotalPrice.setText(String.valueOf(daysNumber*item.getPrice()));
+            }
+        });
     }
 
     /**
@@ -151,5 +193,31 @@ public class RentItemDialogFragment extends DialogFragment {
                 }
             }
         });
+    }
+
+    public class DateInterval {
+        Date initialDate;
+        Date endDate;
+
+        public DateInterval(Date initialDate, Date endDate) {
+            this.initialDate = initialDate;
+            this.endDate = endDate;
+        }
+
+        public Date getInitialDate() {
+            return initialDate;
+        }
+
+        public void setInitialDate(Date initialDate) {
+            this.initialDate = initialDate;
+        }
+
+        public Date getEndDate() {
+            return endDate;
+        }
+
+        public void setEndDate(Date endDate) {
+            this.endDate = endDate;
+        }
     }
 }
