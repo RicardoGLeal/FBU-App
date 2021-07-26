@@ -1,12 +1,15 @@
 package com.example.rentingapp.Fragments;
 
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.icu.util.DateInterval;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,7 +63,13 @@ public class RentItemDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.dialog_fragment_rent_item, container);
+        View view = inflater.inflate(R.layout.dialog_fragment_rent_item, container, false);
+        // Set transparent background and no title
+        if (getDialog() != null && getDialog().getWindow() != null) {
+            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        }
+        return view;
     }
 
     /**
@@ -112,6 +121,13 @@ public class RentItemDialogFragment extends DialogFragment {
         });
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
     }
 
     private void getItemRents() {
@@ -145,7 +161,7 @@ public class RentItemDialogFragment extends DialogFragment {
         //dateRangePicker.setCalendarConstraints(limitRange().build());
         if(!datesAlreadyReserved.isEmpty())
             dateRangePicker.setCalendarConstraints(limitRanges(datesAlreadyReserved).build());
-        
+
         MaterialDatePicker<Pair<Long, Long>> picker = dateRangePicker.build();
         picker.show(getChildFragmentManager(), picker.toString());
         picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
@@ -195,6 +211,9 @@ public class RentItemDialogFragment extends DialogFragment {
         });
     }
 
+    /**
+     * This class represents a period range in which a item is rented.
+     */
     public class DateInterval {
         Date initialDate;
         Date endDate;

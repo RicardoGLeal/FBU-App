@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/personalDetailsCard"
             style="@style/centreLocatorCardDesign"
             android:layout_marginTop="50dp"
@@ -207,7 +207,7 @@
 
                 </LinearLayout>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
     </ScrollView>
 
 

@@ -10,26 +10,48 @@
     android:gravity="center_horizontal"
     tools:context=".Fragments.SendSmsDialogFragment">
 
-    <EditText
-        android:layout_width="300dp"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etMessage"
-        android:hint="enter message"
-        android:padding="12dp"
-        android:minLines="6"
-        android:inputType="textMultiLine"
-        android:gravity="top"
-        android:layout_marginTop="8dp"
-        android:background="@android:drawable/editbox_background">
-    </EditText>
+        style="@style/centreLocatorCardDesign"
+        app:cardCornerRadius="16dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnSend"
-        android:text="Send sms"
-        android:layout_marginTop="32dp">
-    </Button>
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/etMessage"
+                android:hint="enter message"
+                android:padding="12dp"
+                android:minLines="6"
+                android:inputType="textMultiLine"
+                android:gravity="top"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:background="@android:drawable/editbox_background">
+            </EditText>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnSend"
+                android:text="Send sms"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp">
+            </Button>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
 
 
 </LinearLayout>

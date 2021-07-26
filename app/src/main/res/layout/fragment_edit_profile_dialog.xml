@@ -6,161 +6,168 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.EditProfileDialogFragment">
 
-    <ScrollView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        style="@style/centreLocatorCardDesign"
+        app:cardCornerRadius="16dp"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/signin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="Edit Profile"
-                android:layout_gravity="center"
-                android:textColor="#00051f"
-                android:textSize="17dp" />
-
-            <ImageView
-                android:id="@+id/ivProfileImage"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="18dp"
-                tools:srcCompat="@tools:sample/avatars">
-            </ImageView>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Design.TextInputLayout"
-                android:id="@+id/tilUsername"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                app:startIconDrawable="@drawable/ic_baseline_person_24"
-                android:hint="USERNAME">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etUsername"
-                    android:layout_width="match_parent"
-                    android:textSize="13sp"
-                    android:inputType="text"
-                    android:layout_height="wrap_content">
-                </com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Design.TextInputLayout"
-                android:id="@+id/tilPassword"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:endIconMode="password_toggle"
-                app:startIconDrawable="@drawable/ic_baseline_lock_24"
-                android:hint="PASSWORD">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etPassword"
-                    android:layout_width="match_parent"
-                    android:inputType="textPassword"
-                    android:textSize="13sp"
-                    android:layout_height="wrap_content">
-                </com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Design.TextInputLayout"
-                android:id="@+id/tilName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/ic_baseline_person_24"
-                android:hint="NAME">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:textSize="13sp">
-                </com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Design.TextInputLayout"
-                android:id="@+id/tilEmail"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:startIconDrawable="@drawable/ic_baseline_mail_24"
-                android:hint="EMAIL">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etEmail"
-                    android:layout_width="match_parent"
-                    android:inputType="textEmailAddress"
-                    android:textSize="13sp"
-                    android:layout_height="wrap_content">
-                </com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Design.TextInputLayout"
-                android:id="@+id/tilDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:endIconMode="clear_text"
-                android:hint="DESCRIPTION"
-                app:counterEnabled="true"
-                app:startIconDrawable="@drawable/ic_baseline_short_text_24"
-                app:counterMaxLength="100">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etDescription"
-                    android:layout_width="match_parent"
-                    android:textSize="13sp"
-                    android:inputType="text"
-                    android:layout_height="wrap_content">
-                </com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="LOCATION"
-                android:textColor="#a9b0c3"
-                android:layout_marginBottom="10dp">
-            </TextView>
-
-            <TextView
-                android:id="@+id/tvLocationName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/quantum_grey700"
-                android:drawableStart="@drawable/ic_baseline_location_on_24"
-                android:hint="SELECT LOCATION"
-                android:textSize="13sp"
-                android:textColorHint="@color/quantum_grey700">
-
-            </TextView>
-
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="10dp"
-                android:background="#a9b0c3" />
-
-            <Button
-                android:id="@+id/btnUpdateProfile"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="42dp"
-                android:background="@drawable/round"
-                android:gravity="center"
-                android:padding="14dp"
-                android:text="Update Profile"
-                android:textColor="#CBD1DC"
-                android:textStyle="bold" />
+                android:layout_alignParentStart="true"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        </LinearLayout>
-    </ScrollView>
+                <TextView
+                    android:id="@+id/signin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="Edit Profile"
+                    android:layout_gravity="center"
+                    android:textColor="#00051f"
+                    android:textSize="17dp" />
+
+                <ImageView
+                    android:id="@+id/ivProfileImage"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="18dp"
+                    tools:srcCompat="@tools:sample/avatars">
+                </ImageView>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:id="@+id/tilUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:startIconDrawable="@drawable/ic_baseline_person_24"
+                    android:hint="USERNAME">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etUsername"
+                        android:layout_width="match_parent"
+                        android:textSize="13sp"
+                        android:inputType="text"
+                        android:layout_height="wrap_content">
+                    </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:id="@+id/tilPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:endIconMode="password_toggle"
+                    app:startIconDrawable="@drawable/ic_baseline_lock_24"
+                    android:hint="PASSWORD">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:inputType="textPassword"
+                        android:textSize="13sp"
+                        android:layout_height="wrap_content">
+                    </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:id="@+id/tilName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:startIconDrawable="@drawable/ic_baseline_person_24"
+                    android:hint="NAME">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:textSize="13sp">
+                    </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:id="@+id/tilEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:startIconDrawable="@drawable/ic_baseline_mail_24"
+                    android:hint="EMAIL">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEmail"
+                        android:layout_width="match_parent"
+                        android:inputType="textEmailAddress"
+                        android:textSize="13sp"
+                        android:layout_height="wrap_content">
+                    </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:id="@+id/tilDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text"
+                    android:hint="DESCRIPTION"
+                    app:counterEnabled="true"
+                    app:startIconDrawable="@drawable/ic_baseline_short_text_24"
+                    app:counterMaxLength="100">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDescription"
+                        android:layout_width="match_parent"
+                        android:textSize="13sp"
+                        android:inputType="text"
+                        android:layout_height="wrap_content">
+                    </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="LOCATION"
+                    android:textColor="#a9b0c3"
+                    android:layout_marginBottom="10dp">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tvLocationName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/quantum_grey700"
+                    android:drawableStart="@drawable/ic_baseline_location_on_24"
+                    android:hint="SELECT LOCATION"
+                    android:textSize="13sp"
+                    android:textColorHint="@color/quantum_grey700">
+                </TextView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#a9b0c3" />
+
+                <Button
+                    android:id="@+id/btnUpdateProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="42dp"
+                    android:background="@drawable/round"
+                    android:gravity="center"
+                    android:padding="14dp"
+                    android:text="Update Profile"
+                    android:textColor="#CBD1DC"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </ScrollView>
+    </com.google.android.material.card.MaterialCardView>
+
 </RelativeLayout>
