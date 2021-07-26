@@ -72,8 +72,6 @@ public class FeedFragment extends Fragment {
     boolean[] selectedCategory;
     String[] categoriesArray = {"All", "Electronics", "Furniture", "Clothing", "Vehicles", "Sports", "Books", "Toys"};
     List<String> listSelectedCategories = new ArrayList<>();
-
-    private Spinner spinnerCategories;
     private Context context;
     private Boolean filteredByDistance = false;
 
@@ -156,6 +154,10 @@ public class FeedFragment extends Fragment {
         queryItems();
     }
 
+    /**
+     * Creates a new AlertDialog with all the categories the user can select. It implements the function
+     * setMultiChoiceItems, so the user can select multiple categories.
+     */
     private void configureCategories() {
         //Initialize alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -179,6 +181,7 @@ public class FeedFragment extends Fragment {
                 }
             }
         });
+        //If the user clicks in the confirm button..
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -228,7 +231,7 @@ public class FeedFragment extends Fragment {
     }
 
     /**
-     * Gets the latest 20 items.
+     * Gets the latest items of all the users.
      */
     private void queryItems() {
         //allItems.clear();
@@ -334,5 +337,4 @@ public class FeedFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

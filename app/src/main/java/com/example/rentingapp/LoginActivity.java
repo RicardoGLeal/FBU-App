@@ -35,14 +35,15 @@ public class LoginActivity extends AppCompatActivity {
             goMainActivity();
         }
 
+        // Get fields from view
         tilUsername = findViewById(R.id.tilUsername);
         tilPassword = findViewById(R.id.tilPassword);
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvSignUp = findViewById(R.id.tvSignUp);
-        loadingDialog = new LoadingDialog(LoginActivity.this);
 
+        loadingDialog = new LoadingDialog(LoginActivity.this);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
