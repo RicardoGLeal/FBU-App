@@ -87,8 +87,6 @@ public class ActionsController {
             query.whereEqualTo(Rent.KEY_OWNER, ParseUser.getCurrentUser());
         else
             query.whereEqualTo(Rent.KEY_TENANT, ParseUser.getCurrentUser());
-        //Limiting the number of posts getting back.
-        query.setLimit(20);
         //the items created most recently will come first and the oldest ones will come last.
         query.addDescendingOrder(Rent.KEY_CREATED_AT);
         // Retrieve all the posts
