@@ -155,8 +155,11 @@ GIF created with [Kap](https://getkap.co/).
 
 Here's a walkthrough of the app in the end of week two:
 
-![Imgur Image](https://imgur.com/a/UgrQg9p)
+<img src='/Captures/week2-nohd.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
+<video width="320" height="240" controls>
+  <source src="https://i.imgur.com/rtrSKB6.mp4" type="video/mp4">
+</video>
 
 GIF created with [Kap](https://getkap.co/).
 
