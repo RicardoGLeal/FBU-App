@@ -197,9 +197,11 @@ public class ActionsController {
     }
 
 
-    /*
-      Limit selectable Date range
-    */
+    /**
+     * Limit selectable Date range
+     * @param datesIntervals list of the date's ranges already rented.
+     * @return constraintsBuilderRange
+     */
     public static CalendarConstraints.Builder limitRanges(List<RentItemDialogFragment.DateInterval> datesIntervals) {
         //Create array of validators for the dates
         ArrayList<CalendarConstraints.DateValidator> validators = new ArrayList<>();
