@@ -7,208 +7,208 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.CreateItemFragment">
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/personalDetailsCard"
+        style="@style/centreLocatorCardDesign"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="10dp">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/personalDetailsCard"
-            style="@style/centreLocatorCardDesign"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="30dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:padding="16dp"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:text="CREATING ITEM"
+                android:layout_marginBottom="20dp"
+                android:textSize="20dp"
+                android:textStyle="bold">
+            </TextView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Design.TextInputLayout"
+                android:id="@+id/tilItemName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:endIconMode="clear_text"
+                android:hint="ITEM TITLE"
+                app:startIconDrawable="@drawable/ic_baseline_short_text_24">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etItemName"
+                    android:layout_width="match_parent"
+                    android:textSize="13sp"
+                    android:inputType="text"
+                    android:layout_height="wrap_content">
+                </com.google.android.material.textfield.TextInputEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Design.TextInputLayout"
+                android:id="@+id/tilDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                app:endIconMode="clear_text"
+                android:hint="DESCRIPTION"
+                app:counterEnabled="true"
+                app:startIconDrawable="@drawable/ic_baseline_short_text_24"
+                app:counterMaxLength="100">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDescription"
+                    android:layout_width="match_parent"
+                    android:textSize="13sp"
+                    android:inputType="textMultiLine"
+                    android:layout_height="wrap_content">
+                </com.google.android.material.textfield.TextInputEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:textSize="13dp"
+                android:text="CATEGORY">
+            </TextView>
+
+            <Spinner
+                android:id="@+id/spinnerCategories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
+            </Spinner>
+
+            <TextView
+                android:id="@+id/tvImages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:textSize="13sp"
+                android:text="IMAGES">
+            </TextView>
+
+            <LinearLayout
+                android:id="@+id/imagesLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvImages"
+                android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="CREATING ITEM"
-                    android:textSize="20dp"
-
-                    android:textStyle="bold">
-                </TextView>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.Design.TextInputLayout"
-                    android:id="@+id/tilItemName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    app:endIconMode="clear_text"
-                    android:hint="ITEM TITLE"
-                    app:startIconDrawable="@drawable/ic_baseline_short_text_24">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etItemName"
-                        android:layout_width="match_parent"
-                        android:textSize="13sp"
-                        android:inputType="text"
-                        android:layout_height="wrap_content">
-                    </com.google.android.material.textfield.TextInputEditText>
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.Design.TextInputLayout"
-                    android:id="@+id/tilDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    app:endIconMode="clear_text"
-                    android:hint="DESCRIPTION"
-                    app:counterEnabled="true"
-                    app:startIconDrawable="@drawable/ic_baseline_short_text_24"
-                    app:counterMaxLength="100">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etDescription"
-                        android:layout_width="match_parent"
-                        android:textSize="13sp"
-                        android:inputType="textMultiLine"
-                        android:layout_height="wrap_content">
-                    </com.google.android.material.textfield.TextInputEditText>
-                </com.google.android.material.textfield.TextInputLayout>
-                <TextView
-                    android:id="@+id/tvCategory"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:textSize="13dp"
-                    android:text="CATEGORY">
-                </TextView>
-
-                <Spinner
-                    android:id="@+id/spinnerCategories"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp">
-                </Spinner>
-
-                <TextView
-                    android:id="@+id/tvImages"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:textSize="13sp"
-                    android:text="IMAGES">
-                </TextView>
-
                 <LinearLayout
-                    android:id="@+id/imagesLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tvImages"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/layoutControlImages"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/previousBtn"
-                            android:layout_width="50dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_vertical"
-                            android:background="@drawable/round"
-                            android:drawableLeft="@drawable/ic_baseline_arrow_back_24">
-                        </Button>
-
-                        <ImageSwitcher
-                            android:id="@+id/imagesIs"
-                            android:layout_width="200dp"
-                            android:layout_height="200dp"
-                            android:layout_marginLeft="10dp">
-                        </ImageSwitcher>
-
-                        <Button
-                            android:id="@+id/nextBtn"
-                            android:layout_width="50dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
-                            android:background="@drawable/round"
-                            android:drawableRight="@drawable/ic_baseline_arrow_back_24"
-                            android:rotation="180">
-                        </Button>
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/btnAddImage"
-                        android:layout_width="50dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="10dp"
-                        android:drawableLeft="@drawable/ic_baseline_add_24"
-                        android:background="@drawable/round"
-                        android:text="">
-                    </Button>
-
-                </LinearLayout>
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.Design.TextInputLayout"
-                    android:id="@+id/tilPrice"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    app:endIconMode="clear_text"
-                    android:hint="Cost Per Day"
-                    app:counterEnabled="true"
-                    app:startIconDrawable="@drawable/ic_baseline_attach_money_24"
-                    app:counterMaxLength="100">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etPrice"
-                        android:layout_width="match_parent"
-                        android:textSize="13sp"
-                        android:inputType="numberDecimal"
-                        android:layout_height="wrap_content">
-                    </com.google.android.material.textfield.TextInputEditText>
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <LinearLayout
+                    android:id="@+id/layoutControlImages"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btnCancel"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/centre_button"
-                        android:text="CANCEL">
+                        android:id="@+id/previousBtn"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/round"
+                        android:drawableLeft="@drawable/ic_baseline_arrow_back_24">
                     </Button>
+
+                    <ImageSwitcher
+                        android:id="@+id/imagesIs"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_marginLeft="10dp">
+                    </ImageSwitcher>
 
                     <Button
-                        android:id="@+id/btnCreate"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="100dp"
-                        android:background="@drawable/centre_button"
-                        android:text="CREATE">
+                        android:id="@+id/nextBtn"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/round"
+                        android:drawableRight="@drawable/ic_baseline_arrow_back_24"
+                        android:rotation="180">
                     </Button>
-
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnAddImage"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/ic_baseline_add_24"
+                    android:background="@drawable/round"
+                    android:text="">
+                </Button>
+
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Design.TextInputLayout"
+                android:id="@+id/tilPrice"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:endIconMode="clear_text"
+                android:hint="Cost Per Day"
+                app:counterEnabled="true"
+                app:startIconDrawable="@drawable/ic_baseline_attach_money_24"
+                app:counterMaxLength="100">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPrice"
+                    android:layout_width="match_parent"
+                    android:textSize="13sp"
+                    android:inputType="numberDecimal"
+                    android:layout_height="wrap_content">
+                </com.google.android.material.textfield.TextInputEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/centre_button"
+                    android:text="CANCEL">
+                </Button>
+
+                <Button
+                    android:id="@+id/btnCreate"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="100dp"
+                    android:background="@drawable/centre_button"
+                    android:text="CREATE">
+                </Button>
+            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
+    </com.google.android.material.card.MaterialCardView>
 
 
 </RelativeLayout>
