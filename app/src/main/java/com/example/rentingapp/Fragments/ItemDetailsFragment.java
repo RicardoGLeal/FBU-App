@@ -1,6 +1,8 @@
 package com.example.rentingapp.Fragments;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -171,7 +173,6 @@ public class ItemDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 createDeleteAlertDialog();
-                item.deleteInBackground();
             }
         });
     }
