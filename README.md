@@ -157,9 +157,9 @@ Here's a walkthrough of the app in the end of week two:
 
 <img src='/Captures/week2-nohd.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-<video width="320" height="240" controls>
-  <source src="https://i.imgur.com/rtrSKB6.mp4" type="video/mp4">
-</video>
+Here's a walkthrough of the app for the Mid-Demo: 
+
+https://imgur.com/0uX3cwV
 
 GIF created with [Kap](https://getkap.co/).
 
