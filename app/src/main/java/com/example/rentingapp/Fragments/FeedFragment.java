@@ -3,18 +3,14 @@ package com.example.rentingapp.Fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,26 +18,21 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rentingapp.Adapters.ItemsAdapter;
 import com.example.rentingapp.LoginActivity;
-import com.example.rentingapp.MainActivity;
 import com.example.rentingapp.Models.Item;
-import com.example.rentingapp.Models.Rent;
 import com.example.rentingapp.QuickSort;
 import com.example.rentingapp.R;
 import com.parse.FindCallback;
@@ -73,7 +64,10 @@ public class FeedFragment extends Fragment {
     String[] categoriesArray = {"All", "Electronics", "Furniture", "Clothing", "Vehicles", "Sports", "Books", "Toys"};
     List<String> listSelectedCategories = new ArrayList<>();
     private Context context;
-    private Boolean filteredByDistance = false;
+    private boolean sortedByDistance = false;
+    private boolean sortedByPrice = false;
+    int colorPrimaryDark, colorWhite;
+    ParseQuery<Item> query;
 
     // Required empty public constructor
     public FeedFragment() {
@@ -132,8 +126,8 @@ public class FeedFragment extends Fragment {
         ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_list_item_1,
                 getResources().getStringArray(R.array.categoriesFeed));
-
-
+        colorPrimaryDark = getResources().getColor(R.color.colorPrimaryDark);
+        colorWhite = getResources().getColor(R.color.white);
         swipeRefreshLayout = view.findViewById(R.id.swipeContainer);
 
         //OnClickListener implemented when the user pulls to refresh.
@@ -152,6 +146,9 @@ public class FeedFragment extends Fragment {
         rvItems.setAdapter(adapter);
         rvItems.setLayoutManager(new LinearLayoutManager(context));
         queryItems();
+
+      //  sortedByDistance = false;
+        //sortedByPrice = false;
     }
 
     /**
@@ -231,22 +228,29 @@ public class FeedFragment extends Fragment {
     }
 
     /**
-     * Gets the latest items of all the users.
+     * Configures the query that will obtain the items, regarding the filters applied.
      */
-    private void queryItems() {
-        //allItems.clear();
+    private void setupQueryItems() {
         // Specify which class to query
-        ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
+        query = ParseQuery.getQuery(Item.class);
         //include the user of the post
         query.include(Item.KEY_OWNER);
         //Limiting the number of posts getting back.
         query.setLimit(20);
         //Restrict if there are selected categories
-        if(!listSelectedCategories.isEmpty())
+        if(!listSelectedCategories.isEmpty() || listSelectedCategories.contains("All"))
             query.whereContainedIn(Item.KEY_CATEGORY, listSelectedCategories);
 
         //the items created most recently will come first and the oldest ones will come last.
         query.addDescendingOrder(Item.KEY_CREATED_AT);
+    }
+
+    /**
+     * Gets the items of all the users.
+     */
+    private void queryItems() {
+        //allItems.clear();
+        setupQueryItems();
         // Retrieve all the posts
         query.findInBackground(new FindCallback<Item>() {
             @Override
@@ -299,31 +303,43 @@ public class FeedFragment extends Fragment {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        String title = item.getTitle().toString();
 
-        switch(item.getItemId()) {
-            case R.id.action_sortByLocation:
-                if(!filteredByDistance) {
-                    QuickSort ob = new QuickSort();
-                    ob.sort(allItems, 0, allItems.size()-1);
-                    adapter.notifyDataSetChanged();
-                    filteredByDistance = true;
-                    int myColor = getResources().getColor(R.color.white);
-                    item.getIcon().setTint(myColor);
-                    Toast.makeText(getContext(), "Items sorted by distance!", Toast.LENGTH_SHORT).show();
+        switch(title) {
+            case "SortByLocation": //Sort Items by Distance
+            {
+                if(!sortedByDistance && !sortedByPrice) {
+                    sortItems("distance", item);
                 }
-                else {
+                else if(sortedByDistance) {
                     adapter.clear();
                     allItems.clear();
                     queryItems();
-                    filteredByDistance = false;
-                    int myColor = getResources().getColor(R.color.colorPrimaryDark);
-                    item.getIcon().setTint(myColor);
+                    item.getIcon().setTint(colorPrimaryDark);
+                    sortedByDistance = false;
                 }
+                else
+                    clearSortFiltersAndSortBy("distance", item);
                 break;
-            case R.id.action_sortByPrice:
+            }
+            case "SortByPrice": //Sort Items by Price
+            {
+                if (!sortedByPrice && !sortedByDistance) {
+                    sortItems("price", item);
+                }
+                else if(sortedByPrice) {
+                    adapter.clear();
+                    allItems.clear();
+                    queryItems();
+                    item.getIcon().setTint(colorPrimaryDark);
+                    sortedByPrice = false;
+                }
+                else
+                    clearSortFiltersAndSortBy("price", item);
                 break;
+            }
 
-            case R.id.logout_btn:
+            case "Logout": //Logout
                 ParseUser.logOutInBackground(new LogOutCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -334,7 +350,60 @@ public class FeedFragment extends Fragment {
                     }
                 });
                 break;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Sorts the items in the feed by the specified property.
+     * @param property
+     * @param item
+     */
+    private void sortItems(String property, MenuItem item) {
+        QuickSort ob = new QuickSort(property);
+        ob.sort(allItems, 0, allItems.size()-1);
+        adapter.notifyDataSetChanged();
+        item.getIcon().setTint(colorWhite);
+        if(property.equals("distance"))
+            sortedByDistance = true;
+        else if(property.equals("price"))
+            sortedByPrice = true;
+        Toast.makeText(getContext(), "Items sorted by "+property, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Clears the sorts filters already applied and calls the sortItems function, passing the new sort
+     * wanted. 
+     * @param parameter
+     * @param item
+     */
+    private void clearSortFiltersAndSortBy(String parameter, MenuItem item) {
+        toolbar.getMenu().getItem(2).getIcon().setTint(colorPrimaryDark);
+        toolbar.getMenu().getItem(3).getIcon().setTint(colorPrimaryDark);
+        adapter.clear();
+        allItems.clear();
+        setupQueryItems();
+        query.findInBackground(new FindCallback<Item>() {
+            @Override
+            public void done(List<Item> items, ParseException e) {
+                if (e != null) {
+                    // Log.e(TAG, "Issue with getting posts", e);
+                    return;
+                }
+                for (Item item : items) {
+                    int distance = getDistanceInKm(item, ParseUser.getCurrentUser());
+                    item.setDistance(distance);
+                }
+                allItems.addAll(items);
+                adapter.setAllItems(items);
+                adapter.notifyDataSetChanged();
+
+                sortedByDistance = false;
+                sortedByPrice = false;
+                sortItems(parameter, item);
+            }
+        });
     }
 }

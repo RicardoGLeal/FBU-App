@@ -15,9 +15,8 @@
     <item
         android:id="@+id/action_sortByPrice"
         android:icon="@drawable/ic_baseline_attach_money_24"
-        android:title="Search"
-        app:showAsAction="always|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+        android:title="SortByPrice"
+        app:showAsAction="always|collapseActionView"/>
     <item
         android:id="@+id/action_sortByLocation"
         android:icon="@drawable/ic_baseline_location_on_24"
