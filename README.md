@@ -157,11 +157,11 @@ Here's a walkthrough of the app in the end of week two:
 
 <img src='/Captures/week2-nohd.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
+### Mid-Demo 
+
 Here's a walkthrough of the app for the Mid-Demo: 
 
 https://imgur.com/0uX3cwV
-
-GIF created with [Kap](https://getkap.co/).
 
 ## Schema 
 ### Models
