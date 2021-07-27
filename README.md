@@ -34,9 +34,9 @@ username, password, username, email, description, profile picture and location.
 - [X] The user will be able to see in the FeedFragment a list of items (the list will show the name, picture, cost, brief description, owner's name, owner's location, owner's picture of every item, and distance between them and the item's owner). 
 - [X] The user will be able to enter their location implementing the Google Places API.
 - [X] The user will be able to filter items by distance. 
-- [ ] The user will be able to search items by.
+- [X] The user will be able to search items by name, inside and outside categories.
 - [X] The user will be able to see the list of item's categories.
-- [ ] The user will be able to filter items by categories. 
+- [X] The user will be able to filter items by categories. 
 - [X] The user will be able to see the information of an item in the Details View: Item Name, Item Picture(s), Item Description, Cost of the rent per day, Item Location, Owner's Name, Owner's Profile Picture 
 - [X] The user will be able to publish an object for rent, registering the following information: Item Name, Item Category, Item Pictures, Item Description, Cost of the rent per day.
 - [X] The user will be able to edit/delete their item posts. 
@@ -48,11 +48,13 @@ username, password, username, email, description, profile picture and location.
 - [X] The user can see their own items rents
 - [X] The user can see their item rentals from other users
 - [X] The user can click on an image and it will expand, taking all the space of the cell phone.
-- [ ] The user will be able to see animations when creating or renting items
+- [X] The user can zoom images (pinch to scale)
 - [X] The user can logout from their account. 
 
 **Optional Nice-to-have Stories**
+- [X] The user can delete images previously selected when creating an item. #32
 - [X] The user will be able to see the location of the renter or the owner on a map.
+- [X] The user can see all the users on a Map and go to their profiles clicking on their marker.
 - [ ] The user can create an account through a Google or Facebook account.
 - [X] The user can see the exact address of the owner/tenant of a rent.
 - [ ] The user can change the type of currency or the distance unit.
@@ -65,7 +67,11 @@ username, password, username, email, description, profile picture and location.
 - [ ] Filters option.
 - [ ] The user can save items.
 - [ ] The users will have reviews from others. 
-- [ ] Implement SMS functionality
+- [X] Implement SMS functionality inside the app (for contacting the renter or owner of an item).
+- [ ] The user will be able to see animations when creating or renting items
+- [X] There will be restrictions and verifications to all the forms. 
+
+
 
 ### 2. Screen Archetypes
 
@@ -157,11 +163,11 @@ Here's a walkthrough of the app in the end of week two:
 
 <img src='/Captures/week2-nohd.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-<video width="320" height="240" controls>
-  <source src="https://i.imgur.com/rtrSKB6.mp4" type="video/mp4">
-</video>
+### Mid-Demo 
 
-GIF created with [Kap](https://getkap.co/).
+Here's a walkthrough of the app for the Mid-Demo: 
+
+https://imgur.com/0uX3cwV
 
 ## Schema 
 ### Models
