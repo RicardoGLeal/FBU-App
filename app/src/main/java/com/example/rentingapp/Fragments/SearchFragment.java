@@ -1,7 +1,12 @@
 package com.example.rentingapp.Fragments;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -17,6 +22,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -46,9 +52,30 @@ public class SearchFragment extends Fragment {
                 //When map is loaded
                 map = googleMap;
                 queryUsers();
+
+                //When the user clicks on a marker, it goes to the profile of the selected user.
+                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @SuppressLint("PotentialBehaviorOverride")
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        AppCompatActivity activity = (AppCompatActivity) getContext();
+                        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
+                        query.whereEqualTo(User.KEY_NAME, marker.getTitle());
+                        query.findInBackground(new FindCallback<ParseUser>() {
+                            @Override
+                            public void done(List<ParseUser> users, ParseException e) {
+                                if (e == null)
+                                {
+                                    Fragment fragment = new ProfileFragment(users.get(0));
+                                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, fragment).commit();
+                                }
+                            }
+                        });
+                        return false;
+                    }
+                });
             }
         });
-
         //Return view
         return view;
     }
@@ -84,8 +111,13 @@ public class SearchFragment extends Fragment {
      * @param user ParseUser
      */
     private void setMapLocation(ParseUser user) {
-        //map.moveCamera(CameraUpdateFactory.newLatLngZoom(User.getLatLng(user), 13f));
-        map.addMarker(new MarkerOptions().position(User.getLatLng(user)));
+        //Create a new instance of MarkerOptions
+        MarkerOptions markerOptions = new MarkerOptions();
+        //set the position
+        markerOptions.position(User.getLatLng(user));
+        //set title
+        markerOptions.title(user.get(User.KEY_NAME).toString());
+        map.addMarker(markerOptions);
         // Set the map type back to normal.
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
     }

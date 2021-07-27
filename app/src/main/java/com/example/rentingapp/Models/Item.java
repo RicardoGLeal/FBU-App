@@ -29,7 +29,7 @@ public class Item extends ParseObject {
         this.distance = distance;
     }
 
-    public int distance;
+    private int distance;
 
     public void setOwner(ParseUser owner) {
         put(KEY_OWNER, owner);

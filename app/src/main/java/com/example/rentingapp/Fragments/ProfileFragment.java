@@ -91,6 +91,11 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        if(user.equals(ParseUser.getCurrentUser()))
+            fabEditProfile.setVisibility(FloatingActionButton.VISIBLE);
+        else
+            fabEditProfile.setVisibility(FloatingActionButton.GONE);
+
         fabEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

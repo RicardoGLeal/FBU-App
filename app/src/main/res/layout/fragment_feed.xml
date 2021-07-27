@@ -44,8 +44,8 @@
                 android:padding="10dp"
                 android:layout_margin="10dp"
                 android:drawablePadding="16dp"
+                android:textColorHint="@color/white"
                 android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                android:drawableTint="@color/colorPrimaryDark"
                 android:background="@drawable/border_primary_dark">
 
             </TextView>
