@@ -238,7 +238,7 @@ public class FeedFragment extends Fragment {
         //Limiting the number of posts getting back.
         query.setLimit(20);
         //Restrict if there are selected categories
-        if(!listSelectedCategories.isEmpty() || listSelectedCategories.contains("All"))
+        if(!listSelectedCategories.isEmpty() && !listSelectedCategories.contains("All"))
             query.whereContainedIn(Item.KEY_CATEGORY, listSelectedCategories);
 
         //the items created most recently will come first and the oldest ones will come last.
@@ -375,7 +375,7 @@ public class FeedFragment extends Fragment {
 
     /**
      * Clears the sorts filters already applied and calls the sortItems function, passing the new sort
-     * wanted. 
+     * wanted.
      * @param parameter
      * @param item
      */

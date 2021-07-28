@@ -6,6 +6,7 @@ import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.Location;
 import com.example.rentingapp.Models.Rent;
 import com.parse.Parse;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 
 public class ParseApplication extends Application {
@@ -22,6 +23,14 @@ public class ParseApplication extends Application {
                 .applicationId(getString(R.string.back4app_app_id))
                 .clientKey(getString(R.string.back4app_client_key))
                 .server(getString(R.string.back4app_server_url))
+                .enableLocalDataStore()
                 .build());
+
+        Parse.setLogLevel(Parse.LOG_LEVEL_VERBOSE);
+
+        //This class stores all the data needed to target push notifications.
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        installation.put("GCMSenderId", "373500207550");
+        installation.saveInBackground();
     }
 }

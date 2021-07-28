@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    id 'com.google.gms.google-services'
 }
 
 def apikeyPropertiesFile = rootProject.file("apikey.properties")
@@ -68,4 +69,11 @@ dependencies {
     //For scaling images
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
     implementation 'com.zolad:zoominimageview:1.0.0'
+    //Firebase
+    implementation platform('com.google.firebase:firebase-bom:28.3.0')
+    implementation 'com.google.firebase:firebase-core:19.0.0'
+    //implementation 'com.google.firebase:firebase-messaging:22.0.0'
+    //Parse Notifications
+    implementation "com.github.parse-community.Parse-SDK-Android:fcm:1.21.0"
+    implementation 'com.parse.bolts:bolts-android:1.4.0'
 }
