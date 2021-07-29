@@ -8,6 +8,7 @@ import com.example.rentingapp.Models.Rent;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 public class ParseApplication extends Application {
 
@@ -28,9 +29,6 @@ public class ParseApplication extends Application {
 
         Parse.setLogLevel(Parse.LOG_LEVEL_VERBOSE);
 
-        //This class stores all the data needed to target push notifications.
-        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-        installation.put("GCMSenderId", "373500207550");
-        installation.saveInBackground();
+
     }
 }

@@ -47,6 +47,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.example.rentingapp.Controllers.ActionsController.getDistanceInKm;
 import static com.example.rentingapp.Controllers.ActionsController.limitRanges;
+import static com.example.rentingapp.Controllers.SendPushNotification.sendRentPush;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class RentItemDialogFragment extends DialogFragment {
@@ -205,6 +206,7 @@ public class RentItemDialogFragment extends DialogFragment {
                     return;
                 } else {
                     Toast.makeText(getContext(), "Rented Item Successfully", Toast.LENGTH_SHORT).show();
+                    sendRentPush(item);
                     dismiss();
                 }
             }

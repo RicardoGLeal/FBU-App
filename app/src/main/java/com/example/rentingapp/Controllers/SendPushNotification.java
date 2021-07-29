@@ -20,7 +20,6 @@ public class SendPushNotification {
      * Stores all the data needed to target push notifications.
       */
     public static void configurePushNotifications() {
-        //This class
         ParseInstallation installation = ParseInstallation.getCurrentInstallation();
         installation.put("GCMSenderId", "373500207550");
         // Associate the device with a user

@@ -17,9 +17,12 @@ import com.example.rentingapp.Fragments.ProfileFragment;
 import com.example.rentingapp.Fragments.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
-public class MainActivity extends AppCompatActivity{
+import static com.example.rentingapp.Controllers.SendPushNotification.configurePushNotifications;
+
+public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
 
     //responsible for changing the fragment shown in the frame layout.
@@ -31,6 +34,9 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        configurePushNotifications();
+
         fabComposeItem = findViewById(R.id.fabComposeItem);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setBackground(null);
