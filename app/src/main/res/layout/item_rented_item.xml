@@ -44,6 +44,7 @@
                         android:layout_marginLeft="15dp"
                         android:textAppearance="@style/TextAppearance.AppCompat"
                         android:textSize="15dp"
+                        android:fontFamily="@font/open_sans"
                         tools:text="Xbox One">
                     </TextView>
 
@@ -56,6 +57,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
+                            android:fontFamily="@font/open_sans"
                             android:text="Category:">
                         </TextView>
 
@@ -64,6 +66,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
+                            android:fontFamily="@font/open_sans"
                             tools:text="Electronics">
                         </TextView>
                     </LinearLayout>
@@ -77,6 +80,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
+                            android:fontFamily="@font/open_sans"
                             android:text="Rented Since:">
                         </TextView>
 
@@ -85,6 +89,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
+                            android:fontFamily="@font/open_sans"
                             tools:text="August 13th">
                         </TextView>
                     </LinearLayout>
@@ -98,6 +103,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
+                            android:fontFamily="@font/open_sans"
                             android:text="Rented Until:">
                         </TextView>
                         <TextView
@@ -105,6 +111,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
+                            android:fontFamily="@font/open_sans"
                             tools:text="August 13th">
                         </TextView>
                     </LinearLayout>
@@ -119,6 +126,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
+                            android:fontFamily="@font/open_sans"
                             android:text="Owner's Name:">
                         </TextView>
 
@@ -127,6 +135,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
+                            android:fontFamily="@font/open_sans"
                             tools:text="Ricardo Gonzalez">
                         </TextView>
                     </LinearLayout>
@@ -140,6 +149,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:fontFamily="@font/open_sans"
                             android:text="Total Price: ">
                         </TextView>
 
@@ -147,6 +157,7 @@
                             android:id="@+id/tvTotalPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:fontFamily="@font/open_sans"
                             android:drawableLeft="@drawable/ic_baseline_attach_money_24"
                             android:drawableTint="@color/colorPrimary"
                             tools:text="500">
@@ -179,6 +190,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="3dp"
+                        android:fontFamily="@font/open_sans"
                         android:drawableStart="@drawable/ic_baseline_call_24"
                         android:drawablePadding="5dp"
                         android:drawableTint="@color/colorPrimary"
@@ -212,6 +224,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="3dp"
+                    android:fontFamily="@font/open_sans"
                     android:drawableStart="@drawable/ic_baseline_mail_24"
                     android:drawableTint="@color/colorPrimary"
                     android:drawablePadding="5dp"
@@ -222,6 +235,7 @@
                     android:padding="3dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans"
                     android:text="Owner's Location:">
                 </TextView>
                 <TextView
@@ -232,6 +246,7 @@
                     android:drawableLeft="@drawable/ic_baseline_location_on_24"
                     android:drawablePadding="5dp"
                     android:drawableTint="@color/colorPrimary"
+                    android:fontFamily="@font/open_sans"
                     tools:text="Menlo Park, CA 444444">
                 </TextView>
                 <com.google.android.gms.maps.MapView

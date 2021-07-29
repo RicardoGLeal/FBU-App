@@ -78,7 +78,9 @@
             android:value="${MAPS_API_KEY}" />
         <meta-data android:name="com.parse.push.gcm_sender_id"
             android:value="id:373500207550" />
-
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
 
         <activity android:name=".SignUpActivity" />

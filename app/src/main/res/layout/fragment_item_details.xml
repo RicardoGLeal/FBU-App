@@ -62,6 +62,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:fontFamily="@font/open_sans_semibold"
+                            android:textSize="20dp"
                             tools:text="Xbox One">
                         </TextView>
                         <ImageButton
@@ -83,6 +85,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
+                            android:fontFamily="@font/open_sans"
                             android:text="Category:" >
                         </TextView>
 
@@ -91,6 +94,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
+                            android:fontFamily="@font/open_sans"
                             tools:text="Electronics">
                         </TextView>
                     </LinearLayout>
@@ -103,6 +107,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
+                            android:fontFamily="@font/open_sans"
                             android:text="Published by:">
                         </TextView>
 
@@ -111,6 +116,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
+                            android:fontFamily="@font/open_sans"
                             tools:text="Ricardo Gonzalez">
                         </TextView>
                     </LinearLayout>
@@ -123,6 +129,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:justificationMode="inter_word"
+                android:fontFamily="@font/open_sans"
+                android:layout_marginStart="10dp"
                 tools:text="Trying to look hipster">
             </TextView>
 
@@ -137,6 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:text="0"
+                    android:fontFamily="@font/open_sans"
                     android:drawableLeft="@drawable/ic_baseline_attach_money_24"
                     android:drawableTint="@color/colorPrimary">
                 </TextView>
@@ -144,6 +153,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans"
                     android:text="USD/DAY"></TextView>
 
 
@@ -155,6 +165,7 @@
                     android:drawableLeft="@drawable/ic_baseline_location_on_24"
                     android:drawablePadding="5dp"
                     android:drawableTint="@color/colorPrimary"
+                    android:fontFamily="@font/open_sans"
                     tools:text="Menlo Park, CA 444444">
                 </TextView>
 
@@ -165,6 +176,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_baseline_6_ft_apart_24"
                     android:drawableTint="@color/colorPrimary"
+                    android:fontFamily="@font/open_sans"
                     android:drawablePadding="5dp"
                     tools:text="50">
                 </TextView>
@@ -179,6 +191,7 @@
                 android:drawableStart="@drawable/ic_baseline_access_time_24"
                 android:drawableTint="@color/colorPrimary"
                 android:drawablePadding="5dp"
+                android:fontFamily="@font/open_sans"
                 android:text="8 hours ago">
             </TextView>
 

@@ -37,6 +37,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:fontFamily="@font/open_sans_semibold"
                         tools:text="Xbox One">
                     </TextView>
 
@@ -49,6 +50,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
+                            android:fontFamily="@font/open_sans"
                             android:text="Category:" >
                         </TextView>
 
@@ -57,6 +59,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
+                            android:fontFamily="@font/open_sans"
                             tools:text="Electronics">
                         </TextView>
                     </LinearLayout>
@@ -69,6 +72,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
+                            android:fontFamily="@font/open_sans"
                             android:text="Published by:"></TextView>
 
                         <TextView
@@ -76,6 +80,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
+                            android:fontFamily="@font/open_sans"
                             tools:text="Ricardo Gonzalez"></TextView>
                     </LinearLayout>
                 </LinearLayout>
@@ -98,12 +103,14 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="10dp"
                 android:justificationMode="inter_word"
+                android:fontFamily="@font/open_sans"
                 tools:text="Trying to look hipster">
             </TextView>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
                 android:layout_marginTop="15dp">
 
                 <TextView
@@ -111,9 +118,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:text="0"
                     android:drawableLeft="@drawable/ic_baseline_attach_money_24"
-                    android:drawableTint="@color/colorPrimary">
+                    android:drawableTint="@color/colorPrimary"
+                    android:fontFamily="@font/open_sans"
+                    android:text="0">
                 </TextView>
 
                 <TextView
@@ -130,6 +138,7 @@
                     android:drawableLeft="@drawable/ic_baseline_location_on_24"
                     android:drawablePadding="5dp"
                     android:drawableTint="@color/colorPrimary"
+                    android:fontFamily="@font/open_sans"
                     tools:text="Menlo Park, CA 444444">
                 </TextView>
 
@@ -141,6 +150,7 @@
                     android:drawableLeft="@drawable/ic_baseline_6_ft_apart_24"
                     android:drawableTint="@color/colorPrimary"
                     android:drawablePadding="5dp"
+                    android:fontFamily="@font/open_sans"
                     tools:text="50">
                 </TextView>
 
@@ -155,6 +165,7 @@
                 android:drawableStart="@drawable/ic_baseline_access_time_24"
                 android:drawableTint="@color/colorPrimary"
                 android:drawablePadding="5dp"
+                android:fontFamily="@font/open_sans"
                 android:text="8 hours ago">
             </TextView>
         </LinearLayout>
