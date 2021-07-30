@@ -3,6 +3,7 @@ package com.example.rentingapp.Controllers;
 import android.util.Log;
 
 import com.example.rentingapp.Models.Item;
+import com.example.rentingapp.Models.Rent;
 import com.example.rentingapp.Models.User;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
@@ -27,7 +28,11 @@ public class SendPushNotification {
         installation.saveInBackground();
     }
 
-    public static void sendRentPush(Item item) {
+    /**
+     * Sends a push notification to the item's owner informing they about the rental request.
+     * @param item
+     */
+    public static void sendRentRequestPush(Item item) {
         ParseQuery userQuery = ParseUser.getQuery();
         String objectId = item.getOwner().getObjectId();
         userQuery.whereEqualTo("objectId", objectId);
@@ -39,7 +44,38 @@ public class SendPushNotification {
         ParsePush push = new ParsePush();
         push.setQuery(pushQuery); // Set our Installation query
         String originUser = ParseUser.getCurrentUser().getString(User.KEY_NAME);
-        push.setMessage("Congratulations! "+originUser + " has rented your item "+item.getTitle());
+        push.setMessage("Congratulations! "+originUser + " has requested to rent your item "+item.getTitle());
+        push.sendInBackground(new SendCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e != null) {
+                    Log.i("PUSH", e.getMessage());
+                }
+                else {
+                    Log.e("PUSH", "successfull");
+                }
+            }
+        });
+    }
+
+    /**
+     * Sends a push notification to the item's renter informing they about the result of their rental request.
+     * @param rent rental object
+     * @param STATUS_KEY rejected or accepted message
+     */
+    public static void sendRentStatusPush(Rent rent, String STATUS_KEY) {
+        ParseQuery userQuery = ParseUser.getQuery();
+        String objectId = rent.getTenant().getObjectId();
+        userQuery.whereEqualTo("objectId", objectId);
+
+        ParseQuery pushQuery = ParseInstallation.getQuery();
+        pushQuery.whereMatchesQuery("user", userQuery);
+
+        // Send push notification to query
+        ParsePush push = new ParsePush();
+        push.setQuery(pushQuery); // Set our Installation query
+        String originUser = ParseUser.getCurrentUser().getString(User.KEY_NAME);
+        push.setMessage(originUser + " has "+STATUS_KEY+" your rental request of "+rent.getItem().getTitle());
         push.sendInBackground(new SendCallback() {
             @Override
             public void done(ParseException e) {

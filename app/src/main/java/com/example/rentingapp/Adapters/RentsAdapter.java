@@ -1,6 +1,7 @@
 package com.example.rentingapp.Adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Layout;
@@ -14,11 +15,17 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.rentingapp.Fragments.FeedFragment;
 import com.example.rentingapp.Fragments.SendSmsDialogFragment;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.Rent;
@@ -31,15 +38,22 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.DeleteCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 import static com.example.rentingapp.Controllers.ImagesController.loadCircleImage;
+import static com.example.rentingapp.Controllers.SendPushNotification.sendRentStatusPush;
 
 public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
     public static final String TAG = "RentsAdapter";
+    public static final String KEY_APPROVED = "Approved";
+    public static final String KEY_REJECTED = "Rejected";
+    public static final String KEY_WAITING = "Waiting";
     private Context context;
     private List<Rent> rents;
     private boolean ownRentedItems;
@@ -80,7 +94,8 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ivItemImage;
-        TextView tvItemTitle, tvCategory, tvStartDate, tvEndDate, tvPersonName, tvLocation, tvTotalPrice, tvRenterOrOwnerName, tvRenterOrOwnerLoc, tvCellphone;
+        TextView tvItemTitle, tvCategory, tvStartDate, tvEndDate, tvPersonName, tvLocation, tvTotalPrice,
+                tvRenterOrOwnerName, tvRenterOrOwnerLoc, tvCellphone, tvStatus;
         private GoogleMap map;
         private MapView mapView;
         private LinearLayout layoutExpandable;
@@ -109,7 +124,9 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
             btnCall = itemView.findViewById(R.id.btnCall);
             btnMessage = itemView.findViewById(R.id.btnMessage);
             tvCellphone = itemView.findViewById(R.id.tvCellphone);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
 
+            //btnExpand ClickListener to expand the rent CardView
             btnExpand.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -183,17 +200,23 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
             tvTotalPrice.setText(String.valueOf(rent.getTotalPrice()));
             loadCircleImage(context, item.getImages().get(0), ivItemImage);
 
+            //if the items are owned
             if (ownRentedItems) {
                 user = rent.getTenant();
                 tvRenterOrOwnerName.setText("Renter's Name: ");
                 tvRenterOrOwnerLoc.setText("Renter's Location: ");
             }
-            else
+            else {
                 user = rent.getOwner();
+                tvStatus.setBackgroundDrawable(null);
+                tvStatus.setTextColor(context.getResources().getColor(R.color.textColor));
+            }
 
             tvPersonName.setText(user.getString(User.KEY_NAME));
             tvLocation.setText(user.getString(User.KEY_PLACE_ADDRESS));
+            tvStatus.setText(rent.getStatus());
 
+            //Creates a new map
             if(mapView != null) {
                 mapView.onCreate(null);
                 mapView.getMapAsync(new OnMapReadyCallback() {
@@ -205,6 +228,57 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
                     }
                 });
             }
+
+            tvStatus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(ownRentedItems && !rent.getStatus().equals(KEY_APPROVED)){
+                        createConfirmDialogBuilder(rent);
+                    }
+                }
+            });
+        }
+
+        /**
+         * Invokes a DialogBuilder in which the item's owner can accept or reject a rental.
+         * A Push Notification is sent to the renter informing the result of their request.
+         * @param rent rental to approve or reject.
+         */
+        private void createConfirmDialogBuilder(Rent rent) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setMessage("Do you want to approve or reject this rent request?")
+                    .setCancelable(true)
+                    .setPositiveButton("Approve", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            rent.setStatus(KEY_APPROVED);
+                            rent.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    tvStatus.setText(KEY_APPROVED);
+                                    sendRentStatusPush(rent, KEY_APPROVED);
+                                    Toast.makeText(context, "Rent request accepted", Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+                                }
+                            });
+                        }
+                    }).setNegativeButton("Reject", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    rent.setStatus(KEY_REJECTED);
+                    rent.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            tvStatus.setText(KEY_REJECTED);
+                            sendRentStatusPush(rent, KEY_REJECTED);
+                            Toast.makeText(context, "Rent request rejected", Toast.LENGTH_SHORT).show();
+                            notifyItemRemoved(getAdapterPosition());
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.cancel();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
         }
     }
 }

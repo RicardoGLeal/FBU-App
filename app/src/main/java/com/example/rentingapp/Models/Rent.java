@@ -15,6 +15,8 @@ public class Rent extends ParseObject {
     public static final String KEY_END_DATE = "endDate";
     public static final String KEY_DAYS_COUNT = "daysCount";
     public static final String KEY_TOTAL_PRICE = "totalPrice";
+    public static final String KEY_STATUS = "status";
+
 
     public void setItem(Item item) {
         put(KEY_ITEM, item);
@@ -44,13 +46,13 @@ public class Rent extends ParseObject {
         put(KEY_TOTAL_PRICE, totalPrice);
     }
 
+    public void setStatus(String status) {
+        put(KEY_STATUS, status);
+    }
+
    public Item getItem() {
         return (Item) getParseObject(KEY_ITEM);
     }
-
-   // public ParseObject getItem() {
-     //   return getParseObject(KEY_ITEM);
-    //}
 
     public ParseUser getOwner() {
         return getParseUser(KEY_OWNER);
@@ -69,5 +71,9 @@ public class Rent extends ParseObject {
 
     public double getTotalPrice() {
         return getDouble(KEY_TOTAL_PRICE);
+    }
+
+    public String getStatus() {
+        return getString(KEY_STATUS);
     }
 }

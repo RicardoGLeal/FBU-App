@@ -83,8 +83,10 @@ public class ActionsController {
         query.include(Rent.KEY_OWNER);
         query.include(Rent.KEY_TENANT);
 
-        if (ownRentedItems)
+        if (ownRentedItems) {
             query.whereEqualTo(Rent.KEY_OWNER, ParseUser.getCurrentUser());
+            query.whereNotEqualTo(Rent.KEY_STATUS, "Rejected");
+        }
         else
             query.whereEqualTo(Rent.KEY_TENANT, ParseUser.getCurrentUser());
         //the items created most recently will come first and the oldest ones will come last.
