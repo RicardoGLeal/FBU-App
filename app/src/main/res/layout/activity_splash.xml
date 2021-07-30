@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blue_gradient"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingTop="150dp"
+    tools:context=".SplashActivity">
+
+
+    <ImageView
+        android:layout_width="235dp"
+        android:layout_height="39dp"
+        android:background="@drawable/logo_text">
+    </ImageView>
+
+    <ImageView
+        android:layout_marginTop="50dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/logo_image"
+        android:id="@+id/ivLogo"/>
+
+</LinearLayout>
