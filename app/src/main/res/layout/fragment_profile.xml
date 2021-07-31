@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.ProfileFragment"
     android:background="@drawable/shape_curves_profile"
     android:orientation="vertical">
@@ -73,7 +74,20 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:cardCornerRadius="15dp"
             style="@style/centreLocatorCardDesign">
+
+            <RelativeLayout
+                android:id="@+id/pbLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <ProgressBar
+                    android:id="@+id/pb"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp">
+                </ProgressBar>
+            </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvItems"

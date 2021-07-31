@@ -20,22 +20,6 @@ public class ForeignRentedItemsFragment extends OwnRentedItemsFragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     * @return A new instance of fragment ForeignRentedItemsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ForeignRentedItemsFragment newInstance(String param1, String param2) {
-        ForeignRentedItemsFragment fragment = new ForeignRentedItemsFragment();
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,6 +42,6 @@ public class ForeignRentedItemsFragment extends OwnRentedItemsFragment {
      */
     @Override
     protected void prequeryRents() {
-        queryRents(TAG, allRents, adapter, false);
+        queryRents(TAG, allRents, adapter, progressBar, false);
     }
 }

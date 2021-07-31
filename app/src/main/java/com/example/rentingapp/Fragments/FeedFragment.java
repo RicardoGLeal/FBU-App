@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,7 @@ public class FeedFragment extends Fragment {
     protected ItemsAdapter adapter;
     protected List<Item> allItems;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ProgressBar progressBar;
 
     private Toolbar toolbar;
     private ImageView ivExpandToolbar;
@@ -92,7 +94,9 @@ public class FeedFragment extends Fragment {
         toolbar = view.findViewById(R.id.toolbar);
         ivExpandToolbar = view.findViewById(R.id.ivExpandToolbar);
         filtersLayout = view.findViewById(R.id.filtersLayout);
+        progressBar = view.findViewById(R.id.pb);
 
+        //ClickListener to expand toolbar
         ivExpandToolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,9 +150,6 @@ public class FeedFragment extends Fragment {
         rvItems.setAdapter(adapter);
         rvItems.setLayoutManager(new LinearLayoutManager(context));
         queryItems();
-
-      //  sortedByDistance = false;
-        //sortedByPrice = false;
     }
 
     /**
@@ -252,6 +253,7 @@ public class FeedFragment extends Fragment {
         //allItems.clear();
         setupQueryItems();
         // Retrieve all the posts
+        progressBar.setVisibility(ProgressBar.VISIBLE);
         query.findInBackground(new FindCallback<Item>() {
             @Override
             public void done(List<Item> items, ParseException e) {
@@ -267,6 +269,7 @@ public class FeedFragment extends Fragment {
                 allItems.addAll(items);
                 adapter.setAllItems(items);
                 adapter.notifyDataSetChanged();
+                progressBar.setVisibility(ProgressBar.GONE);
             }
         });
     }

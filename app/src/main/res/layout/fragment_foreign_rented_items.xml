@@ -16,6 +16,18 @@
         android:textAlignment="center"
         android:textSize="20sp"/>
 
+    <RelativeLayout
+        android:id="@+id/pbLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <ProgressBar
+            android:id="@+id/pb"
+            android:layout_width="50dp"
+            android:layout_height="50dp">
+        </ProgressBar>
+    </RelativeLayout>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"
         android:layout_below="@id/subFragmentTitle"

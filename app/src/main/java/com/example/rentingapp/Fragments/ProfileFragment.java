@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.rentingapp.Adapters.ItemsProfileAdapter;
@@ -50,6 +51,7 @@ public class ProfileFragment extends Fragment {
     protected List<Item> allItems;
     private ItemsProfileAdapter adapter;
     private FloatingActionButton fabEditProfile;
+    private ProgressBar progressBar;
 
     public ProfileFragment(ParseUser user) {
         this.user = user;
@@ -72,6 +74,7 @@ public class ProfileFragment extends Fragment {
         tvLocation = view.findViewById(R.id.tvLocation);
         rvItems = view.findViewById(R.id.rvItems);
         fabEditProfile = view.findViewById(R.id.fabEditProfile);
+        progressBar = view.findViewById(R.id.pb);
         //Assign values
         loadCircleImage(getContext(), user.getParseFile(User.KEY_PROFILE_PICTURE), ivProfileImage);
         tvPersonName.setText(user.getString(User.KEY_NAME));
@@ -120,7 +123,7 @@ public class ProfileFragment extends Fragment {
         //the items created most recently will come first and the oldest ones will come last.
         query.addDescendingOrder(Item.KEY_CREATED_AT);
         query.whereEqualTo(Item.KEY_OWNER, user);
-
+        progressBar.setVisibility(ProgressBar.VISIBLE);
         // Retrieve all the posts
         query.findInBackground(new FindCallback<Item>() {
             @Override
@@ -134,6 +137,7 @@ public class ProfileFragment extends Fragment {
                 }
                 allItems.addAll(items);
                 adapter.notifyDataSetChanged();
+                progressBar.setVisibility(ProgressBar.GONE);
             }
         });
     }

@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.FeedFragment">
 
+
     <LinearLayout
         android:id="@+id/layoutToolbar"
         android:layout_width="match_parent"
@@ -34,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_below="@id/toolbar"
-            android:background="@color/colorPrimary">
+            android:background="@drawable/expandable_toolbar">
 
             <TextView
                 android:id="@+id/tvSelectCategory"
@@ -51,6 +52,19 @@
             </TextView>
         </RelativeLayout>
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/pbLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_below="@id/layoutToolbar">
+        <ProgressBar
+            android:id="@+id/pb"
+            android:layout_width="50dp"
+            android:layout_height="50dp">
+        </ProgressBar>
+    </RelativeLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"

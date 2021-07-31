@@ -27,12 +27,18 @@
                 tools:srcCompat="@tools:sample/avatars">
             </ImageView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvItemImages"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
-            </androidx.recyclerview.widget.RecyclerView>
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="15dp">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvItemImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </androidx.recyclerview.widget.RecyclerView>
+            </com.google.android.material.card.MaterialCardView>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

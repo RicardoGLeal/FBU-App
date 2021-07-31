@@ -3,6 +3,7 @@ package com.example.rentingapp.Controllers;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -73,9 +74,10 @@ public class ActionsController {
      * @param TAG TAG identifier of the fragment.
      * @param allRents list of all the rents retrieved.
      * @param adapter rentsAdapter
+     * @param progressBar
      * @param ownRentedItems Is it a rent from your own item, or from someone else's item?
      */
-    public static void queryRents(String TAG, List<Rent> allRents, RentsAdapter adapter, boolean ownRentedItems) {
+    public static void queryRents(String TAG, List<Rent> allRents, RentsAdapter adapter, ProgressBar progressBar, boolean ownRentedItems) {
         //Specify which class to query
         ParseQuery<Rent> query = ParseQuery.getQuery(Rent.class);
         //include the user of the post
@@ -91,6 +93,7 @@ public class ActionsController {
             query.whereEqualTo(Rent.KEY_TENANT, ParseUser.getCurrentUser());
         //the items created most recently will come first and the oldest ones will come last.
         query.addDescendingOrder(Rent.KEY_CREATED_AT);
+        progressBar.setVisibility(ProgressBar.VISIBLE);
         // Retrieve all the posts
         query.findInBackground(new FindCallback<Rent>() {
             @Override
@@ -104,6 +107,7 @@ public class ActionsController {
                 }
                 allRents.addAll(rents);
                 adapter.notifyDataSetChanged();
+                progressBar.setVisibility(ProgressBar.GONE);
             }
         });
     }
