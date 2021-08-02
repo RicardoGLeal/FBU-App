@@ -3,6 +3,7 @@ package com.example.rentingapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +17,11 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 import static com.example.rentingapp.Controllers.ActionsController.validateField;
+import static com.example.rentingapp.Controllers.CustomAlertDialogs.loadingDialog;
+import static com.example.rentingapp.Controllers.CustomAlertDialogs.successDialog;
 
 public class LoginActivity extends AppCompatActivity {
     public static final String TAG = "LoginActivity";
@@ -24,7 +29,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText etUsername, etPassword;
     Button btnLogin;
     TextView tvSignUp;
-    LoadingDialog loadingDialog;
+    //LoadingDialog loadingDialog;
+    SweetAlertDialog loadingDialog, successDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +48,10 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvSignUp = findViewById(R.id.tvSignUp);
+        loadingDialog = loadingDialog(LoginActivity.this);
+        successDialog = successDialog(LoginActivity.this, "Logged In Successfully!");
 
-        loadingDialog = new LoadingDialog(LoginActivity.this);
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,8 +63,12 @@ public class LoginActivity extends AppCompatActivity {
                     count++;
                 if (count == 2) //if all the fields are filled..
                     loginUser(etUsername.getText().toString(), etPassword.getText().toString());
-                else
-                    Toast.makeText(LoginActivity.this, "Please verify that are the fields are filled", Toast.LENGTH_SHORT).show();
+                else {
+                    new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Oops...")
+                            .setContentText("Please verify that are the fields are filled")
+                            .show();
+                }
             }
         });
 
@@ -75,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void loginUser(String username, String password) {
         Log.i(TAG, "Attempting to login user" + username);
-        loadingDialog.startLoadingDialog();
+        loadingDialog.show();
         //Navigate to the main activity if the user has signed in properly
         //try to log in using a different thread from the main one.
         ParseUser.logInInBackground(username, password, new LogInCallback() {
@@ -84,12 +96,18 @@ public class LoginActivity extends AppCompatActivity {
                 if(e != null) {
                     Log.e(TAG, "Issue with login", e);
                     Toast.makeText(LoginActivity.this, "Issue with login", Toast.LENGTH_SHORT).show();
-                    loadingDialog.dismissDialog();
+                    loadingDialog.dismiss();
                     return;
                 }
-                loadingDialog.dismissDialog();
-                goMainActivity();
-                Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+                successDialog.show();
+                successDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        goMainActivity();
+                    }
+                });
+                //Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
             }
         });
     }

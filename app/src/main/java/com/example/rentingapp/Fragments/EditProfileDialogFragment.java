@@ -34,6 +34,7 @@ import com.example.rentingapp.BuildConfig;
 import com.example.rentingapp.Controllers.ImagesController;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
+import com.example.rentingapp.SignUpActivity;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -51,11 +52,16 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static com.example.rentingapp.Controllers.ActionsController.getGeneralLocation;
 import static com.example.rentingapp.Controllers.ActionsController.setUserValues;
 import static com.example.rentingapp.Controllers.ActionsController.validateField;
+import static com.example.rentingapp.Controllers.CustomAlertDialogs.errorDialog;
+import static com.example.rentingapp.Controllers.CustomAlertDialogs.loadingDialog;
+import static com.example.rentingapp.Controllers.CustomAlertDialogs.successDialog;
 import static com.example.rentingapp.Controllers.ImagesController.loadCircleImage;
 import static com.example.rentingapp.Controllers.ImagesController.loadFileImage;
 import static com.example.rentingapp.Controllers.ImagesController.loadTakenImage;
@@ -79,6 +85,7 @@ public class EditProfileDialogFragment extends DialogFragment {
     Button btnUpdateProfile;
     String placeId, placeName, placeAddress, generalLocation;
     Double placeLat, placeLng;
+    SweetAlertDialog loadingDialog, successDialog, errorDialog;
 
     public EditProfileDialogFragment() {
         // Required empty public constructor
@@ -161,8 +168,10 @@ public class EditProfileDialogFragment extends DialogFragment {
                     count++;
                 if (count == 5)
                     preUpdateUser();
-                else
-                    Toast.makeText(getContext(), "Please verify that are the fields are filled", Toast.LENGTH_SHORT).show();
+                else {
+                    errorDialog = errorDialog(getContext(), "Please verify that are the fields are filled");
+                    errorDialog.show();
+                }
             }
         });
     }
@@ -196,22 +205,33 @@ public class EditProfileDialogFragment extends DialogFragment {
             setUserValues(user, etName.getText().toString(), etUsername.getText().toString(),
                     etPassword.getText().toString(), etEmail.getText().toString(), photoFile, photo,
                     etDescription.getText().toString(), placeId, placeName, placeAddress, placeLat, placeLng, generalLocation);
+            loadingDialog = loadingDialog(getContext());
+            loadingDialog.show();
 
             user.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
+                    loadingDialog.dismissWithAnimation();
                     if (e != null) {
-                        Log.e(TAG, "Error while updating" + e);
-                        Toast.makeText(getContext(), "Error while updating", Toast.LENGTH_SHORT).show();
+                        errorDialog = errorDialog(getContext(), e.getMessage());
+                        errorDialog.show();
                         return;
                     } else {
-                        Toast.makeText(getContext(), "User updated Successfully", Toast.LENGTH_SHORT).show();
-                        dismiss();
-                        ProfileFragment f2 = new ProfileFragment(ParseUser.getCurrentUser());
-                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.flContainer, f2);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+                        successDialog = successDialog(getContext(), "User updated Successfully");
+                        successDialog.show();
+                        successDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                dismiss();
+                                successDialog.dismiss();
+                                ProfileFragment f2 = new ProfileFragment(ParseUser.getCurrentUser());
+                                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                transaction.replace(R.id.flContainer, f2);
+                                transaction.addToBackStack(null);
+                                transaction.commit();
+                            }
+                        });
+
                     }
                 }
             });

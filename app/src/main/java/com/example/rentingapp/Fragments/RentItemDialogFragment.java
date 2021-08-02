@@ -45,8 +45,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 import static com.example.rentingapp.Controllers.ActionsController.getDistanceInKm;
 import static com.example.rentingapp.Controllers.ActionsController.limitRanges;
+import static com.example.rentingapp.Controllers.CustomAlertDialogs.errorDialog;
+import static com.example.rentingapp.Controllers.CustomAlertDialogs.loadingDialog;
+import static com.example.rentingapp.Controllers.CustomAlertDialogs.successDialog;
 import static com.example.rentingapp.Controllers.SendPushNotification.sendRentRequestPush;
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -57,6 +62,7 @@ public class RentItemDialogFragment extends DialogFragment {
     private Item item;
     private Date startDate, endDate;
     List<DateInterval> datesAlreadyReserved;
+    SweetAlertDialog loadingDialog, successDialog, errorDialog;
 
     public RentItemDialogFragment() {
     }
@@ -117,7 +123,13 @@ public class RentItemDialogFragment extends DialogFragment {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RentItem();
+                if(!tvStartDate.getText().toString().isEmpty() && !tvEndDate.getText().toString().isEmpty())
+                    RentItem();
+                else {
+                    errorDialog = errorDialog(getContext(), "Please verify that are the fields are filled");
+                    errorDialog.show();
+                }
+
             }
         });
         getDialog().getWindow().setSoftInputMode(
@@ -131,6 +143,9 @@ public class RentItemDialogFragment extends DialogFragment {
         });
     }
 
+    /**
+     * Gets all the rents that the item already has.
+     */
     private void getItemRents() {
         datesAlreadyReserved = new ArrayList<>();
         // Specify which class to query
@@ -197,17 +212,27 @@ public class RentItemDialogFragment extends DialogFragment {
         rent.setEndDate(endDate);
         rent.setDaysCount(Integer.valueOf(tvTotalDays.getText().toString()));
         rent.setTotalPrice(Float.valueOf(tvTotalPrice.getText().toString()));
+        loadingDialog = loadingDialog(getContext());
+        loadingDialog.show();
         rent.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
+                loadingDialog.dismissWithAnimation();
                 if (e != null) {
-                    Log.e(TAG, "Error while saving, e");
-                    Toast.makeText(getContext(), "Error while saving!", Toast.LENGTH_SHORT).show();
+                    errorDialog = errorDialog(getContext(), e.getMessage());
+                    errorDialog.show();
                     return;
                 } else {
-                    Toast.makeText(getContext(), "Rented Item Successfully", Toast.LENGTH_SHORT).show();
                     sendRentRequestPush(item);
-                    dismiss();
+                    successDialog = successDialog(getContext(), "Rented Item Successfully");
+                    successDialog.show();
+                    successDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            successDialog.dismissWithAnimation();
+                            dismiss();
+                        }
+                    });
                 }
             }
         });

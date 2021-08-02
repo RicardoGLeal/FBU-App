@@ -52,9 +52,14 @@ import java.util.List;
 
 import com.parse.SaveCallback;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 import static com.example.rentingapp.Controllers.ActionsController.getGeneralLocation;
 import static com.example.rentingapp.Controllers.ActionsController.setUserValues;
 import static com.example.rentingapp.Controllers.ActionsController.validateField;
+import static com.example.rentingapp.Controllers.CustomAlertDialogs.errorDialog;
+import static com.example.rentingapp.Controllers.CustomAlertDialogs.loadingDialog;
+import static com.example.rentingapp.Controllers.CustomAlertDialogs.successDialog;
 import static com.example.rentingapp.Controllers.ImagesController.loadCircleImage;
 import static com.example.rentingapp.Controllers.ImagesController.loadFileImage;
 import static com.example.rentingapp.Controllers.ImagesController.loadTakenImage;
@@ -67,7 +72,7 @@ public class SignUpActivity extends AppCompatActivity {
     public static final String TAG = "SignUpActivity";
     private File photoFile;
     public String photoFileName = "photo.jpg";
-    LoadingDialog loadingDialog;
+    SweetAlertDialog loadingDialog, successDialog, errorDialog;
 
     TextInputLayout tilName, tilUsername, tilDescription, tilEmail, tilPassword;
     EditText etName, etUsername, etDescription, etEmail, etPassword;
@@ -93,7 +98,8 @@ public class SignUpActivity extends AppCompatActivity {
         ivProfileImage = findViewById(R.id.ivProfileImage);
         btnSignUp = findViewById(R.id.btnSignUp);
         generalLocation = "";
-        loadingDialog = new LoadingDialog(SignUpActivity.this);
+        loadingDialog = loadingDialog(SignUpActivity.this);
+        successDialog = successDialog(SignUpActivity.this, "Logged In Successfully!");
 
         RequestOptions circleProp = new RequestOptions();
         circleProp = circleProp.transform(new CircleCrop());
@@ -126,7 +132,10 @@ public class SignUpActivity extends AppCompatActivity {
                 if (count == 5)
                     preCreateUser();
                 else
-                    Toast.makeText(SignUpActivity.this, "Please verify that are the fields are filled", Toast.LENGTH_SHORT).show();
+                {
+                    errorDialog = errorDialog(SignUpActivity.this, "Please verify that are the fields are filled");
+                    errorDialog.show();
+                }
             }
         });
         configurePlacesAPI();
@@ -228,14 +237,15 @@ public class SignUpActivity extends AppCompatActivity {
      * Called when the user clicks the SignUp button. Creates a ParseFile for the photo and goes to CreateAccount.
      */
     private void preCreateUser() {
-        loadingDialog.startLoadingDialog();
+        loadingDialog = loadingDialog(SignUpActivity.this);
+        loadingDialog.show();
         if (photoFile != null) {
             ParseFile photo = new ParseFile(photoFile);
             photo.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     if (e != null) {
-                        loadingDialog.dismissDialog();
+                        loadingDialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Error while saving"+e, Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -260,15 +270,26 @@ public class SignUpActivity extends AppCompatActivity {
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
+                loadingDialog.dismissWithAnimation();
                 if (e != null) {
-                    Log.e(TAG, "Error while saving"+e);
-                    Toast.makeText(SignUpActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
-                    return;
+                    errorDialog = errorDialog(SignUpActivity.this, e.getMessage());
+                    errorDialog.show();
+                    /*errorDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            errorDialog.dismissWithAnimation();
+                        }
+                    });*/
                 } else {
-                    Toast.makeText(SignUpActivity.this, "User created Successfully", Toast.LENGTH_SHORT).show();
-                    finish();
+                    successDialog.show();
+                    successDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            finish();
+                            successDialog.dismiss();
+                        }
+                    });
                 }
-                loadingDialog.dismissDialog();
             }
         });
     }

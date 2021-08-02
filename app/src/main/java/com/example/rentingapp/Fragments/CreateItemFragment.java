@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,7 +46,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 import static com.example.rentingapp.Controllers.ActionsController.validateField;
+import static com.example.rentingapp.Controllers.CustomAlertDialogs.errorDialog;
+import static com.example.rentingapp.Controllers.CustomAlertDialogs.loadingDialog;
+import static com.example.rentingapp.Controllers.CustomAlertDialogs.successDialog;
 import static com.example.rentingapp.Controllers.PermissionsController.checkWriteExternalPermission;
 
 public class CreateItemFragment extends Fragment {
@@ -57,7 +63,7 @@ public class CreateItemFragment extends Fragment {
 
     //UI Views
     protected ImageSwitcher imagesIs;
-    protected Button previousBtn, nextBtn, btnAddImage;
+    protected ImageButton previousBtn, nextBtn, btnAddImage;
     protected LinearLayout layoutControlImages;
 
     //store image uris in this array list
@@ -69,6 +75,7 @@ public class CreateItemFragment extends Fragment {
 
     //position of selected image
     int position = 0;
+    SweetAlertDialog loadingDialog, successDialog, errorDialog;
 
     public CreateItemFragment() {
     }
@@ -124,12 +131,17 @@ public class CreateItemFragment extends Fragment {
                 if(validateField(tilPrice, etPrice))
                     count++;
                 if (count == 3) {
-                    if(imageUris.isEmpty())
-                        Toast.makeText(getContext(), "Please add at least one image", Toast.LENGTH_SHORT).show();
+                    if(imageUris.isEmpty()) {
+                        errorDialog = errorDialog(getContext(), "Please add at least one image");
+                        errorDialog.show();
+                    }
                     else
                         CreateItem();
                 } else
-                    Toast.makeText(getContext(), "Please verify that are the fields are filled", Toast.LENGTH_SHORT).show();
+                {
+                    errorDialog = errorDialog(getContext(), "Please verify that are the fields are filled");
+                    errorDialog.show();
+                }
             }
         });
 
@@ -266,6 +278,10 @@ public class CreateItemFragment extends Fragment {
      * This function is in charge of creating a new item and publishing it to the database
      */
     private void CreateItem() {
+        //Creates Loading Dialog
+        loadingDialog = loadingDialog(getContext());
+        loadingDialog.show();
+
         if(photoFiles.isEmpty())
             photoFiles = new ArrayList<>();
         for (int i=0; i<imageUris.size(); i++) {
@@ -315,16 +331,26 @@ public class CreateItemFragment extends Fragment {
         item.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
+                loadingDialog.dismissWithAnimation();
                 if (e != null) {
-                    Toast.makeText(getContext(), "Error while saving", Toast.LENGTH_SHORT).show();
+                    errorDialog = errorDialog(getContext(), e.getMessage());
+                    errorDialog.show();
                 }
                 else {
-                    Toast.makeText(getContext(), "Item Created Successfully", Toast.LENGTH_SHORT).show();
-                    ProfileFragment f2 = new ProfileFragment(ParseUser.getCurrentUser());
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.flContainer, f2);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+                    successDialog = successDialog(getContext(), "Item Created Successfully");
+                    successDialog.show();
+                    successDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    ProfileFragment f2 = new ProfileFragment(ParseUser.getCurrentUser());
+                                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                    transaction.replace(R.id.flContainer, f2);
+                                    transaction.addToBackStack(null);
+                                    transaction.commit();
+                                    sweetAlertDialog.dismiss();
+                                }
+                            })
+                            .show();
                 }
             }
         });
