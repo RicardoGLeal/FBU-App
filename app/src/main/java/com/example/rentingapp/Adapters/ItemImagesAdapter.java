@@ -10,6 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.R;
 import com.parse.ParseFile;
@@ -65,7 +68,9 @@ public class ItemImagesAdapter extends RecyclerView.Adapter<ItemImagesAdapter.Vi
             //Bind the post data to the view elements
             //condition to check if there is an image attached
             if (image != null) {
-                Glide.with(context).load(image.getUrl()).placeholder(R.drawable.profile_image_empty).into(ivImage);
+                RequestOptions mediaOptions = new RequestOptions();
+                mediaOptions = mediaOptions.transforms(new CenterCrop(), new RoundedCorners(20));
+                Glide.with(context).load(image.getUrl()).placeholder(R.drawable.profile_image_empty).apply(mediaOptions).into(ivImage);
                 ivImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
