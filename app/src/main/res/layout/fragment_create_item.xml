@@ -123,14 +123,14 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/previousBtn"
-                        android:layout_width="50dp"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/round"
-                        android:drawableLeft="@drawable/ic_baseline_arrow_back_24">
-                    </Button>
+                        android:src="@drawable/ic_baseline_arrow_back_24">
+                    </ImageButton>
 
                     <ImageSwitcher
                         android:id="@+id/imagesIs"
@@ -139,27 +139,27 @@
                         android:layout_marginLeft="10dp">
                     </ImageSwitcher>
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/nextBtn"
-                        android:layout_width="50dp"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/round"
-                        android:drawableRight="@drawable/ic_baseline_arrow_back_24"
+                        android:src="@drawable/ic_baseline_arrow_back_24"
                         android:rotation="180">
-                    </Button>
+                    </ImageButton>
                 </LinearLayout>
 
-                <Button
+                <ImageButton
                     android:id="@+id/btnAddImage"
-                    android:layout_width="50dp"
+                    android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="10dp"
-                    android:drawableLeft="@drawable/ic_baseline_add_24"
+                    android:src="@drawable/ic_baseline_add_24"
                     android:background="@drawable/round"
                     android:text="">
-                </Button>
+                </ImageButton>
 
             </LinearLayout>
 
