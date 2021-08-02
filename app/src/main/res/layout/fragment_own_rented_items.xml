@@ -6,16 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.OwnRentedItemsFragment">
 
-    <TextView
-        android:id="@+id/subFragmentTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Own Rented Items"
-        android:fontFamily="@font/open_sans"
-        android:layout_marginStart="10dp"
-        android:textAlignment="center"
-        android:textSize="20sp"/>
-
     <RelativeLayout
         android:id="@+id/pbLayout"
         android:layout_width="match_parent"
@@ -30,7 +20,6 @@
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"
-        android:layout_below="@id/subFragmentTitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
