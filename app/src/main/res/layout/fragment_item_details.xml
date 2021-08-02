@@ -62,20 +62,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/tvItemName"
                             android:layout_width="wrap_content"
+                            android:maxWidth="270dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             android:fontFamily="@font/open_sans_semibold"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             android:textSize="20dp"
-                            tools:text="Xbox One">
-                        </TextView>
+                            tools:text="Xbox One"></TextView>
                         <ImageButton
                             android:id="@+id/btnDeleteItem"
-                            android:layout_marginStart="5dp"
-                            android:layout_gravity="right"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:background="@drawable/ic_baseline_delete_24">
