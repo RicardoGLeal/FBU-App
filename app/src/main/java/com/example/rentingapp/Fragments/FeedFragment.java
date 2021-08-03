@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.rentingapp.Adapters.ItemsAdapter;
 import com.example.rentingapp.LoginActivity;
 import com.example.rentingapp.Models.Item;
@@ -56,8 +57,8 @@ public class FeedFragment extends Fragment {
     protected ItemsAdapter adapter;
     protected List<Item> allItems;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ProgressBar progressBar;
-
+    //private ProgressBar progressBar;
+    LottieAnimationView lottieLoading;
     private Toolbar toolbar;
     private ImageView ivExpandToolbar;
     private RelativeLayout filtersLayout;
@@ -95,7 +96,8 @@ public class FeedFragment extends Fragment {
         toolbar = view.findViewById(R.id.toolbar);
         ivExpandToolbar = view.findViewById(R.id.ivExpandToolbar);
         filtersLayout = view.findViewById(R.id.filtersLayout);
-        progressBar = view.findViewById(R.id.pb);
+        //progressBar = view.findViewById(R.id.pb);
+        lottieLoading = view.findViewById(R.id.lottieLoading);
 
         //ClickListener to expand toolbar
         ivExpandToolbar.setOnClickListener(new View.OnClickListener() {
@@ -254,7 +256,8 @@ public class FeedFragment extends Fragment {
         //allItems.clear();
         setupQueryItems();
         // Retrieve all the posts
-        progressBar.setVisibility(ProgressBar.VISIBLE);
+        lottieLoading.setVisibility(LottieAnimationView.VISIBLE);
+        //progressBar.setVisibility(ProgressBar.VISIBLE);
         query.findInBackground(new FindCallback<Item>() {
             @Override
             public void done(List<Item> items, ParseException e) {
@@ -270,7 +273,8 @@ public class FeedFragment extends Fragment {
                 allItems.addAll(items);
                 adapter.setAllItems(items);
                 adapter.notifyDataSetChanged();
-                progressBar.setVisibility(ProgressBar.GONE);
+                lottieLoading.setVisibility(LottieAnimationView.GONE);
+                //progressBar.setVisibility(ProgressBar.GONE);
             }
         });
     }
