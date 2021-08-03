@@ -138,7 +138,7 @@ public class ImagesController {
      * Loads an image by knowing it's Uri into an ImageSwitcher.
      * @param bitmap uri of the image.
      * @param context context.
-     * @param imagesIs ImageSwitcher. 
+     * @param imagesIs ImageSwitcher.
      */
     public static void loadUriRounderCorners(Uri bitmap, Context context, ImageSwitcher imagesIs) {
         RequestOptions mediaOptions = new RequestOptions();
@@ -149,5 +149,4 @@ public class ImagesController {
                 .apply(mediaOptions)
                 .into((ImageView)imagesIs.getCurrentView());
     }
-
 }

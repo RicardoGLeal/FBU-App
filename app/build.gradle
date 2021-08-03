@@ -80,4 +80,8 @@ dependencies {
     //Sweet Alert Dialog
     implementation 'com.github.f0ris.sweetalert:library:1.5.6'
 
+    //lottie Animations
+    def lottieVersion = "3.4.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
 }

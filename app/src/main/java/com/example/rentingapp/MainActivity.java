@@ -2,11 +2,14 @@ package com.example.rentingapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         configurePushNotifications();
+        loadSettings();
 
         fabComposeItem = findViewById(R.id.fabComposeItem);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -79,6 +83,15 @@ public class MainActivity extends AppCompatActivity {
                 transaction.commit();
             }
         });
+    }
+
+    private void loadSettings() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean check_night = sp.getBoolean("NIGHT", false);
+        if (check_night)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        else
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     /**

@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.example.rentingapp.Adapters.ItemsAdapter;
 import com.example.rentingapp.LoginActivity;
 import com.example.rentingapp.Models.Item;
+import com.example.rentingapp.Preferences;
 import com.example.rentingapp.QuickSort;
 import com.example.rentingapp.R;
 import com.parse.FindCallback;
@@ -341,7 +342,10 @@ public class FeedFragment extends Fragment {
                     clearSortFiltersAndSortBy("price", item);
                 break;
             }
-
+            case "Settings":
+                Intent i = new Intent(getContext(), Preferences.class);
+                startActivity(i);
+                break;
             case "Logout": //Logout
                 ParseUser.logOutInBackground(new LogOutCallback() {
                     @Override
