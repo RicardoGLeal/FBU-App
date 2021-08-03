@@ -31,6 +31,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.example.rentingapp.Fragments.ProfileFragment;
+import com.example.rentingapp.MainActivity;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.R;
 import com.example.rentingapp.SignUpActivity;
@@ -52,6 +53,7 @@ import static com.example.rentingapp.Controllers.ActionsController.validateField
 import static com.example.rentingapp.Controllers.CustomAlertDialogs.errorDialog;
 import static com.example.rentingapp.Controllers.CustomAlertDialogs.loadingDialog;
 import static com.example.rentingapp.Controllers.CustomAlertDialogs.successDialog;
+import static com.example.rentingapp.Controllers.ImagesController.loadUriRounderCorners;
 import static com.example.rentingapp.Controllers.PermissionsController.checkWriteExternalPermission;
 
 public class CreateItemFragment extends Fragment {
@@ -94,6 +96,7 @@ public class CreateItemFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         //Get References
         etItemName = view.findViewById(R.id.etItemName);
         etItemDescription = view.findViewById(R.id.etDescription);
@@ -118,6 +121,16 @@ public class CreateItemFragment extends Fragment {
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.categories));
         categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategories.setAdapter(categoriesAdapter);
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.flContainer, new FeedFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
 
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,8 +181,9 @@ public class CreateItemFragment extends Fragment {
                 if(position > 0) {
                     position--;
                 }
-                if (!imageUris.isEmpty())
-                    imagesIs.setImageURI(imageUris.get(position));
+                if (!imageUris.isEmpty()){
+                    loadUriRounderCorners(imageUris.get(position), getContext(), imagesIs);
+                }
                 else {
                     imagesIs.removeAllViews();
                     imagesIs.setFactory(new ViewSwitcher.ViewFactory() {
@@ -200,7 +214,7 @@ public class CreateItemFragment extends Fragment {
             public void onClick(View v) {
                 if(position > 0) {
                     position--;
-                    imagesIs.setImageURI(imageUris.get(position));
+                    loadUriRounderCorners(imageUris.get(position), getContext(), imagesIs);
                 }
                 else {
                     Toast.makeText(getContext(), "No Previous Images", Toast.LENGTH_SHORT).show();
@@ -214,7 +228,7 @@ public class CreateItemFragment extends Fragment {
             public void onClick(View v) {
                 if (position < imageUris.size() - 1) {
                     position++;
-                    imagesIs.setImageURI(imageUris.get(position));
+                    loadUriRounderCorners(imageUris.get(position), getContext(), imagesIs);
                 }
                 else {
                     Toast.makeText(getContext(), "No More Images", Toast.LENGTH_SHORT).show();
@@ -267,7 +281,7 @@ public class CreateItemFragment extends Fragment {
                     Uri imageUri = data.getData();
                     imageUris.add(imageUri);
                 }
-                //set image to our image switcher
+                //set image to our image switcher}
                 imagesIs.setImageURI(imageUris.get(0));
                 position = 0;
             }

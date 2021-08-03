@@ -6,16 +6,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.rentingapp.FullSizeImageActivity;
 import com.example.rentingapp.Models.User;
@@ -128,6 +132,22 @@ public class ImagesController {
                 .load(takenImage)
                 .apply(circleProp)
                 .into(imageView);
+    }
+
+    /**
+     * Loads an image by knowing it's Uri into an ImageSwitcher.
+     * @param bitmap uri of the image.
+     * @param context context.
+     * @param imagesIs ImageSwitcher. 
+     */
+    public static void loadUriRounderCorners(Uri bitmap, Context context, ImageSwitcher imagesIs) {
+        RequestOptions mediaOptions = new RequestOptions();
+        mediaOptions = mediaOptions.transforms(new CenterCrop(), new RoundedCorners(30));
+        Glide.with(context)
+                .asBitmap()
+                .load(bitmap)
+                .apply(mediaOptions)
+                .into((ImageView)imagesIs.getCurrentView());
     }
 
 }
