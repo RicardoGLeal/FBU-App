@@ -20,6 +20,7 @@ import com.parse.ParseUser;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.example.rentingapp.Controllers.ActionsController.validateField;
+import static com.example.rentingapp.Controllers.CustomAlertDialogs.errorDialog;
 import static com.example.rentingapp.Controllers.CustomAlertDialogs.loadingDialog;
 import static com.example.rentingapp.Controllers.CustomAlertDialogs.successDialog;
 
@@ -29,8 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText etUsername, etPassword;
     Button btnLogin;
     TextView tvSignUp;
-    //LoadingDialog loadingDialog;
-    SweetAlertDialog loadingDialog, successDialog;
+    SweetAlertDialog loadingDialog, successDialog, errorDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +48,6 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvSignUp = findViewById(R.id.tvSignUp);
-        loadingDialog = loadingDialog(LoginActivity.this);
-        successDialog = successDialog(LoginActivity.this, "Logged In Successfully!");
-
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,20 +83,20 @@ public class LoginActivity extends AppCompatActivity {
      * @param password password
      */
     private void loginUser(String username, String password) {
-        Log.i(TAG, "Attempting to login user" + username);
+        loadingDialog = loadingDialog(LoginActivity.this);
         loadingDialog.show();
         //Navigate to the main activity if the user has signed in properly
-        //try to log in using a different thread from the main one.
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if(e != null) {
-                    Log.e(TAG, "Issue with login", e);
-                    Toast.makeText(LoginActivity.this, "Issue with login", Toast.LENGTH_SHORT).show();
                     loadingDialog.dismiss();
+                    errorDialog = errorDialog(LoginActivity.this, e.getMessage());
+                    errorDialog.show();
                     return;
                 }
-                loadingDialog.dismiss();
+                loadingDialog.dismissWithAnimation();
+                successDialog = successDialog(LoginActivity.this, "Logged In Successfully!");
                 successDialog.show();
                 successDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
@@ -107,7 +104,6 @@ public class LoginActivity extends AppCompatActivity {
                         goMainActivity();
                     }
                 });
-                //Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
             }
         });
     }
