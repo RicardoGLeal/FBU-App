@@ -44,6 +44,6 @@ public class ForeignRentedItemsFragment extends OwnRentedItemsFragment {
      */
     @Override
     protected void prequeryRents() {
-        queryRents(TAG, allRents, adapter, progressBar, false);
+        queryRents(TAG, allRents, adapter, lottieLoading, false);
     }
 }

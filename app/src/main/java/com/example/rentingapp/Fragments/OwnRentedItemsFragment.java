@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.rentingapp.Adapters.RentsAdapter;
 import com.example.rentingapp.Models.Rent;
 import com.example.rentingapp.R;
@@ -33,7 +34,7 @@ public class OwnRentedItemsFragment extends Fragment {
     private RecyclerView rvRents;
     protected RentsAdapter adapter;
     protected List<Rent> allRents;
-    protected ProgressBar progressBar;
+    protected LottieAnimationView lottieLoading;
     protected SwipeRefreshLayout swipeRefreshLayout;
     private Context context;
 
@@ -51,10 +52,10 @@ public class OwnRentedItemsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        progressBar = view.findViewById(R.id.pb);
         rvRents = view.findViewById(R.id.rvRents);
         allRents = new ArrayList<>();
         swipeRefreshLayout = view.findViewById(R.id.swipeContainer);
+        lottieLoading = view.findViewById(R.id.lottieLoading);
         context = getContext();
 
         //OnClickListener implemented when the user pulls to refresh.
@@ -93,6 +94,6 @@ public class OwnRentedItemsFragment extends Fragment {
      * ownRentedItems, this means it will load the user's own rents.
      */
     protected void prequeryRents() {
-        queryRents(TAG, allRents, adapter, progressBar, true);
+        queryRents(TAG, allRents, adapter, lottieLoading, true);
     }
 }
