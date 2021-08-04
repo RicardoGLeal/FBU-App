@@ -36,12 +36,12 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     FloatingActionButton fabComposeItem;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loadSettings();
         configurePushNotifications();
 
         fabComposeItem = findViewById(R.id.fabComposeItem);
@@ -88,20 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 transaction.commit();
             }
         });
-    }
-
-    /**
-     * Loads user saved settings
-     */
-    private void loadSettings() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean check_night = sp.getBoolean("NIGHT", false);
-
-        //Checks if Light or Night Mode.
-        if (check_night)
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        else
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     /**

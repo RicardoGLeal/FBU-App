@@ -4,6 +4,8 @@
     <color name="colorPrimaryVariant">#084C83</color>
     <color name="colorPrimaryDark">#063760</color>
     <color name="backgroundColor">#121212</color>
+    <color name="backgroundColorLight">#3A3A3A</color>
+
     <color name="textColor">#000000</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>

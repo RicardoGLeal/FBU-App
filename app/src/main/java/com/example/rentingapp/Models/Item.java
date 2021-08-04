@@ -3,6 +3,7 @@ package com.example.rentingapp.Models;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.json.JSONObject;
@@ -20,6 +21,7 @@ public class Item extends ParseObject {
     public static final String KEY_CREATED_KEY = "createdAt";
     public static final String KEY_PRICE = "price";
     public static final String KEY_CATEGORY = "category";
+    boolean saved;
 
     public int getDistance() {
         return distance;
@@ -83,4 +85,13 @@ public class Item extends ParseObject {
     {
         return getDouble(KEY_PRICE);
     }
+
+    public void setSaved() {
+        saved = true;
+    }
+
+    public boolean getSaved() {
+        return saved;
+    }
+
 }

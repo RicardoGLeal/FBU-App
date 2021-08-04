@@ -3,12 +3,15 @@ package com.example.rentingapp;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 /**
  * This class is in charge of showing the Splash Activity when the usser opens the app.
@@ -20,6 +23,7 @@ public class SplashActivity extends AppCompatActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
+        loadSettings();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
@@ -44,5 +48,19 @@ public class SplashActivity extends AppCompatActivity
 
             }
         },SPLASH_TIME_OUT);
+    }
+
+    /**
+     * Loads user saved settings
+     */
+    private void loadSettings() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean check_night = sp.getBoolean("NIGHT", false);
+
+        //Checks if Light or Night Mode.
+        if (check_night)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        else
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 }
