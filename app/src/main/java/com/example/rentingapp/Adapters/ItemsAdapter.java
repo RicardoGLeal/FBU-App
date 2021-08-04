@@ -1,13 +1,12 @@
 package com.example.rentingapp.Adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
@@ -24,23 +24,19 @@ import com.example.rentingapp.Controllers.ActionsController;
 import com.example.rentingapp.Fragments.ItemDetailsFragment;
 import com.example.rentingapp.Fragments.ProfileFragment;
 import com.example.rentingapp.Models.Item;
+import com.example.rentingapp.Models.SavedItem;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.libraries.places.api.model.AddressComponent;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.FetchPlaceRequest;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static com.example.rentingapp.Controllers.ActionsController.getDistanceInKm;
-import static com.example.rentingapp.GooglePlacesClient.Initialize;
-import static com.example.rentingapp.GooglePlacesClient.placesClient;
+import static com.example.rentingapp.Models.SavedItem.CheckIfInWishList;
 
 /**
  * This adapter is implemented by the RecyclerView of the Item's Feed and it is in charge of
@@ -136,14 +132,17 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView ivProfilePicture, ivItemImage;
+        ImageButton iBtnSaveItem;
         TextView tvItemName, tvOwnersName, tvCategory, tvDescription, tvPrice, tvLocation, tvDistance, tvPostDate;
         String placeId;
+        LottieAnimationView lottieSaveAnimation;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             //Get references
             ivProfilePicture = itemView.findViewById(R.id.ivProfileImage);
             ivItemImage = itemView.findViewById(R.id.ivItemImage);
+            iBtnSaveItem = itemView.findViewById(R.id.iBtnSaveItem);
             tvItemName = itemView.findViewById(R.id.tvItemName);
             tvOwnersName = itemView.findViewById(R.id.tvOwnersName);
             tvCategory = itemView.findViewById(R.id.tvCategory);
@@ -152,6 +151,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             tvLocation = itemView.findViewById(R.id.tvLocation);
             tvDistance = itemView.findViewById(R.id.tvDistance);
             tvPostDate = itemView.findViewById(R.id.tvPostDate);
+            lottieSaveAnimation = itemView.findViewById(R.id.lottieSaveAnimation);
             itemView.setOnClickListener(this);
         }
 
@@ -186,6 +186,33 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             placeId = item.getOwner().getString(User.KEY_PLACE_ID);
             tvLocation.setText(item.getOwner().getString(User.KEY_GENERAL_LOCATION));
             tvDistance.setText(item.getDistance() + " Km away");
+            iBtnSaveItem.setBackgroundResource(R.drawable.ufi_save);
+            //Verifies if the item is in in the wish list.. if so, changes the drawable of the save button.
+            CheckIfInWishList(item, iBtnSaveItem);
+
+            iBtnSaveItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!item.getSaved()) {
+                        iBtnSaveItem.setVisibility(ImageButton.INVISIBLE);
+                        lottieSaveAnimation.setVisibility(LottieAnimationView.VISIBLE);
+                        lottieSaveAnimation.playAnimation();
+                        SavedItem savedItem = new SavedItem();
+                        savedItem.setItem(item);
+                        savedItem.setUser(ParseUser.getCurrentUser());
+                        savedItem.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    Toast.makeText(context, "Item saved successfully", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                    else
+                        Toast.makeText(context, "Item already saved", Toast.LENGTH_SHORT).show();
+                }
+            });
 
             tvOwnersName.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -99,7 +99,7 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ivItemImage;
         TextView tvItemTitle, tvCategory, tvStartDate, tvEndDate, tvPersonName, tvLocation, tvTotalPrice,
-                tvRenterOrOwnerName, tvRenterOrOwnerLoc, tvCellphone, tvStatus;
+                tvRenterOrOwnerName, tvRenterOrOwnerLoc, tvCellphone, tvEmail, tvStatus;
         GoogleMap map;
         MapView mapView;LinearLayout layoutExpandable;
         CardView cardView;
@@ -127,6 +127,7 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
             btnCall = itemView.findViewById(R.id.btnCall);
             btnMessage = itemView.findViewById(R.id.btnMessage);
             tvCellphone = itemView.findViewById(R.id.tvCellphone);
+            tvEmail = itemView.findViewById(R.id.tvEmail);
             tvStatus = itemView.findViewById(R.id.tvStatus);
             btnDelete = itemView.findViewById(R.id.btnDelete);
 
@@ -239,6 +240,13 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
 
             tvPersonName.setText(user.getString(User.KEY_NAME));
             tvLocation.setText(user.getString(User.KEY_PLACE_ADDRESS));
+            String email = "";
+            try {
+                email = user.fetchIfNeeded().getString("email");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            tvEmail.setText(email);
             tvStatus.setText(rent.getStatus());
 
             //Creates a new map

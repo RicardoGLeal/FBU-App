@@ -84,11 +84,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center">
-                        <ProgressBar
-                            android:id="@+id/pb"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp">
-                        </ProgressBar>
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/lottieLoadingItems"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            app:lottie_rawRes="@raw/loading_animation"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"/>
                     </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -113,17 +115,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:cardCornerRadius="15dp"
-                    style="@style/centreLocatorCardDesign">
+                    style="@style/centreLocatorCardDesign"
+                    android:layout_marginBottom="100dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center">
-                        <ProgressBar
-                            android:id="@+id/pb2"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp">
-                        </ProgressBar>
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/lottieLoadingWishList"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            app:lottie_rawRes="@raw/loading_animation"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"/>
                     </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView

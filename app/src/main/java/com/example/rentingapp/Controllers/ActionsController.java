@@ -7,6 +7,7 @@ import android.widget.ProgressBar;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.rentingapp.Adapters.RentsAdapter;
 import com.example.rentingapp.Fragments.RentItemDialogFragment;
 import com.example.rentingapp.Models.Item;
@@ -80,10 +81,10 @@ public class ActionsController {
      * @param TAG TAG identifier of the fragment.
      * @param allRents list of all the rents retrieved.
      * @param adapter rentsAdapter
-     * @param progressBar
+     * @param loadingAnimation
      * @param ownRentedItems Is it a rent from your own item, or from someone else's item?
      */
-    public static void queryRents(String TAG, List<Rent> allRents, RentsAdapter adapter, ProgressBar progressBar, boolean ownRentedItems) {
+    public static void queryRents(String TAG, List<Rent> allRents, RentsAdapter adapter, LottieAnimationView loadingAnimation, boolean ownRentedItems) {
         //Specify which class to query
         ParseQuery<Rent> query = ParseQuery.getQuery(Rent.class);
         //include the user of the post
@@ -99,7 +100,7 @@ public class ActionsController {
             query.whereEqualTo(Rent.KEY_TENANT, ParseUser.getCurrentUser());
         //the items created most recently will come first and the oldest ones will come last.
         query.addDescendingOrder(Rent.KEY_CREATED_AT);
-        progressBar.setVisibility(ProgressBar.VISIBLE);
+        loadingAnimation.setVisibility(LottieAnimationView.VISIBLE);
         // Retrieve all the posts
         query.findInBackground(new FindCallback<Rent>() {
             @Override
@@ -113,7 +114,7 @@ public class ActionsController {
                 }
                 allRents.addAll(rents);
                 adapter.notifyDataSetChanged();
-                progressBar.setVisibility(ProgressBar.GONE);
+                loadingAnimation.setVisibility(LottieAnimationView.GONE);
             }
         });
     }

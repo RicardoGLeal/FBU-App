@@ -274,6 +274,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tvEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="3dp"
