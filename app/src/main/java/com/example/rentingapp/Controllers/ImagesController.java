@@ -30,6 +30,11 @@ import com.parse.ParseFile;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * This class incorporates functions that focus on getting, displaying, and saving images.
+ * These functions are used in many classes in the project, so having them in this class avoids code
+ * repetition.
+ */
 public class ImagesController {
 
     /**

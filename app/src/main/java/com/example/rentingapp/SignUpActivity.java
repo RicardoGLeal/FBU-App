@@ -31,6 +31,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.rentingapp.Controllers.ImagesController;
+import com.example.rentingapp.Fragments.FeedFragment;
 import com.example.rentingapp.Models.User;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
@@ -65,26 +66,31 @@ import static com.example.rentingapp.Controllers.ImagesController.loadFileImage;
 import static com.example.rentingapp.Controllers.ImagesController.loadTakenImage;
 import static com.example.rentingapp.Controllers.PermissionsController.checkWriteExternalPermission;
 
+/**
+ * This class is in charge of creating a new user in the application and saving it in the database.
+ */
 public class SignUpActivity extends AppCompatActivity {
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     public static final int SELECT_IMAGE_ACTIVITY_REQUEST_CODE = 1;
 
     public static final String TAG = "SignUpActivity";
     private File photoFile;
-    public String photoFileName = "photo.jpg";
-    SweetAlertDialog loadingDialog, successDialog, errorDialog;
+    private String photoFileName = "photo.jpg";
 
-    TextInputLayout tilName, tilUsername, tilDescription, tilEmail, tilPassword;
-    EditText etName, etUsername, etDescription, etEmail, etPassword;
-    ImageView ivProfileImage;
-    Button btnSignUp;
-    String placeId, placeName, placeAddress, generalLocation;
-    Double placeLat, placeLng;
+    private TextInputLayout tilName, tilUsername, tilDescription, tilEmail, tilPassword;
+    private EditText etName, etUsername, etDescription, etEmail, etPassword;
+    private ImageView ivProfileImage;
+    private Button btnSignUp;
+    private String placeId, placeName, placeAddress, generalLocation;
+    private Double placeLat, placeLng;
+    private SweetAlertDialog loadingDialog, successDialog, errorDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        // Get fields from view
         tilName = findViewById(R.id.tilName);
         tilUsername = findViewById(R.id.tilUsername);
         tilDescription = findViewById(R.id.tilDescription);
@@ -98,8 +104,6 @@ public class SignUpActivity extends AppCompatActivity {
         ivProfileImage = findViewById(R.id.ivProfileImage);
         btnSignUp = findViewById(R.id.btnSignUp);
         generalLocation = "";
-        loadingDialog = loadingDialog(SignUpActivity.this);
-        successDialog = successDialog(SignUpActivity.this, "Logged In Successfully!");
 
         RequestOptions circleProp = new RequestOptions();
         circleProp = circleProp.transform(new CircleCrop());
@@ -117,35 +121,38 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //check if all fields are filled
+                /*check if all fields are filled, displaying an error message bellow every one if
+                it's not filled.*/
                 int count = 0;
-                if(validateField(tilName, etName))
+                if (validateField(tilName, etName))
                     count++;
-                if(validateField(tilUsername, etUsername))
+                if (validateField(tilUsername, etUsername))
                     count++;
-                if(validateField(tilPassword, etPassword))
+                if (validateField(tilPassword, etPassword))
                     count++;
-                if(validateField(tilEmail, etEmail))
+                if (validateField(tilEmail, etEmail))
                     count++;
-                if(validateField(tilDescription, etDescription))
+                if (validateField(tilDescription, etDescription))
                     count++;
-                if (count == 5)
+                if (count == 5) //If all the fields were filled...
                     preCreateUser();
-                else
-                {
-                    errorDialog = errorDialog(SignUpActivity.this, "Please verify that are the fields are filled");
+                else {
+                    //If not all the fields were filled, an error dialog is shown.
+                    errorDialog = errorDialog(SignUpActivity.this, "Please verify that all the fields are filled");
                     errorDialog.show();
                 }
             }
         });
         configurePlacesAPI();
     }
+
     /**
      * This function opens an AlertDialogFragment with the options that the user has to set their profile picture.
+     *
      * @param context
      */
     private void selectImage(Context context) {
-        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Choose your profile picture");
         builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -206,8 +213,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         autocompleteFragment.setTypeFilter(TypeFilter.ADDRESS);
 
-        autocompleteFragment.setCountries("US", "MX");
-
         //Specify the types of place data to return
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.TYPES, Place.Field.ADDRESS_COMPONENTS));
 
@@ -216,7 +221,6 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
                 // Get info about the selected place.
-                //Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
                 placeId = place.getId();
                 placeLat = place.getLatLng().latitude;
                 placeLng = place.getLatLng().longitude;
@@ -225,6 +229,7 @@ public class SignUpActivity extends AppCompatActivity {
                 generalLocation = getGeneralLocation(place);
 
             }
+
             @Override
             public void onError(@NonNull Status status) {
                 //Handle the error.
@@ -237,29 +242,31 @@ public class SignUpActivity extends AppCompatActivity {
      * Called when the user clicks the SignUp button. Creates a ParseFile for the photo and goes to CreateAccount.
      */
     private void preCreateUser() {
+        //Creates a SweetAlertDialog object of loading type, assigns it to loadingDialog and shows it.
         loadingDialog = loadingDialog(SignUpActivity.this);
         loadingDialog.show();
+
         if (photoFile != null) {
+            //saves the photo in parse, if the save is successful, the CreateAccount function is called.
             ParseFile photo = new ParseFile(photoFile);
             photo.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     if (e != null) {
                         loadingDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Error while saving"+e, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Error while saving" + e, Toast.LENGTH_SHORT).show();
                         return;
-                    }
-                    else
+                    } else
                         CreateAccount(photo);
                 }
             });
-        }
-        else
+        } else
             CreateAccount(null);
     }
 
     /**
      * Creates the user and sends it to the Parse Database
+     *
      * @param photo profile picture
      */
     private void CreateAccount(ParseFile photo) {
@@ -270,17 +277,15 @@ public class SignUpActivity extends AppCompatActivity {
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
+                //dismisses the loadingDialog
                 loadingDialog.dismissWithAnimation();
                 if (e != null) {
+                    //creates an errorDialog showing the error.
                     errorDialog = errorDialog(SignUpActivity.this, e.getMessage());
                     errorDialog.show();
-                    /*errorDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            errorDialog.dismissWithAnimation();
-                        }
-                    });*/
                 } else {
+                    //creates an successDialog showing the confirmation.
+                    successDialog = successDialog(SignUpActivity.this, "Signed up successfully");
                     successDialog.show();
                     successDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
@@ -296,6 +301,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     /**
      * Called when the user selects a Photo from their Gallery or after taking a new one with the camera.
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -344,8 +350,9 @@ public class SignUpActivity extends AppCompatActivity {
     /**
      * This function is called when the user accepted or rejected the permission of writing in the
      * external storage.
-     * @param requestCode permission's request code
-     * @param permissions permissions requested
+     *
+     * @param requestCode  permission's request code
+     * @param permissions  permissions requested
      * @param grantResults result
      */
     @Override

@@ -43,7 +43,8 @@ import static com.example.rentingapp.GooglePlacesClient.Initialize;
 import static com.example.rentingapp.GooglePlacesClient.placesClient;
 
 /**
- * This adapter is implemented by the RecyclerView of the Item's Feed.
+ * This adapter is implemented by the RecyclerView of the Item's Feed and it is in charge of
+ * recovering all the items applying the selected filters.
  */
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> implements Filterable {
     private Context context;
@@ -74,6 +75,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         return items.size();
     }
 
+    /**
+     * Clears all the items and notify it.
+     */
     public void clear() {
         items.clear();
         allItems.clear();
@@ -91,19 +95,21 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     Filter filter = new Filter() {
 
-        //run on background thread
+        /**
+         * Responsible for searching items using the SearchBar
+         * @param constraint
+         * @return
+         */
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Item> filteredList = new ArrayList<>();
 
             //filter for when searching an item by title
-            if(constraint.toString().isEmpty())
-            {
-                if(allItems.isEmpty())
+            if (constraint.toString().isEmpty()) {
+                if (allItems.isEmpty())
                     allItems = new ArrayList<>(items);
                 filteredList.addAll(allItems);
-            }
-            else {
+            } else { //checks if what is written is contained in any of the item's titles.
                 for (Item item : allItems) {
                     if (item.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         filteredList.add(item);
@@ -115,7 +121,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             return filterResults;
         }
 
-        //runs on a ui thread
+        /**
+         * It's responsible for showing only matching items
+         * @param constraint text typed in the search bar.
+         * @param filterResults results.
+         */
         @Override
         protected void publishResults(CharSequence constraint, FilterResults filterResults) {
             items.clear();
@@ -145,6 +155,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             itemView.setOnClickListener(this);
         }
 
+        /**
+         * Assigns the retrieved values to each item
+         *
+         * @param item item retrieved
+         */
         public void bind(Item item) {
             //Assign values
             ParseFile profilePicture = item.getOwner().getParseFile("profilePicture");
@@ -170,7 +185,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             tvPostDate.setText(ActionsController.getRelativeTimeAgo(item.getCreatedAt().toString()));
             placeId = item.getOwner().getString(User.KEY_PLACE_ID);
             tvLocation.setText(item.getOwner().getString(User.KEY_GENERAL_LOCATION));
-            tvDistance.setText(item.getDistance() +" Km away");
+            tvDistance.setText(item.getDistance() + " Km away");
 
             tvOwnersName.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -189,6 +204,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
         /**
          * Opens ItemDetailsFragment with the details of the item clicked.
+         *
          * @param v
          */
         @Override
@@ -204,6 +220,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
         /**
          * Function that goes to the profile of the user clicked.
+         *
          * @param item item opened
          */
         private void goToProfile(Item item) {

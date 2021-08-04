@@ -24,6 +24,10 @@ import java.util.List;
 
 import static com.example.rentingapp.Controllers.ActionsController.queryRents;
 
+/**
+ * This fragment is in charge of showing the foreign rents of the logged in user.
+ * This fragment extends from OwnRentedItemsFragment since most of the logic is the same.
+ */
 public class OwnRentedItemsFragment extends Fragment {
     private static final String TAG = "OwnRentedItemsFragment";
     private RecyclerView rvRents;

@@ -16,23 +16,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.rentingapp.Controllers.RangeValidator;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.Rent;
 import com.example.rentingapp.Models.User;
 import com.example.rentingapp.R;
-import com.example.rentingapp.SignUpActivity;
-import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
-import com.google.android.material.textfield.TextInputLayout;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -55,6 +49,10 @@ import static com.example.rentingapp.Controllers.CustomAlertDialogs.successDialo
 import static com.example.rentingapp.Controllers.SendPushNotification.sendRentRequestPush;
 import static java.time.temporal.ChronoUnit.DAYS;
 
+/**
+ * This DialogFragment is responsible for showing the user the details of their rental request,
+ * as well as requesting the dates on which
+ */
 public class RentItemDialogFragment extends DialogFragment {
     public static final String TAG = "RentItemDialogFragment";
     private TextView tvItemTitle, tvOwnersName, tvPricePerDay, tvTotalDays, tvTotalPrice, tvStartDate, tvEndDate;
@@ -157,7 +155,6 @@ public class RentItemDialogFragment extends DialogFragment {
             @Override
             public void done(List<Rent> rents, ParseException e) {
                 if (e != null) {
-                    // Log.e(TAG, "Issue with getting posts", e);
                     return;
                 }
                 for (Rent rent: rents) {
@@ -204,6 +201,7 @@ public class RentItemDialogFragment extends DialogFragment {
      * Creates the rent object and saves it in the database.
      */
     private void RentItem() {
+        //Creates a new Rent object and sets all its fields.
         Rent rent = new Rent();
         rent.setItem(item);
         rent.setOwner(item.getOwner());
@@ -212,6 +210,8 @@ public class RentItemDialogFragment extends DialogFragment {
         rent.setEndDate(endDate);
         rent.setDaysCount(Integer.valueOf(tvTotalDays.getText().toString()));
         rent.setTotalPrice(Float.valueOf(tvTotalPrice.getText().toString()));
+
+        //creates an loadingDialog and shows it.
         loadingDialog = loadingDialog(getContext());
         loadingDialog.show();
         rent.saveInBackground(new SaveCallback() {
@@ -219,16 +219,19 @@ public class RentItemDialogFragment extends DialogFragment {
             public void done(ParseException e) {
                 loadingDialog.dismissWithAnimation();
                 if (e != null) {
+                    //creates an errorDialog and shows it.
                     errorDialog = errorDialog(getContext(), e.getMessage());
                     errorDialog.show();
                     return;
                 } else {
                     sendRentRequestPush(item);
+                    //creates an successDialog showing the confirmation.
                     successDialog = successDialog(getContext(), "Rented Item Successfully");
                     successDialog.show();
                     successDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            //dismiss both the alert dialog and this dialog fragment.
                             successDialog.dismissWithAnimation();
                             dismiss();
                         }
@@ -245,10 +248,12 @@ public class RentItemDialogFragment extends DialogFragment {
         Date initialDate;
         Date endDate;
 
+        //Constructor
         public DateInterval(Date initialDate, Date endDate) {
             this.initialDate = initialDate;
             this.endDate = endDate;
         }
+        //Getters and Setters
 
         public Date getInitialDate() {
             return initialDate;

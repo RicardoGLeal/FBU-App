@@ -56,6 +56,9 @@ import static com.example.rentingapp.Controllers.CustomAlertDialogs.successDialo
 import static com.example.rentingapp.Controllers.ImagesController.loadUriRounderCorners;
 import static com.example.rentingapp.Controllers.PermissionsController.checkWriteExternalPermission;
 
+/**
+ * This class is in charge of handling the creation of new items by the user.
+ */
 public class CreateItemFragment extends Fragment {
     protected EditText etItemName, etItemDescription, etPrice;
     protected TextInputLayout tilItemName, tilDescription, tilPrice;
@@ -80,6 +83,7 @@ public class CreateItemFragment extends Fragment {
     SweetAlertDialog loadingDialog, successDialog, errorDialog;
 
     public CreateItemFragment() {
+        //Empty constructor required to create the fragment.
     }
 
     @Override
@@ -152,7 +156,7 @@ public class CreateItemFragment extends Fragment {
                         CreateItem();
                 } else
                 {
-                    errorDialog = errorDialog(getContext(), "Please verify that are the fields are filled");
+                    errorDialog = errorDialog(getContext(), "Please verify that all the fields are filled");
                     errorDialog.show();
                 }
             }

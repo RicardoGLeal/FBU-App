@@ -54,24 +54,23 @@ import static com.example.rentingapp.Controllers.ActionsController.setColorSchem
 public class FeedFragment extends Fragment {
     public static final String TAG = "FeedFragment";
     private RecyclerView rvItems;
-    protected ItemsAdapter adapter;
-    protected List<Item> allItems;
+    private ItemsAdapter adapter;
+    private List<Item> allItems;
     private SwipeRefreshLayout swipeRefreshLayout;
-    //private ProgressBar progressBar;
-    LottieAnimationView lottieLoading;
+    private LottieAnimationView lottieLoading;
     private Toolbar toolbar;
     private ImageView ivExpandToolbar;
     private RelativeLayout filtersLayout;
     private TextView tvSelectCategory;
-    ArrayList<Integer> catList = new ArrayList<>();
-    boolean[] selectedCategory;
-    String[] categoriesArray = {"All", "Electronics", "Furniture", "Clothing", "Vehicles", "Sports", "Books", "Toys"};
-    List<String> listSelectedCategories = new ArrayList<>();
+    private ArrayList<Integer> catList = new ArrayList<>();
+    private boolean[] selectedCategory;
+    private String[] categoriesArray = {"All", "Electronics", "Furniture", "Clothing", "Vehicles", "Sports", "Books", "Toys"};
+    private List<String> listSelectedCategories = new ArrayList<>();
     private Context context;
     private boolean sortedByDistance = false;
     private boolean sortedByPrice = false;
-    int colorPrimaryDark, colorWhite;
-    ParseQuery<Item> query;
+    private int colorPrimaryDark, colorWhite;
+    private ParseQuery<Item> query;
 
     // Required empty public constructor
     public FeedFragment() {
@@ -96,13 +95,13 @@ public class FeedFragment extends Fragment {
         toolbar = view.findViewById(R.id.toolbar);
         ivExpandToolbar = view.findViewById(R.id.ivExpandToolbar);
         filtersLayout = view.findViewById(R.id.filtersLayout);
-        //progressBar = view.findViewById(R.id.pb);
         lottieLoading = view.findViewById(R.id.lottieLoading);
 
         //ClickListener to expand toolbar
         ivExpandToolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Shows or hides the expandable toolbar making a transition.
                 if (filtersLayout.getVisibility()==View.GONE) {
                     TransitionManager.beginDelayedTransition(toolbar, new AutoTransition());
                     filtersLayout.setVisibility(View.VISIBLE);
@@ -253,20 +252,16 @@ public class FeedFragment extends Fragment {
      * Gets the items of all the users.
      */
     private void queryItems() {
-        //allItems.clear();
         setupQueryItems();
         // Retrieve all the posts
         lottieLoading.setVisibility(LottieAnimationView.VISIBLE);
-        //progressBar.setVisibility(ProgressBar.VISIBLE);
         query.findInBackground(new FindCallback<Item>() {
             @Override
             public void done(List<Item> items, ParseException e) {
                 if (e != null) {
-                   // Log.e(TAG, "Issue with getting posts", e);
                     return;
                 }
                 for (Item item: items) {
-                   // Log.i(TAG, "Items: " + item.getDescription());
                     int distance = getDistanceInKm(item, ParseUser.getCurrentUser());
                     item.setDistance(distance);
                 }
@@ -274,7 +269,6 @@ public class FeedFragment extends Fragment {
                 adapter.setAllItems(items);
                 adapter.notifyDataSetChanged();
                 lottieLoading.setVisibility(LottieAnimationView.GONE);
-                //progressBar.setVisibility(ProgressBar.GONE);
             }
         });
     }
@@ -391,6 +385,7 @@ public class FeedFragment extends Fragment {
      * @param item
      */
     private void clearSortFiltersAndSortBy(String parameter, MenuItem item) {
+        //the color of the menu items are changed to default.
         toolbar.getMenu().getItem(2).getIcon().setTint(colorPrimaryDark);
         toolbar.getMenu().getItem(3).getIcon().setTint(colorPrimaryDark);
         adapter.clear();

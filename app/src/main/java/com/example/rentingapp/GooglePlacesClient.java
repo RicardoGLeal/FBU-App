@@ -5,6 +5,9 @@ import android.content.Context;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
 
+/**
+ * This class is in charge of creating and initializing a Googles Places Client.
+ */
 public class GooglePlacesClient {
     public static PlacesClient placesClient;
 

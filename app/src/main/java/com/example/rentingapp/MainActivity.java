@@ -25,6 +25,9 @@ import com.parse.ParseUser;
 
 import static com.example.rentingapp.Controllers.SendPushNotification.configurePushNotifications;
 
+/**
+ * This class is the main Activity of the app, within this all the fragments are loaded.
+ */
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
 
@@ -38,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        configurePushNotifications();
         loadSettings();
+        configurePushNotifications();
 
         fabComposeItem = findViewById(R.id.fabComposeItem);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -66,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new ProfileFragment(ParseUser.getCurrentUser());
                         break;
                 }
+                //replaces the current fragment with the selected one.
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;
             }
@@ -73,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         //set default selection
         bottomNavigationView.setSelectedItemId(R.id.action_home);
 
+        //When clicked, goes to the CreateItemFragment.
         fabComposeItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,9 +90,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Loads user saved settings
+     */
     private void loadSettings() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         boolean check_night = sp.getBoolean("NIGHT", false);
+
+        //Checks if Light or Night Mode.
         if (check_night)
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         else

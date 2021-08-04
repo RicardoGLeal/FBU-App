@@ -67,7 +67,9 @@ import static com.example.rentingapp.Controllers.ImagesController.loadFileImage;
 import static com.example.rentingapp.Controllers.ImagesController.loadTakenImage;
 import static com.example.rentingapp.Controllers.PermissionsController.checkWriteExternalPermission;
 
-
+/**
+ * This class is in charge of displaying a DialogFragment in which the user can edit their profile.
+ */
 public class EditProfileDialogFragment extends DialogFragment {
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     public static final int SELECT_IMAGE_ACTIVITY_REQUEST_CODE = 1;

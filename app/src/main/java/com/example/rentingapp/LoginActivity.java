@@ -24,6 +24,9 @@ import static com.example.rentingapp.Controllers.CustomAlertDialogs.errorDialog;
 import static com.example.rentingapp.Controllers.CustomAlertDialogs.loadingDialog;
 import static com.example.rentingapp.Controllers.CustomAlertDialogs.successDialog;
 
+/**
+ * This class is in charge of starting the session of a user.
+ */
 public class LoginActivity extends AppCompatActivity {
     public static final String TAG = "LoginActivity";
     TextInputLayout tilUsername, tilPassword;
@@ -37,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // If a user is logged in, goes to the MainActivity.
         if (ParseUser.getCurrentUser() != null) {
             goMainActivity();
         }
@@ -61,10 +65,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (count == 2) //if all the fields are filled..
                     loginUser(etUsername.getText().toString(), etPassword.getText().toString());
                 else {
-                    new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("Oops...")
-                            .setContentText("Please verify that are the fields are filled")
-                            .show();
+                    errorDialog = errorDialog(LoginActivity.this, "Please verify that all the fields are filled");
+                    errorDialog.show();
                 }
             }
         });
@@ -83,24 +85,30 @@ public class LoginActivity extends AppCompatActivity {
      * @param password password
      */
     private void loginUser(String username, String password) {
+        //Creates a SweetAlertDialog object of loading type, assigns it to loadingDialog and shows it.
         loadingDialog = loadingDialog(LoginActivity.this);
         loadingDialog.show();
-        //Navigate to the main activity if the user has signed in properly
+
+        //An attempt is made to start the user session
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if(e != null) {
+                    //Dismisses the loadingDialog and creates an errorDialog showing the error.
                     loadingDialog.dismiss();
                     errorDialog = errorDialog(LoginActivity.this, e.getMessage());
                     errorDialog.show();
                     return;
                 }
+                //Dismisses the loadingDialog and creates an successDialog showing the confirmation.
                 loadingDialog.dismissWithAnimation();
                 successDialog = successDialog(LoginActivity.this, "Logged In Successfully!");
                 successDialog.show();
+
                 successDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        //Navigates to the main activity if the user has signed in properly
                         goMainActivity();
                     }
                 });
@@ -109,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Creates an intent that goes to the Main Activity
+     * Creates an intent that goes to the Main Activity.
      */
     private void goMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
@@ -117,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Creates an intent that goes to the Sign Up Activity
+     * Creates an intent that goes to the Sign Up Activity.
      */
     private void goSignUpActivity() {
         Intent intent = new Intent(this, SignUpActivity.class);

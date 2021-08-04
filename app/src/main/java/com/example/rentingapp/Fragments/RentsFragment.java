@@ -18,9 +18,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link RentsFragment#} factory method to
- * create an instance of this fragment.
+ * This fragment is in charge of rents, it is in charge of managing the TabLayout that is inside it,
+ * as well as adding the two fragments of types of rents.
  */
 public class RentsFragment extends Fragment {
     ViewPager viewPager;

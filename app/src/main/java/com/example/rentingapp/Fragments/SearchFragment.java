@@ -31,7 +31,10 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
-
+/**
+ * This fragment is responsible for showing a Google Maps with markers in all the locations where
+ * there are users. By clicking on a bookmark, the profile of the corresponding user opens.
+ */
 public class SearchFragment extends Fragment {
     public static final String TAG = "SearchFragment";
     SupportMapFragment supportMapFragment;

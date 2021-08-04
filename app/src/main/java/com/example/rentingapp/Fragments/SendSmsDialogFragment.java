@@ -25,6 +25,10 @@ import androidx.fragment.app.DialogFragment;
 import com.example.rentingapp.MainActivity;
 import com.example.rentingapp.R;
 
+/**
+ * This class is a dialog fragment in which the user can enter a message which will be sent by SMS
+ * to the owner or renter of an item.
+ */
 public class SendSmsDialogFragment extends DialogFragment {
 
     public static final String TAG = "SendSmsDialogFragment";
@@ -91,6 +95,10 @@ public class SendSmsDialogFragment extends DialogFragment {
             }
         });
     }
+
+    /**
+     * This function is responsible for sending the SMS to the destining user.
+     */
     private void sendMessage() {
         //Get values from edit text
         String sMessage = etMessage.getText().toString().trim();

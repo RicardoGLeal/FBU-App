@@ -11,7 +11,9 @@ import com.example.rentingapp.R;
 
 import static com.example.rentingapp.Controllers.ActionsController.queryRents;
 
-
+/**
+ * This fragment is in charge of showing the rents of the logged-in user
+ */
 public class ForeignRentedItemsFragment extends OwnRentedItemsFragment {
 
     private static final String TAG = "ForeignRentedItemsFragment";

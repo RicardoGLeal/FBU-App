@@ -34,6 +34,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * This class incorporates functions that are used in many classes in the project.
+ * This in order to avoid code repetition.
+ */
 public class ActionsController {
     /**
      * Calculates how much time has passed since a certain date and time so far
@@ -65,7 +69,9 @@ public class ActionsController {
     public static int getDistanceInKm(Item item, ParseUser user) {
         LatLng from = User.getLatLng(user);
         LatLng to = User.getLatLng(item.getOwner());
+        //gets the distance in meters.
         int distance = (int) SphericalUtil.computeDistanceBetween(from, to);
+        //return distance in kilometers.
         return distance/1000;
     }
 
@@ -140,9 +146,10 @@ public class ActionsController {
     }
 
     /**
-     * Gets the general address of a place
+     * Gets the general address of a place.
+     * Iterates between all the components of the place, and the desired ones are concatenated in a string.
      * @param place Google place location
-     * @return
+     * @return generalLocation.
      */
     public static String getGeneralLocation(Place place) {
         String generalLocation = "";
@@ -165,8 +172,8 @@ public class ActionsController {
     }
 
     /**
-     * Assigns the required values to a user, either to create a new one or edit an existing one
-     * @param user
+     * Assigns the required values to a user, either to create a new one or edit an existing one.
+     * @param user ParseUser
      * @param name user's name
      * @param username user's username
      * @param password user's password

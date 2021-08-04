@@ -20,6 +20,7 @@ import java.util.List;
 
 /**
  * This adapter is implemented by the RecyclerView of the user's item in their profile.
+ * It is responsible for displaying all the items of a user in images.
  */
 public class ItemsProfileAdapter extends RecyclerView.Adapter<ItemsProfileAdapter.ViewHolder> {
 
@@ -50,7 +51,7 @@ public class ItemsProfileAdapter extends RecyclerView.Adapter<ItemsProfileAdapte
     }
 
     /**
-     * Clean all elements of the recycler
+     * Clean all elements of the recycler view.
      */
     public void clear() {
         items.clear();

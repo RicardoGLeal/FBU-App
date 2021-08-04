@@ -5,6 +5,10 @@ import android.graphics.Color;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+/**
+ * This class incorporates functions that create different types of alert dialogs (load, confirmation, error).
+ * These are called in many classes of the app.
+ */
 public class CustomAlertDialogs {
 
     /**

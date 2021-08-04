@@ -47,6 +47,9 @@ import static com.example.rentingapp.Controllers.ActionsController.getDistanceIn
 import static com.example.rentingapp.Controllers.ActionsController.getRelativeTimeAgo;
 import static com.example.rentingapp.Controllers.ImagesController.openImage;
 
+/**
+ * This class is in charge of displaying the details of an item.
+ */
 public class ItemDetailsFragment extends Fragment {
     public static final String TAG = "ItemDetailsFragment";
     private Item item;

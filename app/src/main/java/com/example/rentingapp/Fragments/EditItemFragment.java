@@ -15,6 +15,10 @@ import com.parse.ParseFile;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is in charge of editing an existing item. It extends from the CreateItemFragment class,
+ * so most of the logic comes from that.
+ */
 public class EditItemFragment extends CreateItemFragment{
     Item item;
     boolean editing;
@@ -51,7 +55,7 @@ public class EditItemFragment extends CreateItemFragment{
             }
             imageUris.add(imageUri);
         }
-        //set first image to our image switcher
+        //set first image to the image switcher
         imagesIs.setImageURI(imageUris.get(0));
         position = 0;
     }

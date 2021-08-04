@@ -40,7 +40,7 @@ import static com.example.rentingapp.Controllers.ImagesController.loadCircleImag
 import static com.example.rentingapp.Controllers.ImagesController.openImage;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This class is in charge of displaying the profile of a user.
  */
 public class ProfileFragment extends Fragment {
     public static final String TAG = "ProfileFragment";

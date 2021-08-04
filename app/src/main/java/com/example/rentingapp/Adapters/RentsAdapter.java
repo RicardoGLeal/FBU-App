@@ -50,6 +50,9 @@ import java.util.List;
 import static com.example.rentingapp.Controllers.ImagesController.loadCircleImage;
 import static com.example.rentingapp.Controllers.SendPushNotification.sendRentStatusPush;
 
+/**
+ * This adapter is responsible for obtaining the information of each of the rents.
+ */
 public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
     public static final String TAG = "RentsAdapter";
     public static final String KEY_APPROVED = "Approved";
@@ -127,16 +130,18 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
             tvStatus = itemView.findViewById(R.id.tvStatus);
             btnDelete = itemView.findViewById(R.id.btnDelete);
 
-            //btnExpand ClickListener to expand the rent CardView
+            //btnExpand ClickListener to expand the rent CardViews
             btnExpand.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (layoutExpandable.getVisibility()==View.GONE) {
+                        //Makes a transition and changes to visible the entire CardView.
                         TransitionManager.beginDelayedTransition(cardView, new AutoTransition());
                         layoutExpandable.setVisibility(View.VISIBLE);
                         btnExpand.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
                     }
                     else {
+                        //Makes a transition and hides the extra part of the CardView.
                         TransitionManager.beginDelayedTransition(cardView, new AutoTransition());
                         layoutExpandable.setVisibility(View.GONE);
                         btnExpand.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
@@ -154,6 +159,7 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
                     sendSmsDialogFragment.show(fm,"sendSmsDialogFragment");
                 }
             });
+
             //Creates an intent to make a call
             btnCall.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -175,10 +181,15 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
 
             if (rent == null) return;
             LatLng latLng;
+
+            //if it's an own rent, gets the LatLng of the tenant.
             if(ownRentedItems)
                 latLng = User.getLatLng(rent.getTenant());
-            else
+            else  {
+                //if it's a foreign rent, gets the LatLng of the owner.
                 latLng = User.getLatLng(rent.getOwner());
+            }
+
             // Add a marker for this item and set the camera
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13f));
             map.addMarker(new MarkerOptions().position(latLng));
@@ -199,6 +210,8 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
             tvStartDate.setText(new SimpleDateFormat("dd-MM-yyyy").format(rent.getStartDate()));
             tvEndDate.setText(new SimpleDateFormat("dd-MM-yyyy").format(rent.getEndDate()));
             tvTotalPrice.setText(String.valueOf(rent.getTotalPrice()));
+
+            //Loads the item image.
             loadCircleImage(context, item.getImages().get(0), ivItemImage);
 
             //changes the rent's status TextView according to the rental status
@@ -293,6 +306,7 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
                             tvStatus.setText(KEY_REJECTED);
                             sendRentStatusPush(rent, KEY_REJECTED);
                             Toast.makeText(context, "Rent request rejected", Toast.LENGTH_SHORT).show();
+                            rents.remove(getAdapterPosition());
                             notifyItemRemoved(getAdapterPosition());
                             dialog.dismiss();
                         }
@@ -318,6 +332,7 @@ public class RentsAdapter extends RecyclerView.Adapter<RentsAdapter.ViewHolder>{
                                 @Override
                                 public void done(ParseException e) {
                                     Toast.makeText(context, "Rent deleted", Toast.LENGTH_SHORT).show();
+                                    rents.remove(getAdapterPosition());
                                     notifyItemRemoved(getAdapterPosition());
                                     dialog.dismiss();
                                 }

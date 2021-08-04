@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+/**
+ * This class is in charge of verifying if a permission has already been granted in the app.
+ */
 public class PermissionsController {
 
     /**

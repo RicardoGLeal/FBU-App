@@ -5,7 +5,9 @@ import com.example.rentingapp.Models.Item;
 import java.util.Collections;
 import java.util.List;
 
-// Class that implements the QuickSort algorithm.
+/**
+ * Class that implements the QuickSort algorithm.
+ */
 public class QuickSort {
     private String property;
 
@@ -30,17 +32,20 @@ public class QuickSort {
             // equal to pivot
             if (getValue(arr.get(j)) <= pivot) {
                 i++;
-
                 // swap arr[i] and arr[j]
                 Collections.swap(arr, i, j);
             }
         }
-
         // swap arr[i+1] and arr[high] (or pivot)
         Collections.swap(arr, i+1, high);
         return i + 1;
     }
 
+    /**
+     * Gets the value of the property by which the sorting is carrying out.
+     * @param item item.
+     * @return item's price or item's distance.
+     */
     private double getValue(Item item) {
         switch (property) {
             case "price":

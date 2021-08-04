@@ -15,6 +15,10 @@ import com.parse.SendCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * This class contains methods to configure and send Push Notifications to other users after
+ * different events, such as requesting to rent an item and accepting or rejecting a rental request.
+ */
 public class SendPushNotification {
 
     /**

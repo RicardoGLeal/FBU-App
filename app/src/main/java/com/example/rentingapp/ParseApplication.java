@@ -10,11 +10,14 @@ import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+/**
+ * This class is in charge of configuring Parse in the app.
+ */
 public class ParseApplication extends Application {
 
     @Override
     public void onCreate() {
-        // Register your parse models
+        // Register parse models
         ParseObject.registerSubclass(Rent.class);
         ParseObject.registerSubclass(Item.class);
         ParseObject.registerSubclass(Location.class);
