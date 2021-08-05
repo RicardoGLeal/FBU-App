@@ -61,14 +61,14 @@ username, password, username, email, description, profile picture and location.
 - [ ] The user can enter their location using the GPS. 
 - [ ] The user will be able to chat.
 - [ ] Top up money within the app.
-- [ ] The user can change the theme of the app (Ex. Light Mode/Dark Mode).
+- [X] The user can change the theme of the app (Ex. Light Mode/Dark Mode).
 - [X] The user can delete images when publishing and item. 
 - [ ] Notifications about new rents.
 - [ ] Filters option.
-- [ ] The user can save items.
+- [X] The user can save items.
 - [ ] The users will have reviews from others. 
 - [X] Implement SMS functionality inside the app (for contacting the renter or owner of an item).
-- [ ] The user will be able to see animations when creating or renting items
+- [X] The user will be able to see animations when creating or renting items
 - [X] There will be restrictions and verifications to all the forms. 
 
 
