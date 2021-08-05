@@ -184,7 +184,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             placeId = item.getOwner().getString(User.KEY_PLACE_ID);
             tvLocation.setText(item.getOwner().getString(User.KEY_GENERAL_LOCATION));
             tvDistance.setText(item.getDistance() + " Km away");
-            iBtnSaveItem.setBackgroundResource(R.drawable.ufi_save);
+            if(ParseUser.getCurrentUser().getObjectId().equals(item.getOwner().getObjectId())) {
+                // Hide save button if the item is yours.
+                iBtnSaveItem.setVisibility(ImageButton.GONE);
+            }
+
+                iBtnSaveItem.setBackgroundResource(R.drawable.ufi_save);
             //Verifies if the item is in in the wish list.. if so, changes the drawable of the save button.
             CheckIfInWishList(item, iBtnSaveItem);
 

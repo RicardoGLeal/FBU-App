@@ -55,6 +55,7 @@ import static com.example.rentingapp.Controllers.CustomAlertDialogs.loadingDialo
 import static com.example.rentingapp.Controllers.CustomAlertDialogs.successDialog;
 import static com.example.rentingapp.Controllers.ImagesController.loadUriRounderCorners;
 import static com.example.rentingapp.Controllers.PermissionsController.checkWriteExternalPermission;
+import static com.example.rentingapp.Controllers.SendPushNotification.sendCreatedItemPush;
 
 /**
  * This class is in charge of handling the creation of new items by the user.
@@ -357,6 +358,7 @@ public class CreateItemFragment extends Fragment {
                 else {
                     successDialog = successDialog(getContext(), "Item Created Successfully");
                     successDialog.show();
+                    sendCreatedItemPush(item);
                     successDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {

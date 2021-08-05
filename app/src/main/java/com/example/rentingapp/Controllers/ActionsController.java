@@ -33,6 +33,7 @@ import com.google.maps.android.SphericalUtil;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -269,6 +270,8 @@ public class ActionsController {
                 if (e == null) {
                     item.setSaved(true);
                     Toast.makeText(context, "Item saved successfully", Toast.LENGTH_SHORT).show();
+                    //Subscribe to the item's owner channel for future push notifications
+                    ParsePush.subscribeInBackground(item.getOwner().getUsername());
                 }
             }
         });
@@ -301,6 +304,8 @@ public class ActionsController {
             }
         });
         removeFromWishList(item, iBtnSaveItem);
+        //Unsubscribe to the item's owner channel for future push notifications
+        ParsePush.unsubscribeInBackground(item.getOwner().getUsername());
         Toast.makeText(context, "Item removed from the wish list", Toast.LENGTH_SHORT).show();
     }
 }

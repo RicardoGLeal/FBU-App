@@ -110,6 +110,8 @@ public class ItemDetailsFragment extends Fragment {
         {
             // Hide rent button if the item is yours.
             btnRentItem.setVisibility(Button.GONE);
+            // Hide save button if the item is yours.
+            iBtnSaveItem.setVisibility(ImageButton.GONE);
             // Show Edit Item fab if the item is yours.
             fabEditItem.setVisibility(FloatingActionButton.VISIBLE);
             // Show Delete button fab if the item is yours.

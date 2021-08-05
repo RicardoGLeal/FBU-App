@@ -92,4 +92,20 @@ public class SendPushNotification {
             }
         });
     }
+
+    /**
+     * notifies subscribed users that this user posted a new item
+     * @param item
+     */
+    public static void sendCreatedItemPush(Item item) {
+        ParsePush push = new ParsePush();
+        String username = ParseUser.getCurrentUser().getUsername();
+        push.setChannel(username);
+        push.setMessage(username + " has just published a new item for rent, go and check it out!");
+        push.sendInBackground(new SendCallback() {
+            @Override
+            public void done(ParseException e) {
+            }
+        });
+    }
 }
