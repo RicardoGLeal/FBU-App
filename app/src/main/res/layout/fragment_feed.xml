@@ -64,7 +64,7 @@
             android:id="@+id/lottieLoading"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            app:lottie_rawRes="@raw/loading_animation"
+            app:lottie_rawRes="@raw/loading_products"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"/>
 

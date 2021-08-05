@@ -1,5 +1,6 @@
 package com.example.rentingapp.Fragments;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -45,6 +46,7 @@ import java.util.List;
 
 import static com.example.rentingapp.Controllers.ActionsController.getDistanceInKm;
 import static com.example.rentingapp.Controllers.ActionsController.getRelativeTimeAgo;
+import static com.example.rentingapp.Controllers.ImagesController.loadCircleImage;
 import static com.example.rentingapp.Controllers.ImagesController.openImage;
 
 /**
@@ -235,14 +237,8 @@ public class ItemDetailsFragment extends Fragment {
      * Loads the Profile Picture of the item's owner.
      */
     private void loadProfilePicture() {
-        RequestOptions circleProp = new RequestOptions();
-        circleProp = circleProp.transform(new CircleCrop());
         ParseFile profilePicture = item.getOwner().getParseFile(User.KEY_PROFILE_PICTURE);
-        Glide.with(getContext())
-                .load(profilePicture!=null?profilePicture.getUrl(): R.drawable.profile_image_empty)
-                .placeholder(R.drawable.profile_image_empty)
-                .apply(circleProp)
-                .into(ivProfileImage);
+        loadCircleImage(getContext(), profilePicture, ivProfileImage);
     }
 
     /**

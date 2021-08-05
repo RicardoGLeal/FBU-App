@@ -1,5 +1,7 @@
 package com.example.rentingapp.Adapters;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +38,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.example.rentingapp.Controllers.ImagesController.loadCircleImage;
 import static com.example.rentingapp.Models.SavedItem.CheckIfInWishList;
+import static com.example.rentingapp.Models.SavedItem.removeFromWishList;
 
 /**
  * This adapter is implemented by the RecyclerView of the Item's Feed and it is in charge of
@@ -163,18 +167,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         public void bind(Item item) {
             //Assign values
             ParseFile profilePicture = item.getOwner().getParseFile("profilePicture");
-            RequestOptions circleProp = new RequestOptions();
-            circleProp = circleProp.transform(new CircleCrop());
-            Glide.with(context)
-                    .load(profilePicture != null ? profilePicture.getUrl() : R.drawable.profile_image_empty)
-                    .placeholder(R.drawable.profile_image_empty)
-                    .apply(circleProp)
-                    .into(ivProfilePicture);
-
-            List<ParseFile> images = item.getImages();
+            loadCircleImage(context, profilePicture, ivProfilePicture);
 
             Glide.with(context)
-                    .load(images.get(0).getUrl())
+                    .load(item.getImages().get(0).getUrl())
                     .placeholder(R.drawable.profile_image_empty)
                     .into(ivItemImage);
             tvItemName.setText(item.getTitle());
@@ -190,27 +186,16 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             //Verifies if the item is in in the wish list.. if so, changes the drawable of the save button.
             CheckIfInWishList(item, iBtnSaveItem);
 
+            //ClickListener for the save button.
             iBtnSaveItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!item.getSaved()) {
-                        iBtnSaveItem.setVisibility(ImageButton.INVISIBLE);
-                        lottieSaveAnimation.setVisibility(LottieAnimationView.VISIBLE);
-                        lottieSaveAnimation.playAnimation();
-                        SavedItem savedItem = new SavedItem();
-                        savedItem.setItem(item);
-                        savedItem.setUser(ParseUser.getCurrentUser());
-                        savedItem.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e == null) {
-                                    Toast.makeText(context, "Item saved successfully", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
+                    iBtnSaveItem.setVisibility(ImageButton.INVISIBLE);
+
+                    if (!item.getSaved())
+                        SaveItem(item);
                     else
-                        Toast.makeText(context, "Item already saved", Toast.LENGTH_SHORT).show();
+                        unSaveItem(item);
                 }
             });
 
@@ -227,6 +212,60 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
                     goToProfile(item);
                 }
             });
+        }
+
+        /**
+         * This function saves an item into the user's Wish List.
+         *
+         * @param item item to save. 
+         */
+        private void SaveItem(Item item) {
+            lottieSaveAnimation.setVisibility(LottieAnimationView.VISIBLE);
+            lottieSaveAnimation.playAnimation();
+            SavedItem savedItem = new SavedItem();
+            savedItem.setItem(item);
+            savedItem.setUser(ParseUser.getCurrentUser());
+            savedItem.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        item.setSaved(true);
+                        Toast.makeText(context, "Item saved successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            //lottie animator listener.
+            lottieSaveAnimation.addAnimatorListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    lottieSaveAnimation.setVisibility(LottieAnimationView.INVISIBLE);
+                    iBtnSaveItem.setVisibility(ImageButton.VISIBLE);
+                    iBtnSaveItem.setBackgroundResource(R.drawable.ufi_save_active);
+                }
+            });
+        }
+
+        /**
+         * This function removes an item from the user's wish list.
+         *
+         * @param item item to remove.
+         */
+        private void unSaveItem(Item item) {
+            lottieSaveAnimation.setVisibility(LottieAnimationView.VISIBLE);
+            lottieSaveAnimation.playAnimation();
+            //lottie animator listener.
+            lottieSaveAnimation.addAnimatorListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    lottieSaveAnimation.setVisibility(LottieAnimationView.INVISIBLE);
+                    iBtnSaveItem.setVisibility(ImageButton.VISIBLE);
+                    iBtnSaveItem.setBackgroundResource(R.drawable.ufi_save);
+                }
+            });
+            removeFromWishList(item);
+            Toast.makeText(context, "Item removed from the wish list", Toast.LENGTH_SHORT).show();
         }
 
         /**

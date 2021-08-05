@@ -3,6 +3,7 @@ package com.example.rentingapp.Models;
 import android.widget.ImageButton;
 
 import com.example.rentingapp.R;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -46,8 +47,35 @@ public class SavedItem extends ParseObject {
                 if (e == null)
                     if(!objects.isEmpty()) {
                         iBtnSaveItem.setBackgroundResource(R.drawable.ufi_save_active);
-                        item.setSaved();
+                        item.setSaved(true);
                     }
+            }
+        });
+    }
+
+    /**
+     * This function removes an item from the user's wish list.
+     * @param item
+     */
+    public static void removeFromWishList(Item item) {
+        ParseQuery<SavedItem> query = ParseQuery.getQuery(SavedItem.class);
+        query.whereEqualTo(KEY_ITEM, item);
+        query.whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<SavedItem>() {
+            @Override
+            public void done(List<SavedItem> objects, ParseException e) {
+                if (e == null) {
+                    if(!objects.isEmpty()) {
+                        for (SavedItem savedItem: objects) {
+                            savedItem.deleteInBackground(new DeleteCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    item.setSaved(false);
+                                }
+                            });
+                        }
+                    }
+                }
             }
         });
     }

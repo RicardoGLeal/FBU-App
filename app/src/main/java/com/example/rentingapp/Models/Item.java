@@ -21,7 +21,6 @@ public class Item extends ParseObject {
     public static final String KEY_CREATED_KEY = "createdAt";
     public static final String KEY_PRICE = "price";
     public static final String KEY_CATEGORY = "category";
-    boolean saved;
 
     public int getDistance() {
         return distance;
@@ -32,6 +31,7 @@ public class Item extends ParseObject {
     }
 
     private int distance;
+    private boolean saved;
 
     public void setOwner(ParseUser owner) {
         put(KEY_OWNER, owner);
@@ -86,8 +86,8 @@ public class Item extends ParseObject {
         return getDouble(KEY_PRICE);
     }
 
-    public void setSaved() {
-        saved = true;
+    public void setSaved(boolean value) {
+        saved = value;
     }
 
     public boolean getSaved() {
