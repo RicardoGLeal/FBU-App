@@ -58,11 +58,9 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
+                        android:layout_height="wrap_content">
                         <TextView
                             android:id="@+id/tvItemName"
                             android:layout_width="wrap_content"
@@ -71,15 +69,39 @@
                             android:layout_marginLeft="15dp"
                             android:fontFamily="@font/open_sans_semibold"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                            android:textSize="20dp"
-                            tools:text="Xbox One"></TextView>
+                            tools:text="Xbox One"/>
+
                         <ImageButton
                             android:id="@+id/btnDeleteItem"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:layout_toEndOf="@+id/tvItemName"
                             android:background="@drawable/ic_baseline_delete_24">
                         </ImageButton>
-                    </LinearLayout>
+
+                        <ImageButton
+                            android:id="@+id/iBtnSaveItem"
+                            android:layout_width="24dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginRight="30dp"
+                            android:background="@drawable/ufi_save"
+                            android:backgroundTint="@color/colorPrimary" />
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/lottieSaveAnimation"
+                            android:layout_width="45dp"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="-10dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginRight="20dp"
+                            android:visibility="gone"
+                            app:lottie_autoPlay="false"
+                            app:lottie_loop="false"
+                            app:lottie_rawRes="@raw/lf30_editor_suvxspe4">
+
+                        </com.airbnb.lottie.LottieAnimationView>
+                    </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"

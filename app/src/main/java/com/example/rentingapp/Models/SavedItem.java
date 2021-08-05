@@ -57,7 +57,7 @@ public class SavedItem extends ParseObject {
      * This function removes an item from the user's wish list.
      * @param item
      */
-    public static void removeFromWishList(Item item) {
+    public static void removeFromWishList(Item item, ImageButton iBtnSaveItem) {
         ParseQuery<SavedItem> query = ParseQuery.getQuery(SavedItem.class);
         query.whereEqualTo(KEY_ITEM, item);
         query.whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
@@ -66,10 +66,13 @@ public class SavedItem extends ParseObject {
             public void done(List<SavedItem> objects, ParseException e) {
                 if (e == null) {
                     if(!objects.isEmpty()) {
+                        iBtnSaveItem.setVisibility(ImageButton.VISIBLE);
+                        iBtnSaveItem.setBackgroundResource(R.drawable.ufi_save);
                         for (SavedItem savedItem: objects) {
                             savedItem.deleteInBackground(new DeleteCallback() {
                                 @Override
                                 public void done(ParseException e) {
+
                                     item.setSaved(false);
                                 }
                             });

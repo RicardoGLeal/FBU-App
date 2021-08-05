@@ -1,9 +1,15 @@
 package com.example.rentingapp.Controllers;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
+import android.media.Image;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -12,7 +18,9 @@ import com.example.rentingapp.Adapters.RentsAdapter;
 import com.example.rentingapp.Fragments.RentItemDialogFragment;
 import com.example.rentingapp.Models.Item;
 import com.example.rentingapp.Models.Rent;
+import com.example.rentingapp.Models.SavedItem;
 import com.example.rentingapp.Models.User;
+import com.example.rentingapp.R;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.model.AddressComponent;
 import com.google.android.libraries.places.api.model.Place;
@@ -27,6 +35,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -34,6 +43,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+import static com.example.rentingapp.Models.SavedItem.removeFromWishList;
 
 /**
  * This class incorporates functions that are used in many classes in the project.
@@ -239,5 +250,57 @@ public class ActionsController {
         constraintsBuilderRange.setValidator(CompositeDateValidator.anyOf(validators));
 
         return constraintsBuilderRange;
+    }
+
+    /**
+     * This function saves an item into the user's Wish List.
+     *
+     * @param item item to save.
+     */
+    public static void SaveItem(Item item, Context context, LottieAnimationView lottieSaveAnimation, ImageButton iBtnSaveItem) {
+        lottieSaveAnimation.setVisibility(LottieAnimationView.VISIBLE);
+        lottieSaveAnimation.playAnimation();
+        SavedItem savedItem = new SavedItem();
+        savedItem.setItem(item);
+        savedItem.setUser(ParseUser.getCurrentUser());
+        savedItem.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    item.setSaved(true);
+                    Toast.makeText(context, "Item saved successfully", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        //lottie animator listener.
+        lottieSaveAnimation.addAnimatorListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                lottieSaveAnimation.setVisibility(LottieAnimationView.INVISIBLE);
+                iBtnSaveItem.setVisibility(ImageButton.VISIBLE);
+                iBtnSaveItem.setBackgroundResource(R.drawable.ufi_save_active);
+            }
+        });
+    }
+
+    /**
+     * This function removes an item from the user's wish list.
+     *
+     * @param item item to remove.
+     */
+    public static void unSaveItem(Item item, Context context, LottieAnimationView lottieSaveAnimation, ImageButton iBtnSaveItem) {
+        lottieSaveAnimation.setVisibility(LottieAnimationView.VISIBLE);
+        lottieSaveAnimation.playAnimation();
+        //lottie animator listener.
+        lottieSaveAnimation.addAnimatorListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                lottieSaveAnimation.setVisibility(LottieAnimationView.INVISIBLE);
+            }
+        });
+        removeFromWishList(item, iBtnSaveItem);
+        Toast.makeText(context, "Item removed from the wish list", Toast.LENGTH_SHORT).show();
     }
 }

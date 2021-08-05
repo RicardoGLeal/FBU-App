@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.example.rentingapp.Controllers.ActionsController.SaveItem;
+import static com.example.rentingapp.Controllers.ActionsController.unSaveItem;
 import static com.example.rentingapp.Controllers.ImagesController.loadCircleImage;
 import static com.example.rentingapp.Models.SavedItem.CheckIfInWishList;
 import static com.example.rentingapp.Models.SavedItem.removeFromWishList;
@@ -191,11 +193,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
                 @Override
                 public void onClick(View v) {
                     iBtnSaveItem.setVisibility(ImageButton.INVISIBLE);
-
                     if (!item.getSaved())
-                        SaveItem(item);
+                        SaveItem(item, context, lottieSaveAnimation, iBtnSaveItem);
                     else
-                        unSaveItem(item);
+                        unSaveItem(item, context, lottieSaveAnimation, iBtnSaveItem);
                 }
             });
 
@@ -212,60 +213,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
                     goToProfile(item);
                 }
             });
-        }
-
-        /**
-         * This function saves an item into the user's Wish List.
-         *
-         * @param item item to save. 
-         */
-        private void SaveItem(Item item) {
-            lottieSaveAnimation.setVisibility(LottieAnimationView.VISIBLE);
-            lottieSaveAnimation.playAnimation();
-            SavedItem savedItem = new SavedItem();
-            savedItem.setItem(item);
-            savedItem.setUser(ParseUser.getCurrentUser());
-            savedItem.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        item.setSaved(true);
-                        Toast.makeText(context, "Item saved successfully", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-            //lottie animator listener.
-            lottieSaveAnimation.addAnimatorListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    lottieSaveAnimation.setVisibility(LottieAnimationView.INVISIBLE);
-                    iBtnSaveItem.setVisibility(ImageButton.VISIBLE);
-                    iBtnSaveItem.setBackgroundResource(R.drawable.ufi_save_active);
-                }
-            });
-        }
-
-        /**
-         * This function removes an item from the user's wish list.
-         *
-         * @param item item to remove.
-         */
-        private void unSaveItem(Item item) {
-            lottieSaveAnimation.setVisibility(LottieAnimationView.VISIBLE);
-            lottieSaveAnimation.playAnimation();
-            //lottie animator listener.
-            lottieSaveAnimation.addAnimatorListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    lottieSaveAnimation.setVisibility(LottieAnimationView.INVISIBLE);
-                    iBtnSaveItem.setVisibility(ImageButton.VISIBLE);
-                    iBtnSaveItem.setBackgroundResource(R.drawable.ufi_save);
-                }
-            });
-            removeFromWishList(item);
-            Toast.makeText(context, "Item removed from the wish list", Toast.LENGTH_SHORT).show();
         }
 
         /**

@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
@@ -44,10 +45,13 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.rentingapp.Controllers.ActionsController.SaveItem;
 import static com.example.rentingapp.Controllers.ActionsController.getDistanceInKm;
 import static com.example.rentingapp.Controllers.ActionsController.getRelativeTimeAgo;
+import static com.example.rentingapp.Controllers.ActionsController.unSaveItem;
 import static com.example.rentingapp.Controllers.ImagesController.loadCircleImage;
 import static com.example.rentingapp.Controllers.ImagesController.openImage;
+import static com.example.rentingapp.Models.SavedItem.CheckIfInWishList;
 
 /**
  * This class is in charge of displaying the details of an item.
@@ -57,12 +61,14 @@ public class ItemDetailsFragment extends Fragment {
     private Item item;
     private List<ParseFile> allImages, secondaryImages;
     private ImageView ivMainItemImage, ivProfileImage;
+    private ImageButton iBtnSaveItem;
     private RecyclerView rvItemImages;
     private TextView tvItemName, tvOwnersName, tvDescription, tvCategory, tvPrice, tvLocation, tvDistance, tvPostDate;
     private Button btnRentItem;
     private ImageButton btnDeleteItem;
     private ItemImagesAdapter adapter;
     private FloatingActionButton fabEditItem;
+    private LottieAnimationView lottieSaveAnimation;
 
     //Constructor that receives a item.
     public ItemDetailsFragment(Item item) {
@@ -86,6 +92,7 @@ public class ItemDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ivMainItemImage = view.findViewById(R.id.ivMainItemImage);
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
+        iBtnSaveItem = view.findViewById(R.id.iBtnSaveItem);
         rvItemImages = view.findViewById(R.id.rvItemImages);
         tvItemName = view.findViewById(R.id.tvItemName);
         tvOwnersName = view.findViewById(R.id.tvOwnersName);
@@ -98,6 +105,7 @@ public class ItemDetailsFragment extends Fragment {
         btnRentItem = view.findViewById(R.id.btnRentItem);
         fabEditItem = view.findViewById(R.id.fabEditItem);
         btnDeleteItem = view.findViewById(R.id.btnDeleteItem);
+        lottieSaveAnimation = view.findViewById(R.id.lottieSaveAnimation);
         if(ParseUser.getCurrentUser().getObjectId().equals(item.getOwner().getObjectId()))
         {
             // Hide rent button if the item is yours.
@@ -127,6 +135,10 @@ public class ItemDetailsFragment extends Fragment {
         tvLocation.setText(item.getOwner().getString(User.KEY_GENERAL_LOCATION));
         tvDistance.setText(getDistanceInKm(item, ParseUser.getCurrentUser())+" Km away");
         tvPostDate.setText(getRelativeTimeAgo(item.getCreatedAt().toString()));
+
+        //Verifies if the item is in in the wish list.. if so, changes the drawable of the save button.
+        CheckIfInWishList(item, iBtnSaveItem);
+
         allImages = item.getImages();
         secondaryImages = new ArrayList<>(allImages);
         secondaryImages.remove(0);
@@ -180,6 +192,19 @@ public class ItemDetailsFragment extends Fragment {
                 createDeleteAlertDialog();
             }
         });
+
+        //ClickListener for the save button.
+        iBtnSaveItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iBtnSaveItem.setVisibility(ImageButton.INVISIBLE);
+                if (!item.getSaved())
+                    SaveItem(item, getContext(), lottieSaveAnimation, iBtnSaveItem);
+                else
+                    unSaveItem(item, getContext(), lottieSaveAnimation, iBtnSaveItem);
+            }
+        });
+
     }
 
     /**
