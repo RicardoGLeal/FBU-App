@@ -238,6 +238,7 @@ public class FeedFragment extends Fragment {
         query = ParseQuery.getQuery(Item.class);
         //include the user of the post
         query.include(Item.KEY_OWNER);
+        query.whereNotEqualTo(Item.KEY_OWNER, ParseUser.getCurrentUser());
         //Limiting the number of posts getting back.
         query.setLimit(20);
         //Restrict if there are selected categories
@@ -386,8 +387,8 @@ public class FeedFragment extends Fragment {
      */
     private void clearSortFiltersAndSortBy(String parameter, MenuItem item) {
         //the color of the menu items are changed to default.
-        toolbar.getMenu().getItem(2).getIcon().setTint(colorPrimaryDark);
         toolbar.getMenu().getItem(3).getIcon().setTint(colorPrimaryDark);
+        toolbar.getMenu().getItem(4).getIcon().setTint(colorPrimaryDark);
         adapter.clear();
         allItems.clear();
         setupQueryItems();
