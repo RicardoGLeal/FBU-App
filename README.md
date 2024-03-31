@@ -11,16 +11,16 @@ Rent App Design Project - README Template
 
 ## Overview
 ### Description
--  A social network in which users can rent things and also put things for rent.
+-  A social network where users can rent things and put things for rent.
    
 
 ### App Evaluation
 - **Category:** Shopping/Social 
-- **Mobile:** The mobile is the most comfortable tool in which users can carry out purchase and rental operations. The camera is used to take images of the rented items, and the map is used to know the location where each thing is.
-- **Story:** This application will be a service of great value for people since most people have things they do not need, from which they can obtain an extra income by renting them through the application without having to sell them. And vice versa, people who need to rent something can do it through the app.
-- **Market:** Anyone who needs to acquire anything for a certain time or anyone who wants to rent their things.
-- **Habit:** Users can access the application several times a day, either to rent a thing, or to put something for rent.
-- **Scope:** The first version will allow the the users to see items, rent things and put things for rent, and see their profile. The second version would allow the user to see their items rented (own and foreign), filter the items by distance, see other's profiles, and search items. 
+- **Mobile:** The mobile is the most comfortable tool for users to purchase and rent. The camera is used to take images of the rented items, and the map is used to know where each thing is.
+- **Story:** This application will be a service of great value for people since most people have things they do not need. They can obtain an extra income by renting them through the application without having to sell them. Vice versa, people who need to rent something can do it through the app.
+- **Market:** Anyone who needs to acquire anything for a certain time or wants to rent their things.
+- **Habit:** Users can access the application several times a day, either to rent a thing or to put something for rent.
+- **Scope:** The first version will allow users to see items, rent things, and put things for rent, as well as view their profiles. The second version would allow the user to see their rented items (both their own and foreign), filter the items by distance, see other users' profiles, and search for items. 
 
 ## Product Spec
 
@@ -76,16 +76,16 @@ username, password, username, email, description, profile picture and location.
 ### 2. Screen Archetypes
 
 * Login Screen
-   - [ ] User can login.
+   - [ ] User can log in.
 * Registration Screen
    - [ ] User can create a new account.
 * Profile
    - [ ] User can view their profile.
-   - [ ] User can view the profile of other user.
+   - [ ] User can view the profile of other users.
 * Stream
    - [ ] User can view the feed of items.
    - [ ] User can view the item's categories list.
-   - [ ] User can view an user's items. 
+   - [ ] User can view a user's items. 
    - [ ] User can view their list of own rents.
    - [ ] User can view their list of foreign rents.
 * Details 
@@ -99,8 +99,8 @@ username, password, username, email, description, profile picture and location.
    - [ ] User can modify their profile.
    - [ ] User can publish a new item for rent. 
    - [ ] User can capture a photo or select from photo gallery.
-   - [ ] Option to capture current location when publishing an item.
-   - [ ] Sending network request to create new valid content item
+   - [ ] Option to capture the current location when publishing an item.
+   - [ ] Sending network requests to create new valid content item
    
 ### 3. Navigation
 
